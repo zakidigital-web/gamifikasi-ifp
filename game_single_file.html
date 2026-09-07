@@ -199,6 +199,100 @@
       font-weight: 400;
     }
 
+    .diff-selector {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .diff-btn {
+      width: 140px;
+      min-height: 70px;
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--border-glass);
+      background: var(--bg-glass);
+      color: var(--text-dim);
+      font-family: 'Orbitron', sans-serif;
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .diff-btn .diff-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .diff-btn .diff-desc {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    .diff-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 18px rgba(0, 212, 255, 0.15);
+    }
+    .diff-btn[data-mode="easy"]:hover, .diff-btn[data-mode="easy"].selected {
+      border-color: #10b981;
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.12);
+      box-shadow: 0 0 24px rgba(16, 185, 129, 0.3);
+    }
+    .diff-btn[data-mode="normal"]:hover, .diff-btn[data-mode="normal"].selected {
+      border-color: #f59e0b;
+      color: #f59e0b;
+      background: rgba(245, 158, 11, 0.12);
+      box-shadow: 0 0 24px rgba(245, 158, 11, 0.3);
+    }
+    .diff-btn[data-mode="hard"]:hover, .diff-btn[data-mode="hard"].selected {
+      border-color: #ef4444;
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.12);
+      box-shadow: 0 0 24px rgba(239, 68, 68, 0.3);
+    }
+    .diff-btn.selected .diff-desc {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .mode-badge {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .mode-badge.easy {
+      background: rgba(16, 185, 129, 0.18);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .mode-badge.normal {
+      background: rgba(245, 158, 11, 0.18);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+    .mode-badge.hard {
+      background: rgba(239, 68, 68, 0.18);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
     .team-inputs {
       display: flex;
       gap: 15px;
@@ -813,6 +907,26 @@
       </div>
     </div>
 
+    <div>
+      <p style="text-align:center; color:#9598b8; font-size:0.85rem; margin-bottom:12px; font-family:'Orbitron',sans-serif; letter-spacing:1px;">
+        PILIH TINGKAT KESULITAN
+      </p>
+      <div class="diff-selector">
+        <button type="button" class="diff-btn" data-mode="easy">
+          <span class="diff-title">🟢 EASY</span>
+          <span class="diff-desc">Santai · Zombie Sedikit</span>
+        </button>
+        <button type="button" class="diff-btn selected" data-mode="normal">
+          <span class="diff-title">🟡 NORMAL</span>
+          <span class="diff-desc">Standar · Varian Lengkap</span>
+        </button>
+        <button type="button" class="diff-btn" data-mode="hard">
+          <span class="diff-title">🔴 HARD</span>
+          <span class="diff-desc">Horde Masif · Varian Penuh</span>
+        </button>
+      </div>
+    </div>
+
     <div class="team-inputs" id="team-inputs"></div>
 
     <button class="start-btn" id="start-btn">⚔️ MULAI PERTEMPURAN</button>
@@ -828,6 +942,7 @@
       <div class="wave-info">
         <span>🎮</span>
         <span class="wave-num" id="wave-display">WAVE 1 / 5</span>
+        <span class="mode-badge normal" id="mode-badge">NORMAL</span>
       </div>
 
       <div class="base-hp-section">
@@ -1342,7 +1457,7 @@
     // 4. QUIZ MANAGER
     // ============================================================
     class QuizManager {
-      constructor(numTeams) {
+      constructor(numTeams, questionTimerMax = 20) {
         this.numTeams = numTeams;
         this.teamQueues = [];
         this.currentQuestions = [];
@@ -1350,7 +1465,7 @@
         this.answeredCounts = [];
         this.correctCounts = [];
         this.locked = [];
-        this.questionTimerMax = 20;
+        this.questionTimerMax = questionTimerMax;
         this.questionTimers = [];
 
         for (let i = 0; i < numTeams; i++) {
@@ -1440,8 +1555,11 @@
         this.state = 'setup';
         this.numTeams = 0;
         this.teamNames = [];
-        this.baseHp = 800;
-        this.maxBaseHp = 800;
+        this.difficulty = 'normal';
+        this.baseHp = 850;
+        this.maxBaseHp = 850;
+        this.questionTimer = 20;
+        this.baseDamageRate = { normal: 2.2, runner: 3.2, tank: 4.2, boss: 8.0 };
         this.teamDamage = [];
         this.teamKills = [];
         this.teamBossKills = [];
@@ -1449,13 +1567,8 @@
 
         this.currentWave = 0;
         this.totalWaves = 5;
-        this.waveConfigs = [
-          { count: 10, hpMin: 45, hpMax: 85, bossCount: 0, spawnDelay: 2000 },
-          { count: 18, hpMin: 60, hpMax: 110, bossCount: 1, spawnDelay: 1600 },
-          { count: 28, hpMin: 75, hpMax: 140, bossCount: 2, spawnDelay: 1250 },
-          { count: 40, hpMin: 90, hpMax: 170, bossCount: 3, spawnDelay: 950 },
-          { count: 55, hpMin: 105, hpMax: 210, bossCount: 5, spawnDelay: 720 }
-        ];
+        this.waveConfigs = [];
+        this._applyDifficultySettings();
 
         this.zombies = [];
         this.zombieIdCounter = 0;
@@ -1492,6 +1605,18 @@
             this.audio.playClick();
           });
         });
+
+        const diffBtns = document.querySelectorAll('.diff-btn');
+        diffBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            diffBtns.forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            this.difficulty = btn.dataset.mode || 'normal';
+            this.audio.init();
+            this.audio.playClick();
+          });
+        });
+
         document.getElementById('start-btn').addEventListener('click', () => {
           if (this.numTeams < 2) return;
           this._collectTeamNames();
@@ -1499,6 +1624,47 @@
           this.audio.playClick();
           this.startGame();
         });
+      }
+      _applyDifficultySettings() {
+        const mode = this.difficulty || 'normal';
+        if (mode === 'easy') {
+          this.maxBaseHp = 700;
+          this.baseHp = 700;
+          this.questionTimer = 25;
+          this.baseDamageRate = { normal: 1.5, runner: 2.2, tank: 3.0, boss: 5.5 };
+          this.waveConfigs = [
+            { count: 6, hpMin: 35, hpMax: 65, bossCount: 0, spawnDelay: 2600, label: 'Pemanasan' },
+            { count: 10, hpMin: 45, hpMax: 80, bossCount: 0, spawnDelay: 2200, label: 'Patroli Zombie' },
+            { count: 15, hpMin: 60, hpMax: 100, bossCount: 1, spawnDelay: 1850, label: 'Serbuan Ringan' },
+            { count: 20, hpMin: 70, hpMax: 120, bossCount: 1, spawnDelay: 1550, label: 'Gelombang Menengah' },
+            { count: 28, hpMin: 85, hpMax: 140, bossCount: 2, spawnDelay: 1250, label: 'Final Defense' }
+          ];
+        } else if (mode === 'hard') {
+          this.maxBaseHp = 1000;
+          this.baseHp = 1000;
+          this.questionTimer = 15;
+          this.baseDamageRate = { normal: 3.2, runner: 4.5, tank: 6.0, boss: 11.0 };
+          this.waveConfigs = [
+            { count: 14, hpMin: 55, hpMax: 95, bossCount: 0, spawnDelay: 1500, label: 'Serbuan Cepat' },
+            { count: 24, hpMin: 70, hpMax: 125, bossCount: 1, spawnDelay: 1200, label: 'Swarm Zombie' },
+            { count: 36, hpMin: 85, hpMax: 155, bossCount: 2, spawnDelay: 950, label: 'Serangan Berat' },
+            { count: 50, hpMin: 100, hpMax: 190, bossCount: 3, spawnDelay: 780, label: 'Chaos Horde' },
+            { count: 68, hpMin: 120, hpMax: 230, bossCount: 5, spawnDelay: 620, label: 'Kiamat Zombie' }
+          ];
+        } else {
+          // Normal Mode
+          this.maxBaseHp = 850;
+          this.baseHp = 850;
+          this.questionTimer = 20;
+          this.baseDamageRate = { normal: 2.2, runner: 3.2, tank: 4.2, boss: 8.0 };
+          this.waveConfigs = [
+            { count: 9, hpMin: 45, hpMax: 80, bossCount: 0, spawnDelay: 2100, label: 'Pemanasan' },
+            { count: 16, hpMin: 60, hpMax: 105, bossCount: 1, spawnDelay: 1650, label: 'Serbuan Awal' },
+            { count: 25, hpMin: 75, hpMax: 135, bossCount: 2, spawnDelay: 1300, label: 'Gelombang Swarm' },
+            { count: 35, hpMin: 90, hpMax: 165, bossCount: 3, spawnDelay: 1000, label: 'Serangan Menengah' },
+            { count: 48, hpMin: 105, hpMax: 200, bossCount: 4, spawnDelay: 750, label: 'Final Boss Invasion' }
+          ];
+        }
       }
       _showTeamInputs() {
         const container = document.getElementById('team-inputs');
@@ -1520,7 +1686,7 @@
       }
       startGame() {
         this.state = 'playing';
-        this.baseHp = this.maxBaseHp;
+        this._applyDifficultySettings();
         this.teamDamage = new Array(this.numTeams).fill(0);
         this.teamKills = new Array(this.numTeams).fill(0);
         this.teamBossKills = new Array(this.numTeams).fill(0);
@@ -1531,11 +1697,18 @@
         this.gameOver = false;
 
         this.renderer = new Renderer(this.canvas);
-        this.quiz = new QuizManager(this.numTeams);
+        this.quiz = new QuizManager(this.numTeams, this.questionTimer);
 
         this.setupScreen.classList.remove('active');
         this.resultsScreen.classList.remove('active');
         this.gameScreen.classList.add('active');
+
+        // Update mode badge
+        const badge = document.getElementById('mode-badge');
+        if (badge) {
+          badge.className = `mode-badge ${this.difficulty}`;
+          badge.textContent = this.difficulty.toUpperCase();
+        }
 
         requestAnimationFrame(() => {
           this.renderer._resize();
@@ -1732,25 +1905,43 @@
         const config = this.waveConfigs[this.currentWave];
         if (this.spawnedCount >= config.count) return;
         const isBoss = this.spawnedCount >= config.count - config.bossCount;
+        const mode = this.difficulty || 'normal';
 
         const rand = Math.random();
-        const isRunner = !isBoss && (this.currentWave >= 1) && rand < 0.28;
-        const isTank = !isBoss && !isRunner && (this.currentWave >= 2) && rand > 0.72;
+        let isRunner = false;
+        let isTank = false;
+
+        if (!isBoss) {
+          if (mode === 'easy') {
+            // Easy: Varian sedikit (runner muncul jarang di wave 3+)
+            isRunner = (this.currentWave >= 2) && (rand < 0.15);
+            isTank = false;
+          } else if (mode === 'hard') {
+            // Hard: Varian penuh & agresif dari wave awal
+            isRunner = rand < 0.35;
+            isTank = !isRunner && (this.currentWave >= 1) && (rand > 0.65);
+          } else {
+            // Normal: Varian seimbang
+            isRunner = (this.currentWave >= 1) && (rand < 0.25);
+            isTank = !isRunner && (this.currentWave >= 2) && (rand > 0.75);
+          }
+        }
 
         let hp;
         let speed;
         if (isBoss) {
-          hp = 250 + Math.random() * 120 + this.currentWave * 40;
-          speed = 0.24 + Math.random() * 0.08;
+          const bossBonus = mode === 'hard' ? 60 : (mode === 'easy' ? 0 : 30);
+          hp = 220 + Math.random() * 100 + this.currentWave * 30 + bossBonus;
+          speed = (mode === 'hard' ? 0.28 : (mode === 'easy' ? 0.20 : 0.24)) + Math.random() * 0.08;
         } else if (isTank) {
-          hp = Math.round(config.hpMax * 1.4 + Math.random() * 30);
-          speed = 0.32 + Math.random() * 0.1;
+          hp = Math.round(config.hpMax * 1.45 + Math.random() * 35);
+          speed = (mode === 'hard' ? 0.36 : 0.32) + Math.random() * 0.1;
         } else if (isRunner) {
           hp = Math.round(Math.max(35, config.hpMin * 0.8) + Math.random() * 15);
-          speed = 0.65 + Math.random() * 0.22;
+          speed = (mode === 'hard' ? 0.72 : (mode === 'easy' ? 0.52 : 0.65)) + Math.random() * 0.20;
         } else {
           hp = Math.round(config.hpMin + Math.random() * (config.hpMax - config.hpMin));
-          speed = 0.42 + Math.random() * 0.2;
+          speed = (mode === 'hard' ? 0.48 : (mode === 'easy' ? 0.35 : 0.42)) + Math.random() * 0.18;
         }
 
         this.zombies.push({
@@ -1819,7 +2010,9 @@
           if (!z.frozen) z.x += z.speed * 60 * dt;
           if (z.x >= baseReachX) {
             z.x = baseReachX;
-            const dmg = (z.isBoss ? 8 : (z.isTank ? 4 : 2.5)) * dt;
+            const rates = this.baseDamageRate || { normal: 2.2, runner: 3.2, tank: 4.2, boss: 8.0 };
+            const dmgPerSec = z.isBoss ? rates.boss : (z.isTank ? rates.tank : (z.isRunner ? rates.runner : rates.normal));
+            const dmg = dmgPerSec * dt;
             this.baseHp -= dmg;
             if (Math.random() < 0.05) this.audio.playBaseHit();
             this.renderer.applyScreenShake(2);
@@ -1970,9 +2163,11 @@
 
         document.getElementById('winner-name').textContent = sorted[0].name;
         document.getElementById('winner-name').style.color = colors[sorted[0].idx];
+        const diffLabel = this.difficulty.toUpperCase();
+        const diffColor = this.difficulty === 'easy' ? '#10b981' : (this.difficulty === 'hard' ? '#ef4444' : '#f59e0b');
         document.getElementById('results-subtitle').innerHTML = victory
-          ? `🏰 Base HP tersisa: <strong>${Math.ceil(this.baseHp)}</strong> — Pemenang: <strong id="winner-name" style="color:${colors[sorted[0].idx]}">${sorted[0].name}</strong>`
-          : `Kontributor terbaik: <strong id="winner-name" style="color:${colors[sorted[0].idx]}">${sorted[0].name}</strong>`;
+          ? `🏰 Base HP tersisa: <strong>${Math.ceil(this.baseHp)}</strong> | Mode: <strong style="color:${diffColor}">${diffLabel}</strong> — Pemenang: <strong id="winner-name" style="color:${colors[sorted[0].idx]}">${sorted[0].name}</strong>`
+          : `Mode: <strong style="color:${diffColor}">${diffLabel}</strong> — Kontributor terbaik: <strong id="winner-name" style="color:${colors[sorted[0].idx]}">${sorted[0].name}</strong>`;
 
         document.getElementById('play-again-btn').onclick = () => {
           this.resultsScreen.classList.remove('active');
