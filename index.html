@@ -1161,9 +1161,266 @@
         display: none;
       }
     }
+
+    /* ════════════ ULTRA-PREMIUM PARALLAX BACKGROUND SYSTEM ════════════ */
+    .parallax-bg-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .parallax-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(14, 165, 233, 0.045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(14, 165, 233, 0.045) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(ellipse at 50% 35%, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.25) 70%, transparent 95%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 35%, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.25) 70%, transparent 95%);
+    }
+
+    .parallax-layer {
+      position: absolute;
+      inset: -60px;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    /* Ambient Glow Orbs */
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      pointer-events: none;
+    }
+    .orb-1 {
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.55) 0%, rgba(14, 165, 233, 0.15) 60%, transparent 80%);
+      top: -120px;
+      left: -80px;
+      animation: orbFloatA 16s ease-in-out infinite alternate;
+    }
+    .orb-2 {
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(129, 140, 248, 0.5) 0%, rgba(99, 102, 241, 0.12) 60%, transparent 80%);
+      top: 30%;
+      right: -100px;
+      animation: orbFloatB 20s ease-in-out infinite alternate;
+    }
+    .orb-3 {
+      width: 540px;
+      height: 540px;
+      background: radial-gradient(circle, rgba(52, 211, 153, 0.4) 0%, rgba(16, 185, 129, 0.1) 60%, transparent 80%);
+      bottom: -150px;
+      left: 25%;
+      animation: orbFloatC 18s ease-in-out infinite alternate;
+    }
+    .orb-4 {
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(244, 114, 182, 0.35) 0%, rgba(236, 72, 153, 0.08) 60%, transparent 80%);
+      top: 65%;
+      left: 5%;
+      animation: orbFloatA 22s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes orbFloatA {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(45px, -35px) scale(1.06); }
+      100% { transform: translate(-30px, 30px) scale(0.96); }
+    }
+    @keyframes orbFloatB {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-50px, 40px) scale(1.08); }
+      100% { transform: translate(35px, -25px) scale(0.94); }
+    }
+    @keyframes orbFloatC {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, 45px) scale(1.05); }
+      100% { transform: translate(-35px, -30px) scale(0.95); }
+    }
+
+    /* Floating Glassmorphic Badges & Tech Elements */
+    .p-elem {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .p-float-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(186, 230, 253, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: var(--radius-pill);
+      padding: 6px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: var(--sky-800);
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.12);
+      animation: badgeFloat 6s ease-in-out infinite alternate;
+    }
+    .p-float-badge .p-icon {
+      font-size: 0.95rem;
+    }
+
+    .p-badge-1 { top: 16%; left: 3.5%; animation-delay: 0s; }
+    .p-badge-2 { top: 24%; right: 3.5%; animation-delay: 1.4s; }
+    .p-badge-3 { top: 68%; left: 4%; animation-delay: 2.8s; }
+    .p-badge-4 { top: 76%; right: 4%; animation-delay: 4.2s; }
+
+    @keyframes badgeFloat {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-16px) rotate(1.5deg); }
+    }
+
+    /* Geometric Accent Shapes */
+    .p-ring-1 {
+      top: 12%;
+      right: 12%;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      border: 2px dashed rgba(56, 189, 248, 0.4);
+      animation: spinClockwise 28s linear infinite;
+    }
+    .p-ring-2 {
+      top: 55%;
+      left: 8%;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 2px solid rgba(99, 102, 241, 0.22);
+      animation: spinCounter 35s linear infinite;
+    }
+    .p-cube-1 {
+      top: 42%;
+      left: 2.5%;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(14, 165, 233, 0.05));
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      transform: rotate(45deg);
+      animation: cubeFloat 8s ease-in-out infinite alternate;
+    }
+    .p-cube-2 {
+      top: 84%;
+      right: 14%;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+      border: 1.5px solid rgba(245, 158, 11, 0.4);
+      transform: rotate(20deg);
+      animation: cubeFloat 9s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes spinClockwise {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes spinCounter {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+    @keyframes cubeFloat {
+      0% { transform: translateY(0px) rotate(45deg); }
+      100% { transform: translateY(-14px) rotate(60deg); }
+    }
+
+    /* Sparkles & Dots */
+    .p-sparkle {
+      font-size: 1.25rem;
+      color: var(--sky-500);
+      opacity: 0.55;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+      animation: twinkleAnim 4s ease-in-out infinite alternate;
+    }
+    .sp-1 { top: 20%; right: 18%; animation-delay: 0.5s; font-size: 1.4rem; }
+    .sp-2 { top: 62%; right: 6%; animation-delay: 1.8s; }
+    .sp-3 { top: 38%; left: 12%; animation-delay: 2.5s; font-size: 1.1rem; color: #f59e0b; }
+    .sp-4 { top: 82%; left: 18%; animation-delay: 3.2s; font-size: 1.3rem; }
+
+    @keyframes twinkleAnim {
+      0% { opacity: 0.2; transform: scale(0.85); }
+      50% { opacity: 0.8; transform: scale(1.15) rotate(15deg); }
+      100% { opacity: 0.3; transform: scale(0.9); }
+    }
+
+    .p-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--sky-400);
+      opacity: 0.45;
+      box-shadow: 0 0 8px var(--sky-400);
+    }
+    .dot-1 { top: 14%; left: 22%; }
+    .dot-2 { top: 48%; right: 10%; background: #818cf8; box-shadow: 0 0 8px #818cf8; }
+    .dot-3 { top: 75%; left: 28%; }
+    .dot-4 { top: 88%; right: 26%; background: #34d399; box-shadow: 0 0 8px #34d399; }
+
+    @media (max-width: 900px) {
+      .p-float-badge {
+        display: none;
+      }
+      .p-ring-2, .p-cube-2 {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- ════════════ ULTRA-PREMIUM PARALLAX BACKGROUND ════════════ -->
+  <div class="parallax-bg-wrapper" id="parallaxBg" aria-hidden="true">
+    <div class="parallax-grid"></div>
+
+    <!-- Deep Ambient Glow Orbs (Layer 1 - Slow) -->
+    <div class="parallax-layer layer-deep" data-speed="0.04">
+      <div class="glow-orb orb-1"></div>
+      <div class="glow-orb orb-2"></div>
+      <div class="glow-orb orb-3"></div>
+      <div class="glow-orb orb-4"></div>
+    </div>
+
+    <!-- Mid Layer: Interactive Gamification & Tech Badges (Layer 2 - Mid) -->
+    <div class="parallax-layer layer-mid" data-speed="0.14">
+      <div class="p-elem p-float-badge p-badge-1"><span class="p-icon">🎮</span> IFP Touch</div>
+      <div class="p-elem p-float-badge p-badge-2"><span class="p-icon">🤖</span> AI Prompt</div>
+      <div class="p-elem p-float-badge p-badge-3"><span class="p-icon">⚡</span> 60 FPS Multi-Touch</div>
+      <div class="p-elem p-float-badge p-badge-4"><span class="p-icon">🏆</span> Gamifikasi</div>
+      <div class="p-elem p-geo p-ring-1"></div>
+      <div class="p-elem p-geo p-ring-2"></div>
+      <div class="p-elem p-geo p-cube-1"></div>
+      <div class="p-elem p-geo p-cube-2"></div>
+    </div>
+
+    <!-- Near Layer: Particle Sparkles & Digital Accents (Layer 3 - Fast) -->
+    <div class="parallax-layer layer-front" data-speed="0.26">
+      <div class="p-elem p-sparkle sp-1">✦</div>
+      <div class="p-elem p-sparkle sp-2">✦</div>
+      <div class="p-elem p-sparkle sp-3">★</div>
+      <div class="p-elem p-sparkle sp-4">✦</div>
+      <div class="p-elem p-dot dot-1"></div>
+      <div class="p-elem p-dot dot-2"></div>
+      <div class="p-elem p-dot dot-3"></div>
+      <div class="p-elem p-dot dot-4"></div>
+    </div>
+  </div>
 
   <!-- ════════════ TOP HEADER BAR ════════════ -->
   <header class="site-header">
@@ -1683,12 +1940,66 @@
       setTimeout(() => toast.classList.remove('show'), 2800);
     }
 
+    // ════════════ HIGH-PERFORMANCE PARALLAX ENGINE ════════════
+    function initParallaxBackground() {
+      const wrapper = document.getElementById('parallaxBg');
+      if (!wrapper) return;
+      const layers = wrapper.querySelectorAll('.parallax-layer');
+      if (!layers.length) return;
+
+      // Check if user prefers reduced motion
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      let mouseX = 0, mouseY = 0;
+      let targetMouseX = 0, targetMouseY = 0;
+      let currentScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      let targetScrollY = currentScrollY;
+
+      function renderParallax() {
+        // Smooth lerp interpolation for silky motion
+        mouseX += (targetMouseX - mouseX) * 0.08;
+        mouseY += (targetMouseY - mouseY) * 0.08;
+        currentScrollY += (targetScrollY - currentScrollY) * 0.12;
+
+        layers.forEach(layer => {
+          const speed = parseFloat(layer.getAttribute('data-speed')) || 0.1;
+          const yOffset = -(currentScrollY * speed * 0.42) + (mouseY * speed * 42);
+          const xOffset = mouseX * speed * 42;
+          layer.style.transform = `translate3d(${xOffset.toFixed(2)}px, ${yOffset.toFixed(2)}px, 0)`;
+        });
+
+        requestAnimationFrame(renderParallax);
+      }
+
+      window.addEventListener('scroll', () => {
+        targetScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      }, { passive: true });
+
+      // Interactive mouse parallax on desktop devices
+      if (window.matchMedia('(pointer: fine)').matches) {
+        window.addEventListener('mousemove', (e) => {
+          const halfW = window.innerWidth / 2;
+          const halfH = window.innerHeight / 2;
+          targetMouseX = (e.clientX - halfW) / halfW;
+          targetMouseY = (e.clientY - halfH) / halfH;
+        }, { passive: true });
+
+        window.addEventListener('mouseleave', () => {
+          targetMouseX = 0;
+          targetMouseY = 0;
+        }, { passive: true });
+      }
+
+      requestAnimationFrame(renderParallax);
+    }
+
     // ════════════ INITIALIZATION ════════════
     document.addEventListener('DOMContentLoaded', () => {
       initThumbnails();
       renderSlide(0);
       initSlideTouchSwipe();
       initPromptTexts();
+      initParallaxBackground();
     });
   </script>
 </body>
