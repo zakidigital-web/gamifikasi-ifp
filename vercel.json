@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "name": "portal-gamifikasi-ifp",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+      ]
+    },
+    {
+      "source": "/(game_single_file.html|master_prompt_generator.html|presentasi_gamifikasi_informatika_ifp.html)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "ALLOWALL" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+# Node & Environment
+node_modules/
+.env*
+.DS_Store
+Thumbs.db
+
+# Temp Extraction JSON
+extracted_slides.json
+extracted_docx.json
+levels_data.json
+
+# Local ide logs
+.vercel
