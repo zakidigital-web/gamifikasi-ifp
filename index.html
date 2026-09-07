@@ -91,29 +91,29 @@
     }
 
     .header-inner {
-      max-width: 1360px;
+      max-width: 1560px;
       margin: 0 auto;
-      padding: 12px 24px;
+      padding: 10px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 14px;
     }
 
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       text-decoration: none;
     }
     .brand-logo-icon {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       border-radius: var(--radius-md);
       background: linear-gradient(135deg, var(--sky-500), var(--sky-700));
       color: #ffffff;
       font-weight: 900;
-      font-size: 1.35rem;
+      font-size: 1.3rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -121,13 +121,13 @@
       font-family: 'Outfit', sans-serif;
     }
     .brand-text h1 {
-      font-size: 1.08rem;
+      font-size: 1.05rem;
       font-weight: 800;
       color: var(--sky-950);
       line-height: 1.2;
     }
     .brand-text p {
-      font-size: 0.76rem;
+      font-size: 0.75rem;
       font-weight: 600;
       color: var(--sky-600);
       display: flex;
@@ -150,18 +150,18 @@
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
     .header-link-btn {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 8px 18px;
+      gap: 6px;
+      padding: 7px 16px;
       background: var(--sky-50);
       color: var(--sky-800);
       border: 1px solid var(--sky-300);
       border-radius: var(--radius-pill);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       text-decoration: none;
       transition: all var(--trans-fast);
@@ -185,9 +185,9 @@
 
     /* ════════════ HERO BANNER ════════════ */
     .hero-container {
-      max-width: 1360px;
-      margin: 24px auto 0;
-      padding: 0 24px;
+      max-width: 1560px;
+      margin: 16px auto 0;
+      padding: 0 16px;
       width: 100%;
     }
 
@@ -195,7 +195,7 @@
       background: linear-gradient(135deg, #ffffff 0%, var(--sky-50) 65%, #e0f2fe 100%);
       border: 1.5px solid var(--border-card);
       border-radius: var(--radius-xl);
-      padding: clamp(24px, 3.8vw, 44px);
+      padding: clamp(20px, 3.2vw, 36px);
       box-shadow: var(--shadow-md);
       position: relative;
       overflow: hidden;
@@ -216,15 +216,15 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
     .badge-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       font-weight: 800;
-      padding: 4px 14px;
+      padding: 4px 12px;
       border-radius: var(--radius-pill);
       letter-spacing: 0.4px;
       text-transform: uppercase;
@@ -247,12 +247,12 @@
 
     .hero-title {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(1.85rem, 3.6vw, 2.75rem);
+      font-size: clamp(1.75rem, 3.4vw, 2.65rem);
       font-weight: 900;
       line-height: 1.18;
       color: var(--sky-950);
       letter-spacing: -0.5px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .hero-title span {
       background: linear-gradient(135deg, var(--sky-600), var(--sky-400));
@@ -260,57 +260,62 @@
       -webkit-text-fill-color: transparent;
     }
     .hero-desc {
-      font-size: clamp(0.92rem, 1.4vw, 1.05rem);
+      font-size: clamp(0.88rem, 1.35vw, 1.02rem);
       color: var(--text-muted);
-      max-width: 880px;
-      line-height: 1.65;
+      max-width: 920px;
+      line-height: 1.6;
     }
 
     /* Hero Value Proposition Highlights */
     .hero-features-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 24px;
-      padding-top: 20px;
+      gap: 12px;
+      margin-top: 20px;
+      padding-top: 18px;
       border-top: 1px solid rgba(186, 230, 253, 0.6);
     }
     .hfg-item {
       display: flex;
       align-items: flex-start;
       gap: 10px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(186, 230, 253, 0.5);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
     }
     .hfg-icon {
       font-size: 1.25rem;
       line-height: 1;
       margin-top: 2px;
+      flex-shrink: 0;
     }
     .hfg-text h4 {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 800;
       color: var(--sky-950);
       margin-bottom: 2px;
     }
     .hfg-text p {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: var(--text-muted);
       line-height: 1.4;
     }
 
     /* ════════════ 3 MATERI MAIN TABS (PPT, GAME, PROMPT) ════════════ */
     .tabs-wrapper {
-      max-width: 1360px;
-      margin: 20px auto 0;
-      padding: 0 24px;
+      max-width: 1560px;
+      margin: 14px auto 0;
+      padding: 0 16px;
       width: 100%;
     }
 
     .portal-nav-bar {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      gap: 10px;
       background: #ffffff;
-      padding: 8px;
+      padding: 6px;
       border-radius: var(--radius-xl);
       border: 1.5px solid var(--border-card);
       box-shadow: var(--shadow-sm);
@@ -320,14 +325,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      padding: 16px 20px;
+      gap: 10px;
+      padding: 14px 18px;
       border-radius: var(--radius-lg);
       background: var(--sky-25);
       border: 1.5px solid transparent;
       color: var(--text-muted);
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 800;
       cursor: pointer;
       transition: all var(--trans-fast);
@@ -341,11 +346,11 @@
     .nav-tab-btn.active {
       background: linear-gradient(135deg, var(--sky-500), var(--sky-700));
       color: #ffffff;
-      box-shadow: 0 6px 20px rgba(2, 132, 199, 0.35);
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.32);
       border-color: var(--sky-300);
     }
     .tab-icon {
-      font-size: 1.35rem;
+      font-size: 1.3rem;
     }
     .tab-text {
       display: flex;
@@ -354,7 +359,7 @@
       line-height: 1.2;
     }
     .tab-title {
-      font-size: 0.96rem;
+      font-size: 0.94rem;
       font-weight: 800;
     }
     .tab-sub {
@@ -366,9 +371,9 @@
 
     /* ════════════ MAIN CONTENT SECTIONS ════════════ */
     .content-area {
-      max-width: 1360px;
-      margin: 22px auto 60px;
-      padding: 0 24px;
+      max-width: 1560px;
+      margin: 16px auto 50px;
+      padding: 0 16px;
       width: 100%;
       flex: 1;
     }
@@ -818,11 +823,11 @@
     .site-footer {
       background: #ffffff;
       border-top: 1px solid var(--border-card);
-      padding: 32px 24px;
+      padding: 30px 16px 24px;
       margin-top: auto;
     }
     .footer-inner {
-      max-width: 1360px;
+      max-width: 1560px;
       margin: 0 auto;
       display: flex;
       align-items: center;
@@ -864,7 +869,7 @@
       color: var(--sky-500);
     }
     .footer-bottom-bar {
-      max-width: 1360px;
+      max-width: 1560px;
       margin: 20px auto 0;
       padding-top: 16px;
       border-top: 1px solid var(--border-light);
@@ -902,31 +907,258 @@
       opacity: 1;
     }
 
+    /* ════════════ NATIVE ANDROID BOTTOM NAV BAR ════════════ */
+    .mobile-bottom-nav {
+      display: none; /* hidden on desktop */
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1.5px solid rgba(14, 165, 233, 0.18);
+      box-shadow: 0 -4px 20px rgba(12, 35, 64, 0.08);
+      z-index: 9990;
+      padding: 4px 12px calc(4px + env(safe-area-inset-bottom, 0px));
+      align-items: center;
+      justify-content: space-around;
+    }
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: var(--radius-md);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      flex: 1;
+      max-width: 120px;
+    }
+    .bnav-icon-pill {
+      width: 54px;
+      height: 28px;
+      border-radius: var(--radius-pill);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.22s ease;
+      background: transparent;
+    }
+    .bnav-icon {
+      font-size: 1.25rem;
+      line-height: 1;
+      transition: transform 0.2s ease;
+    }
+    .bnav-text {
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      letter-spacing: 0.1px;
+      margin-top: 2px;
+    }
+    .bnav-item:active .bnav-icon-pill {
+      transform: scale(0.92);
+      background: var(--sky-100);
+    }
+    .bnav-item.active .bnav-icon-pill {
+      background: linear-gradient(135deg, var(--sky-100), var(--sky-200));
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.2);
+    }
+    .bnav-item.active .bnav-icon {
+      transform: scale(1.1);
+    }
+    .bnav-item.active .bnav-text {
+      font-weight: 800;
+      color: var(--sky-800);
+    }
+
     /* ════════════ RESPONSIVE ADAPTATIONS ════════════ */
-    @media (max-width: 900px) {
-      .portal-nav-bar {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 1024px) {
       .game-meta-row {
         grid-template-columns: 1fr 1fr;
       }
       .game-frame-container {
-        height: 520px;
+        height: 560px;
       }
     }
-    @media (max-width: 600px) {
+
+    @media (max-width: 768px) {
+      /* Android Mobile Bottom Nav Enabled */
+      body {
+        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+      }
+      .mobile-bottom-nav {
+        display: flex;
+      }
+      .toast-pill {
+        bottom: calc(82px + env(safe-area-inset-bottom, 0px));
+      }
+
+      /* Perkecil margin kiri & kanan di mobile agar lebar layar optimal */
+      .hero-container,
+      .tabs-wrapper,
+      .content-area,
+      .header-inner,
+      .site-footer,
+      .footer-inner,
+      .footer-bottom-bar {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+      }
+
+      /* Compact cards padding */
+      .hero-card,
+      .ppt-card,
+      .game-card,
+      .prompt-card {
+        padding: 16px 12px !important;
+        border-radius: var(--radius-lg) !important;
+      }
+
+      /* Header mobile clean */
+      .header-actions {
+        display: none; /* Dinavigasikan lewat bottom nav */
+      }
+      .brand-text h1 {
+        font-size: 0.95rem;
+      }
+      .brand-text p {
+        font-size: 0.7rem;
+      }
+      .brand-logo-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+      }
+
+      /* Desktop tab bar compact on mobile */
+      .portal-nav-bar {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        padding: 4px;
+      }
+      .nav-tab-btn {
+        padding: 10px 14px;
+      }
+      .nav-tab-btn .tab-sub {
+        display: none;
+      }
+
+      /* Hero section mobile adjustments */
+      .hero-title {
+        font-size: clamp(1.4rem, 5.2vw, 1.85rem);
+      }
+      .hero-meta-chips {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .stat-chip {
+        padding: 10px 12px;
+      }
+
+      /* Slide viewer mobile */
+      .slide-view-container {
+        border-radius: var(--radius-md);
+      }
+      .slide-controls-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .slide-nav-btns {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .slide-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 14px;
+      }
+      .slide-action-btns {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .slide-action-btns a,
+      .slide-action-btns button {
+        justify-content: center;
+        width: 100%;
+      }
+      .thumb-card {
+        min-width: 125px;
+        width: 125px;
+      }
+      .thumb-img {
+        height: 70px;
+      }
+
+      /* Game section mobile */
+      .game-frame-container {
+        height: 480px;
+        border-radius: var(--radius-md);
+      }
+      .game-floating-bar {
+        top: 8px;
+        right: 8px;
+      }
+
+      /* Prompt section mobile */
+      .prompt-subtabs {
+        padding: 4px;
+        gap: 6px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .ps-btn {
+        padding: 8px 12px;
+        font-size: 0.78rem;
+      }
+      .generator-frame-container {
+        height: 680px;
+        border-radius: var(--radius-md);
+      }
+      .code-display-box {
+        padding: 16px 12px 14px;
+        font-size: 0.76rem;
+      }
+
+      /* Footer mobile */
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .footer-bottom-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
       .game-meta-row {
         grid-template-columns: 1fr;
       }
-      .hero-title {
-        font-size: 1.6rem;
+      .hero-meta-chips {
+        grid-template-columns: 1fr;
       }
-      .action-btn {
-        width: 100%;
-        justify-content: center;
+      .game-frame-container {
+        height: 420px;
       }
-      .shr-actions {
-        width: 100%;
+      .brand-text p {
+        display: none;
       }
     }
   </style>
@@ -1230,6 +1462,28 @@
     </div>
   </footer>
 
+  <!-- ════════════ NATIVE ANDROID BOTTOM NAV BAR ════════════ -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Navigasi Aplikasi">
+    <button type="button" class="bnav-item active" onclick="switchSection('ppt', this)" data-target="ppt" aria-label="Slide PPT">
+      <div class="bnav-icon-pill">
+        <span class="bnav-icon">📑</span>
+      </div>
+      <span class="bnav-text">Slide PPT</span>
+    </button>
+    <button type="button" class="bnav-item" onclick="switchSection('game', this)" data-target="game" aria-label="Live Game">
+      <div class="bnav-icon-pill">
+        <span class="bnav-icon">🧟</span>
+      </div>
+      <span class="bnav-text">Live Game</span>
+    </button>
+    <button type="button" class="bnav-item" onclick="switchSection('prompt', this)" data-target="prompt" aria-label="Master Prompt AI">
+      <div class="bnav-icon-pill">
+        <span class="bnav-icon">🤖</span>
+      </div>
+      <span class="bnav-text">Prompt AI</span>
+    </button>
+  </nav>
+
   <!-- Toast Notification -->
   <div class="toast-pill" id="portalToast">✅ Pesan tersalin!</div>
 
@@ -1238,16 +1492,44 @@
 
   <script>
     // ════════════ TABS NAVIGATION LOGIC ════════════
-    function switchSection(secId, btn) {
+    function switchSection(secId, triggerBtn) {
       document.querySelectorAll('.materi-section').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
-
+      
       const targetSec = document.getElementById(`sec-${secId}`);
       if (targetSec) targetSec.classList.add('active');
-      if (btn) btn.classList.add('active');
 
-      // Scroll smoothly to section content
-      targetSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Update Desktop Nav Tabs
+      document.querySelectorAll('.nav-tab-btn').forEach(b => {
+        const isMatch = b.getAttribute('onclick') && b.getAttribute('onclick').includes(`'${secId}'`);
+        b.classList.toggle('active', isMatch);
+      });
+
+      // Update Header Links
+      document.querySelectorAll('.header-link-btn').forEach(b => {
+        const isMatch = b.getAttribute('onclick') && b.getAttribute('onclick').includes(`'${secId}'`);
+        b.classList.toggle('active', isMatch);
+      });
+
+      // Update Mobile Bottom Nav
+      document.querySelectorAll('.bnav-item').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-target') === secId);
+      });
+
+      // Haptic feedback if supported (Native Android feel)
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        try { navigator.vibrate(12); } catch (e) {}
+      }
+
+      // Scroll smoothly to section content with header offset
+      if (targetSec) {
+        const headerOffset = 68;
+        const elemPos = targetSec.getBoundingClientRect().top;
+        const offsetPos = elemPos + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPos,
+          behavior: 'smooth'
+        });
+      }
     }
 
     // ════════════ PPT SLIDE CONTROLLER (ASLI) ════════════
@@ -1318,6 +1600,41 @@
       }
     }
 
+    // ════════════ TOUCH SWIPE GESTURES FOR MOBILE ════════════
+    function initSlideTouchSwipe() {
+      const slideArea = document.querySelector('.slide-view-container');
+      if (!slideArea) return;
+
+      let startX = 0;
+      let startY = 0;
+      let startTime = 0;
+
+      slideArea.addEventListener('touchstart', (e) => {
+        if (!e.changedTouches || !e.changedTouches.length) return;
+        startX = e.changedTouches[0].screenX;
+        startY = e.changedTouches[0].screenY;
+        startTime = Date.now();
+      }, { passive: true });
+
+      slideArea.addEventListener('touchend', (e) => {
+        if (!e.changedTouches || !e.changedTouches.length) return;
+        const diffX = e.changedTouches[0].screenX - startX;
+        const diffY = e.changedTouches[0].screenY - startY;
+        const elapsedTime = Date.now() - startTime;
+
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 38 && elapsedTime < 600) {
+          if (diffX < 0) {
+            navSlide(1); // Swipe left -> Next slide
+          } else {
+            navSlide(-1); // Swipe right -> Prev slide
+          }
+          if (typeof navigator !== 'undefined' && navigator.vibrate) {
+            try { navigator.vibrate(10); } catch (err) {}
+          }
+        }
+      }, { passive: true });
+    }
+
     // ════════════ GAME IFRAME UTILS ════════════
     function reloadGameIframe() {
       const ifr = document.getElementById('gameIframe');
@@ -1370,6 +1687,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       initThumbnails();
       renderSlide(0);
+      initSlideTouchSwipe();
       initPromptTexts();
     });
   </script>
