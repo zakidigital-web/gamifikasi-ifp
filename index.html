@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Portal Gamifikasi Informatika IFP Hisense — PPT, Game Demo & Master Prompt</title>
-  <meta name="description" content="Portal Pembelajaran Terpadu: Slide Materi PPT Gamifikasi Informatika SMP, Live Demo Game Zombie Defense IFP, dan Master Prompt Generator AI v3 siap pakai di Vercel.">
+  <title>Gamifikasi Informatika SMP — Media Pembelajaran Interaktif Layar Sentuh IFP</title>
+  <meta name="description" content="Platform Pembelajaran Terpadu Gamifikasi Informatika SMP untuk Layar Sentuh IFP: Slide Presentasi Kurikulum Merdeka, Live Demo Game Edukasi Multi-Touch, dan AI Master Prompt Generator v3.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
@@ -152,23 +152,35 @@
       align-items: center;
       gap: 10px;
     }
-    .vercel-badge {
+    .header-link-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 12px;
-      background: #000000;
-      color: #ffffff;
+      gap: 7px;
+      padding: 8px 18px;
+      background: var(--sky-50);
+      color: var(--sky-800);
+      border: 1px solid var(--sky-300);
       border-radius: var(--radius-pill);
-      font-size: 0.72rem;
+      font-size: 0.8rem;
       font-weight: 700;
       text-decoration: none;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: all var(--trans-fast);
+      cursor: pointer;
     }
-    .vercel-badge svg {
-      width: 12px;
-      height: 12px;
-      fill: #ffffff;
+    .header-link-btn:hover {
+      background: var(--sky-600);
+      color: #ffffff;
+      border-color: var(--sky-600);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+    }
+    .header-primary-btn {
+      background: linear-gradient(135deg, var(--sky-500), var(--sky-700));
+      color: #ffffff;
+      border-color: var(--sky-400);
+    }
+    .header-primary-btn:hover {
+      background: linear-gradient(135deg, var(--sky-600), var(--sky-800));
     }
 
     /* ════════════ HERO BANNER ════════════ */
@@ -183,7 +195,7 @@
       background: linear-gradient(135deg, #ffffff 0%, var(--sky-50) 65%, #e0f2fe 100%);
       border: 1.5px solid var(--border-card);
       border-radius: var(--radius-xl);
-      padding: clamp(24px, 3.5vw, 40px);
+      padding: clamp(24px, 3.8vw, 44px);
       box-shadow: var(--shadow-md);
       position: relative;
       overflow: hidden;
@@ -193,8 +205,8 @@
       position: absolute;
       top: -100px;
       right: -100px;
-      width: 320px;
-      height: 320px;
+      width: 340px;
+      height: 340px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, transparent 70%);
       pointer-events: none;
@@ -204,7 +216,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
     .badge-pill {
       display: inline-flex;
@@ -212,7 +224,7 @@
       gap: 6px;
       font-size: 0.76rem;
       font-weight: 800;
-      padding: 4px 12px;
+      padding: 4px 14px;
       border-radius: var(--radius-pill);
       letter-spacing: 0.4px;
       text-transform: uppercase;
@@ -235,12 +247,12 @@
 
     .hero-title {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(1.8rem, 3.5vw, 2.7rem);
+      font-size: clamp(1.85rem, 3.6vw, 2.75rem);
       font-weight: 900;
-      line-height: 1.2;
+      line-height: 1.18;
       color: var(--sky-950);
       letter-spacing: -0.5px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     .hero-title span {
       background: linear-gradient(135deg, var(--sky-600), var(--sky-400));
@@ -248,10 +260,41 @@
       -webkit-text-fill-color: transparent;
     }
     .hero-desc {
-      font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+      font-size: clamp(0.92rem, 1.4vw, 1.05rem);
       color: var(--text-muted);
-      max-width: 860px;
-      line-height: 1.6;
+      max-width: 880px;
+      line-height: 1.65;
+    }
+
+    /* Hero Value Proposition Highlights */
+    .hero-features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(186, 230, 253, 0.6);
+    }
+    .hfg-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .hfg-icon {
+      font-size: 1.25rem;
+      line-height: 1;
+      margin-top: 2px;
+    }
+    .hfg-text h4 {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--sky-950);
+      margin-bottom: 2px;
+    }
+    .hfg-text p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
     }
 
     /* ════════════ 3 MATERI MAIN TABS (PPT, GAME, PROMPT) ════════════ */
@@ -771,18 +814,67 @@
       border: none;
     }
 
-    /* ════════════ FOOTER ════════════ */
+    /* ════════════ FOOTER ELEGAN & PROFESIONAL ════════════ */
     .site-footer {
       background: #ffffff;
       border-top: 1px solid var(--border-card);
-      padding: 24px;
-      text-align: center;
-      font-size: 0.82rem;
-      color: var(--text-muted);
+      padding: 32px 24px;
       margin-top: auto;
     }
-    .site-footer strong {
-      color: var(--sky-900);
+    .footer-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .footer-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--sky-950);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .footer-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .footer-link {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--sky-700);
+      text-decoration: none;
+      transition: color var(--trans-fast);
+    }
+    .footer-link:hover {
+      color: var(--sky-500);
+    }
+    .footer-bottom-bar {
+      max-width: 1360px;
+      margin: 20px auto 0;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.76rem;
+      color: var(--text-light);
     }
 
     /* Toast Notification */
@@ -845,17 +937,22 @@
   <header class="site-header">
     <div class="header-inner">
       <a href="#" class="brand-group">
-        <div class="brand-logo-icon">H</div>
+        <div class="brand-logo-icon">🎮</div>
         <div class="brand-text">
-          <h1>Portal Gamifikasi Informatika IFP</h1>
-          <p><span class="pulsing-dot"></span> Pelatihan Dinas Pendidikan &amp; Hisense Indonesia (8 JP)</p>
+          <h1>Gamifikasi Informatika SMP</h1>
+          <p><span class="pulsing-dot"></span> Media Pembelajaran Interaktif Layar Sentuh IFP</p>
         </div>
       </a>
 
       <div class="header-actions">
-        <a href="https://vercel.com" target="_blank" class="vercel-badge" title="Siap Deploy di Vercel">
-          <svg viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z"/></svg>
-          Vercel Ready
+        <a href="#sec-ppt" onclick="switchSection('ppt')" class="header-link-btn">
+          📑 Slide PPT
+        </a>
+        <a href="#sec-game" onclick="switchSection('game')" class="header-link-btn">
+          🧟 Live Game
+        </a>
+        <a href="#sec-prompt" onclick="switchSection('prompt')" class="header-link-btn header-primary-btn">
+          🤖 Master Prompt
         </a>
       </div>
     </div>
@@ -865,19 +962,44 @@
   <section class="hero-container">
     <div class="hero-card">
       <div class="hero-badge-row">
-        <span class="badge-pill pill-sky">📊 3 Materi Lengkap</span>
-        <span class="badge-pill pill-green">🎮 Live Game Interactive</span>
-        <span class="badge-pill pill-purple">🤖 Master Prompt Engine v3</span>
+        <span class="badge-pill pill-sky">✨ Kurikulum Merdeka</span>
+        <span class="badge-pill pill-green">🎯 Layar Sentuh IFP 4K</span>
+        <span class="badge-pill pill-purple">🤖 AI Prompt Engine v3</span>
       </div>
 
       <h2 class="hero-headline hero-title">
-        Perencanaan &amp; Pengembangan Konten<br>
-        <span>Gamifikasi IFP Hisense</span>
+        Gamifikasi &amp; Pembelajaran Interaktif<br>
+        <span>Informatika Tingkat SMP</span>
       </h2>
 
       <p class="hero-desc">
-        Akses 3 materi terintegrasi untuk guru Informatika SMP: Slide Presentasi Gamifikasi berbasis kurikulum merdeka, Contoh Live Game Edukasi multi-touch di layar IFP, serta Generator Master Prompt AI untuk merakit game sendiri.
+        Platform materi terpadu bagi pendidik dan pengembang konten untuk menghadirkan pengalaman belajar informatika yang imersif di layar sentuh besar: slide presentasi pedagogis, game edukasi multi-touch simultan, serta generator instruksi AI siap pakai.
       </p>
+
+      <!-- 3 Key Pillars Highlight Bar -->
+      <div class="hero-features-grid">
+        <div class="hfg-item">
+          <span class="hfg-icon">📑</span>
+          <div class="hfg-text">
+            <h4>Presentasi Materi Lengkap</h4>
+            <p>12 Slide presentasi visual berbasis kerangka MDA &amp; teori motivasi belajar.</p>
+          </div>
+        </div>
+        <div class="hfg-item">
+          <span class="hfg-icon">🎮</span>
+          <div class="hfg-text">
+            <h4>Live Game Multi-Touch</h4>
+            <p>Permainan edukatif 2–4 tim simultan di layar IFP tanpa instalasi server.</p>
+          </div>
+        </div>
+        <div class="hfg-item">
+          <span class="hfg-icon">🤖</span>
+          <div class="hfg-text">
+            <h4>Generator Master Prompt</h4>
+            <p>Instruksi AI ultra-presisi anti-broken code untuk merakit game HTML mandiri.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1082,12 +1204,30 @@
 
   </main>
 
-  <!-- ════════════ FOOTER ════════════ -->
+  <!-- ════════════ FOOTER ELEGAN & PROFESIONAL ════════════ -->
   <footer class="site-footer">
-    <p>
-      <strong>Portal Resmi Pelatihan Perencanaan IFP &amp; Konten Digital</strong> · Dinas Pendidikan &amp; Hisense Indonesia<br>
-      Dirancang untuk 230 guru peserta pelatihan — Siap dideploy pada Vercel atau Google Apps Script Web App 🚀
-    </p>
+    <div class="footer-inner">
+      <div class="footer-left">
+        <div class="footer-title">
+          <span>🎮</span> Gamifikasi Informatika SMP — IFP Interactive Platform
+        </div>
+        <p class="footer-desc">
+          Media pembelajaran interaktif berbasis sentuhan multi-touch untuk meningkatkan motivasi, kolaborasi, dan capaian kompetensi informatika.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <a href="#sec-ppt" onclick="switchSection('ppt')" class="footer-link">Slide PPT</a>
+        <a href="#sec-game" onclick="switchSection('game')" class="footer-link">Live Game</a>
+        <a href="#sec-prompt" onclick="switchSection('prompt')" class="footer-link">Master Prompt</a>
+        <a href="gamifikasi informatika smp.pptx" download class="footer-link">Unduh PPTX</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <div>© 2026 Gamifikasi Informatika IFP. Hak cipta dilindungi.</div>
+      <div>Dirancang untuk pembelajaran aktif, kolaboratif &amp; menyenangkan</div>
+    </div>
   </footer>
 
   <!-- Toast Notification -->
