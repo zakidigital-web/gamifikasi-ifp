@@ -1237,6 +1237,7 @@
         this.stars = [];
         this.enemies = [];
         this.projectiles = [];
+        this.enemyProjectiles = [];
         this.particles = [];
         this.damageTexts = [];
         this.empActive = false;
@@ -1292,6 +1293,35 @@
           speed = 1.25 + (wave * 0.12);
           radius = 20;
           color = '#f43f5e';
+          const shots = 3 + Math.floor(Math.random() * 2); // 3-4 shots before kamikaze dive
+          const targetY = 70 + Math.random() * Math.min(220, this.height * 0.38);
+
+          this.enemies.push({
+            type,
+            x,
+            y,
+            hp,
+            maxHp: hp,
+            speed,
+            radius,
+            color,
+            angle: 0,
+            rotSpeed: 0,
+            isBoss: false,
+            // Drone mechanics:
+            state: 'skirmish', // 'skirmish' -> 'dive'
+            shotsLeft: shots,
+            maxShots: shots,
+            targetY,
+            baseX: x,
+            driftVx: (Math.random() > 0.5 ? 1 : -1) * (1.2 + Math.random() * 0.9),
+            weaveAngle: Math.random() * Math.PI * 2,
+            weaveSpeed: 0.04 + Math.random() * 0.025,
+            weaveRadius: 40 + Math.random() * 60,
+            shootCooldown: 1600 + Math.random() * 900,
+            lastShotTime: Date.now() + Math.random() * 800
+          });
+          return;
         } else if (type === 'cruiser') {
           hp = 180 + Math.floor(Math.random() * 80) + (wave * 25);
           speed = 0.75 + (wave * 0.06);
@@ -1505,8 +1535,69 @@
         for (let i = this.enemies.length - 1; i >= 0; i--) {
           const en = this.enemies[i];
           if (!this.empActive) {
-            en.y += en.speed;
-            en.angle += en.rotSpeed;
+            if (en.type === 'drone') {
+              if (en.state === 'skirmish') {
+                // Descend until reaching skirmish altitude
+                if (en.y < en.targetY) {
+                  en.y += en.speed * 1.6;
+                } else {
+                  // Weave horizontally & patrol the combat sky
+                  en.weaveAngle += en.weaveSpeed;
+                  en.baseX += en.driftVx;
+
+                  const minX = en.radius + 35;
+                  const maxX = this.width - en.radius - 35;
+                  if (en.baseX < minX) {
+                    en.baseX = minX;
+                    en.driftVx = Math.abs(en.driftVx);
+                  } else if (en.baseX > maxX) {
+                    en.baseX = maxX;
+                    en.driftVx = -Math.abs(en.driftVx);
+                  }
+
+                  en.x = en.baseX + Math.sin(en.weaveAngle) * en.weaveRadius;
+                  en.x = Math.max(minX, Math.min(maxX, en.x));
+
+                  // Gentle vertical bobbing & banking
+                  en.y = en.targetY + Math.cos(en.weaveAngle * 0.8) * 16;
+                  en.angle = Math.sin(en.weaveAngle) * 0.35;
+
+                  // Periodic ranged plasma shot (1 HP damage to shield)
+                  const now = Date.now();
+                  if (now - en.lastShotTime >= en.shootCooldown && en.shotsLeft > 0) {
+                    en.lastShotTime = now;
+                    en.shotsLeft--;
+
+                    this.enemyProjectiles.push({
+                      x: en.x,
+                      y: en.y + en.radius,
+                      vy: 5.6 + Math.random() * 1.2,
+                      damage: 1,
+                      radius: 4.5,
+                      color: '#f43f5e'
+                    });
+
+                    this.createSparks(en.x, en.y + en.radius, '#f43f5e', 5);
+                    this.game.audio.playLaser(0);
+
+                    // If all shots fired, trigger kamikaze dive!
+                    if (en.shotsLeft <= 0) {
+                      en.state = 'dive';
+                      en.speed = 3.4 + (this.game.currentWave * 0.25);
+                      this.addDamageText(en.x, en.y - 22, '⚠️ KAMIKAZE DIVE!', '#ef4444', 1.2);
+                    }
+                  }
+                }
+              } else if (en.state === 'dive') {
+                // High speed dive straight into shield
+                en.y += en.speed;
+                en.angle = Math.sin(Date.now() * 0.015) * 0.15;
+              }
+            } else {
+              // Asteroids, Cruisers, Bosses
+              en.y += en.speed;
+              en.angle += en.rotSpeed;
+            }
           }
 
           // Enemy touches planetary shield barrier
@@ -1517,6 +1608,19 @@
             this.screenShake = 12;
             this.game.audio.playShieldAlarm();
             this.enemies.splice(i, 1);
+          }
+        }
+
+        // Enemy Projectiles (Drone 1 HP plasma shots)
+        for (let i = this.enemyProjectiles.length - 1; i >= 0; i--) {
+          const ep = this.enemyProjectiles[i];
+          ep.y += ep.vy;
+
+          if (ep.y >= shieldLineY) {
+            this.game.damageShield(ep.damage);
+            this.createSparks(ep.x, shieldLineY, '#f43f5e', 6);
+            this.addDamageText(ep.x, shieldLineY - 14, `-${ep.damage}`, '#f43f5e', 0.9);
+            this.enemyProjectiles.splice(i, 1);
           }
         }
 
@@ -1670,6 +1774,26 @@
           this.ctx.restore();
         });
 
+        // Draw Enemy Projectiles (Drone 1 HP plasma shots)
+        this.enemyProjectiles.forEach(ep => {
+          this.ctx.save();
+          this.ctx.fillStyle = ep.color;
+          this.ctx.shadowColor = ep.color;
+          this.ctx.shadowBlur = 10;
+          this.ctx.beginPath();
+          this.ctx.arc(ep.x, ep.y, ep.radius, 0, Math.PI * 2);
+          this.ctx.fill();
+
+          // Glowing plasma trail
+          this.ctx.strokeStyle = '#fda4af';
+          this.ctx.lineWidth = 2.5;
+          this.ctx.beginPath();
+          this.ctx.moveTo(ep.x, ep.y - 10);
+          this.ctx.lineTo(ep.x, ep.y + 2);
+          this.ctx.stroke();
+          this.ctx.restore();
+        });
+
         // Draw Particles
         this.particles.filter(p => !p.isShockwave).forEach(pt => {
           this.ctx.save();
@@ -1784,15 +1908,32 @@
           this.ctx.fill();
           this.ctx.stroke();
         } else if (en.type === 'drone') {
+          this.ctx.rotate(en.angle);
+
+          // If in Kamikaze Dive state, draw burning engine thruster fire trail!
+          if (en.state === 'dive') {
+            this.ctx.save();
+            this.ctx.fillStyle = '#ef4444';
+            this.ctx.shadowColor = '#f97316';
+            this.ctx.shadowBlur = 16;
+            this.ctx.beginPath();
+            this.ctx.moveTo(-en.radius * 0.45, -en.radius * 0.8);
+            this.ctx.lineTo(0, -en.radius * 2.2 - Math.random() * 8);
+            this.ctx.lineTo(en.radius * 0.45, -en.radius * 0.8);
+            this.ctx.closePath();
+            this.ctx.fill();
+            this.ctx.restore();
+          }
+
           // Fast Scout Drone (V-shape)
-          this.ctx.fillStyle = '#1e1b4b';
-          this.ctx.strokeStyle = en.color;
-          this.ctx.lineWidth = 2;
+          this.ctx.fillStyle = en.state === 'dive' ? '#450a0a' : '#1e1b4b';
+          this.ctx.strokeStyle = en.state === 'dive' ? '#ef4444' : en.color;
+          this.ctx.lineWidth = en.state === 'dive' ? 2.8 : 2;
           this.ctx.beginPath();
           this.ctx.moveTo(0, en.radius);
-          this.ctx.lineTo(en.radius * 0.9, -en.radius * 0.8);
+          this.ctx.lineTo(en.radius * 0.95, -en.radius * 0.8);
           this.ctx.lineTo(0, -en.radius * 0.4);
-          this.ctx.lineTo(-en.radius * 0.9, -en.radius * 0.8);
+          this.ctx.lineTo(-en.radius * 0.95, -en.radius * 0.8);
           this.ctx.closePath();
           this.ctx.fill();
           this.ctx.stroke();
@@ -1800,8 +1941,14 @@
           // Red glowing core
           this.ctx.fillStyle = '#f43f5e';
           this.ctx.beginPath();
-          this.ctx.arc(0, 0, 5, 0, Math.PI * 2);
+          this.ctx.arc(0, 0, 5.5, 0, Math.PI * 2);
           this.ctx.fill();
+
+          // Dual plasma cannons on wings
+          this.ctx.strokeStyle = '#fca5a5';
+          this.ctx.lineWidth = 1.5;
+          this.ctx.strokeRect(-en.radius * 0.7, -en.radius * 0.4, 2, 7);
+          this.ctx.strokeRect(en.radius * 0.7 - 2, -en.radius * 0.4, 2, 7);
         } else if (en.type === 'cruiser') {
           // Armored Cruiser with energy wings
           this.ctx.fillStyle = '#170f2f';
@@ -1882,11 +2029,17 @@
         this.ctx.lineWidth = 1;
         this.ctx.strokeRect(-barWidth / 2, barY, barWidth, barHeight);
 
-        // HP Number Tag
+        // HP Number Tag & Status
         this.ctx.font = "bold 10px 'JetBrains Mono', monospace";
         this.ctx.fillStyle = '#ffffff';
         this.ctx.textAlign = 'center';
-        this.ctx.fillText(`${en.hp} HP`, 0, barY - 4);
+
+        if (en.type === 'drone') {
+          const statusTxt = en.state === 'dive' ? '💥 KAMIKAZE!' : `🔫 ${en.shotsLeft} TEMBAKAN`;
+          this.ctx.fillText(`${en.hp} HP (${statusTxt})`, 0, barY - 4);
+        } else {
+          this.ctx.fillText(`${en.hp} HP`, 0, barY - 4);
+        }
 
         this.ctx.restore();
       }
@@ -2287,6 +2440,7 @@
         // Reset combat entities
         this.combat.enemies = [];
         this.combat.projectiles = [];
+        this.combat.enemyProjectiles = [];
         this.combat.particles = [];
         this.combat.damageTexts = [];
         this.combat.empActive = false;
