@@ -1285,12 +1285,12 @@
 
         if (type === 'asteroid') {
           hp = 50 + Math.floor(Math.random() * 40);
-          speed = 0.85 + Math.random() * 0.4;
+          speed = 0.52 + Math.random() * 0.22;
           radius = 24;
           color = '#94a3b8';
         } else if (type === 'drone') {
           hp = 80 + Math.floor(Math.random() * 60) + (wave * 15);
-          speed = 1.25 + (wave * 0.12);
+          speed = 0.85 + (wave * 0.08);
           radius = 20;
           color = '#f43f5e';
           const shots = 3 + Math.floor(Math.random() * 2); // 3-4 shots before kamikaze dive
@@ -1314,22 +1314,22 @@
             maxShots: shots,
             targetY,
             baseX: x,
-            driftVx: (Math.random() > 0.5 ? 1 : -1) * (1.2 + Math.random() * 0.9),
+            driftVx: (Math.random() > 0.5 ? 1 : -1) * (0.65 + Math.random() * 0.45),
             weaveAngle: Math.random() * Math.PI * 2,
-            weaveSpeed: 0.04 + Math.random() * 0.025,
-            weaveRadius: 40 + Math.random() * 60,
-            shootCooldown: 1600 + Math.random() * 900,
+            weaveSpeed: 0.024 + Math.random() * 0.015,
+            weaveRadius: 35 + Math.random() * 45,
+            shootCooldown: 1800 + Math.random() * 900,
             lastShotTime: Date.now() + Math.random() * 800
           });
           return;
         } else if (type === 'cruiser') {
           hp = 180 + Math.floor(Math.random() * 80) + (wave * 25);
-          speed = 0.75 + (wave * 0.06);
+          speed = 0.46 + (wave * 0.04);
           radius = 32;
           color = '#a855f7';
         } else if (type === 'boss') {
           hp = 500 + (wave * 100);
-          speed = 0.45;
+          speed = 0.28;
           radius = 52;
           color = '#fbbf24';
         }
@@ -1344,7 +1344,7 @@
           radius,
           color,
           angle: 0,
-          rotSpeed: (Math.random() - 0.5) * 0.04,
+          rotSpeed: (Math.random() - 0.5) * 0.025,
           isBoss: type === 'boss'
         });
       }
@@ -1419,7 +1419,7 @@
             target,
             color,
             damage: Math.round(damage / projCount),
-            speed: 16,
+            speed: 12.5,
             isCrit,
             teamIdx
           });
@@ -1519,14 +1519,17 @@
           this.empActive = false;
         }
 
-        // Stars parallax scroll
+        // Normalization factor based on 60fps baseline
+        const timeScale = Math.min(1.8, Math.max(0.5, (dt || 0.016) * 60));
+
+        // Stars parallax scroll (smooth cosmic drift)
         this.stars.forEach(s => {
-          s.y += s.speed;
+          s.y += s.speed * 0.65 * timeScale;
           if (s.y > this.height) {
             s.y = 0;
             s.x = Math.random() * this.width;
           }
-          s.opacity += (Math.random() - 0.5) * s.twinkleSpeed;
+          s.opacity += (Math.random() - 0.5) * s.twinkleSpeed * timeScale;
           s.opacity = Math.max(0.2, Math.min(0.9, s.opacity));
         });
 
@@ -1537,13 +1540,13 @@
           if (!this.empActive) {
             if (en.type === 'drone') {
               if (en.state === 'skirmish') {
-                // Descend until reaching skirmish altitude
+                // Descend smoothly until reaching skirmish altitude
                 if (en.y < en.targetY) {
-                  en.y += en.speed * 1.6;
+                  en.y += (en.speed * 0.9) * timeScale;
                 } else {
-                  // Weave horizontally & patrol the combat sky
-                  en.weaveAngle += en.weaveSpeed;
-                  en.baseX += en.driftVx;
+                  // Weave horizontally & patrol the combat sky with inertia lerp
+                  en.weaveAngle += en.weaveSpeed * timeScale;
+                  en.baseX += en.driftVx * timeScale;
 
                   const minX = en.radius + 35;
                   const maxX = this.width - en.radius - 35;
@@ -1555,12 +1558,15 @@
                     en.driftVx = -Math.abs(en.driftVx);
                   }
 
-                  en.x = en.baseX + Math.sin(en.weaveAngle) * en.weaveRadius;
-                  en.x = Math.max(minX, Math.min(maxX, en.x));
+                  // Smooth position interpolation (lerp)
+                  const targetX = Math.max(minX, Math.min(maxX, en.baseX + Math.sin(en.weaveAngle) * en.weaveRadius));
+                  en.x += (targetX - en.x) * 0.09 * timeScale;
 
-                  // Gentle vertical bobbing & banking
-                  en.y = en.targetY + Math.cos(en.weaveAngle * 0.8) * 16;
-                  en.angle = Math.sin(en.weaveAngle) * 0.35;
+                  const targetYPos = en.targetY + Math.cos(en.weaveAngle * 0.8) * 14;
+                  en.y += (targetYPos - en.y) * 0.09 * timeScale;
+
+                  const targetAngle = Math.sin(en.weaveAngle) * 0.28;
+                  en.angle += (targetAngle - en.angle) * 0.1 * timeScale;
 
                   // Periodic ranged plasma shot (1 HP damage to shield)
                   const now = Date.now();
@@ -1571,7 +1577,7 @@
                     this.enemyProjectiles.push({
                       x: en.x,
                       y: en.y + en.radius,
-                      vy: 5.6 + Math.random() * 1.2,
+                      vy: 3.6 + Math.random() * 0.8,
                       damage: 1,
                       radius: 4.5,
                       color: '#f43f5e'
@@ -1583,20 +1589,20 @@
                     // If all shots fired, trigger kamikaze dive!
                     if (en.shotsLeft <= 0) {
                       en.state = 'dive';
-                      en.speed = 3.4 + (this.game.currentWave * 0.25);
-                      this.addDamageText(en.x, en.y - 22, '⚠️ KAMIKAZE DIVE!', '#ef4444', 1.2);
+                      en.speed = 2.4 + (this.game.currentWave * 0.18);
+                      this.addDamageText(en.x, en.y - 22, '⚠️ KAMIKAZE DIVE!', '#ef4444', 1.15);
                     }
                   }
                 }
               } else if (en.state === 'dive') {
                 // High speed dive straight into shield
-                en.y += en.speed;
-                en.angle = Math.sin(Date.now() * 0.015) * 0.15;
+                en.y += en.speed * timeScale;
+                en.angle = Math.sin(Date.now() * 0.012) * 0.12;
               }
             } else {
               // Asteroids, Cruisers, Bosses
-              en.y += en.speed;
-              en.angle += en.rotSpeed;
+              en.y += en.speed * timeScale;
+              en.angle += en.rotSpeed * timeScale;
             }
           }
 
@@ -1614,12 +1620,12 @@
         // Enemy Projectiles (Drone 1 HP plasma shots)
         for (let i = this.enemyProjectiles.length - 1; i >= 0; i--) {
           const ep = this.enemyProjectiles[i];
-          ep.y += ep.vy;
+          ep.y += ep.vy * timeScale;
 
           if (ep.y >= shieldLineY) {
             this.game.damageShield(ep.damage);
             this.createSparks(ep.x, shieldLineY, '#f43f5e', 6);
-            this.addDamageText(ep.x, shieldLineY - 14, `-${ep.damage}`, '#f43f5e', 0.9);
+            this.addDamageText(ep.x, shieldLineY - 14, `-${ep.damage}`, '#f43f5e', 0.85);
             this.enemyProjectiles.splice(i, 1);
           }
         }
@@ -1633,18 +1639,18 @@
             const dy = p.target.y - p.y;
             const dist = Math.hypot(dx, dy);
 
-            if (dist < p.speed + p.target.radius) {
+            if (dist < (p.speed * timeScale) + p.target.radius) {
               // Hit target
               this.applyDamageToEnemy(p.target, p.damage, p.teamIdx, p.color);
               this.projectiles.splice(i, 1);
               continue;
             } else {
-              p.x += (dx / dist) * p.speed;
-              p.y += (dy / dist) * p.speed;
+              p.x += (dx / dist) * p.speed * timeScale;
+              p.y += (dy / dist) * p.speed * timeScale;
             }
           } else {
             // Target dead or gone, fly straight up
-            p.y -= p.speed;
+            p.y -= p.speed * timeScale;
             if (p.y < -20) {
               this.projectiles.splice(i, 1);
               continue;
@@ -1666,12 +1672,12 @@
         for (let i = this.particles.length - 1; i >= 0; i--) {
           const pt = this.particles[i];
           if (pt.isShockwave) {
-            pt.radius += 12;
-            pt.alpha -= pt.decay;
+            pt.radius += 10 * timeScale;
+            pt.alpha -= pt.decay * timeScale;
           } else {
-            pt.x += pt.vx;
-            pt.y += pt.vy;
-            pt.alpha -= pt.decay;
+            pt.x += pt.vx * timeScale;
+            pt.y += pt.vy * timeScale;
+            pt.alpha -= pt.decay * timeScale;
           }
           if (pt.alpha <= 0) {
             this.particles.splice(i, 1);
@@ -1681,8 +1687,8 @@
         // Floating Damage Texts
         for (let i = this.damageTexts.length - 1; i >= 0; i--) {
           const dt = this.damageTexts[i];
-          dt.y += dt.vy;
-          dt.alpha -= 0.02;
+          dt.y += dt.vy * timeScale;
+          dt.alpha -= 0.016 * timeScale;
           if (dt.alpha <= 0) {
             this.damageTexts.splice(i, 1);
           }
