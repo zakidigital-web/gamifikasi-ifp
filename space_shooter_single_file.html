@@ -1,0 +1,2550 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Cosmic Defender: Space Shooter Quiz — Informatika SMP</title>
+  <meta name="description" content="Game Edukasi Gamifikasi IFP: Space Shooter Quiz Multi-Touch Simultan 2-4 Tim untuk Siswa SMP Mata Pelajaran Informatika.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ══════════════════════════════════════════════════════════════
+       COSMIC DEFENDER: SPACE SHOOTER QUIZ - THEME & STYLES
+       ══════════════════════════════════════════════════════════════ */
+    :root {
+      --bg-dark: #050713;
+      --bg-surface: #0a0d24;
+      --bg-panel: rgba(14, 18, 48, 0.88);
+      --border-panel: rgba(56, 189, 248, 0.28);
+      --border-glow: rgba(56, 189, 248, 0.6);
+
+      --color-p1: #ff3366; /* Tim 1: Crimson Phoenix */
+      --color-p2: #00d4ff; /* Tim 2: Cobalt Striker */
+      --color-p3: #00ff88; /* Tim 3: Emerald Titan */
+      --color-p4: #ffbb00; /* Tim 4: Solar Falcon */
+
+      --shield-color: #38bdf8;
+      --shield-danger: #ef4444;
+
+      --font-display: 'Orbitron', -apple-system, sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: #f1f5f9;
+      font-family: var(--font-body);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Screen containers */
+    .screen {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .screen.active {
+      display: flex;
+    }
+
+    /* ════════════════ 1. SETUP SCREEN ════════════════ */
+    #setup-screen {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #11183c 0%, #050713 85%);
+      position: relative;
+      overflow-y: auto;
+      padding: 24px;
+      z-index: 10;
+    }
+
+    .setup-starfield {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .setup-card {
+      background: rgba(13, 18, 44, 0.88);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      border-radius: 24px;
+      padding: clamp(24px, 4vw, 42px);
+      width: min(920px, 94vw);
+      box-shadow: 0 0 50px rgba(14, 165, 233, 0.22), inset 0 0 30px rgba(56, 189, 248, 0.08);
+      backdrop-filter: blur(16px);
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .setup-header {
+      text-align: center;
+    }
+    .setup-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      border-radius: 9999px;
+      padding: 6px 16px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .setup-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.8vw, 2.75rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffffff 10%, #38bdf8 55%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1.5px;
+      line-height: 1.2;
+    }
+    .setup-sub {
+      color: #94a3b8;
+      font-size: clamp(0.85rem, 1.3vw, 0.98rem);
+      margin-top: 6px;
+    }
+
+    .setup-section-title {
+      font-family: var(--font-display);
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #7dd3fc;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Team count selector */
+    .selector-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .select-btn {
+      background: rgba(15, 23, 56, 0.8);
+      border: 1.5px solid rgba(56, 189, 248, 0.25);
+      border-radius: 14px;
+      padding: 14px 12px;
+      color: #cbd5e1;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .select-btn span {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .select-btn:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: #38bdf8;
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+    .select-btn.active {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.35), rgba(99, 102, 241, 0.35));
+      border-color: #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    }
+    .select-btn.active span {
+      color: #bae6fd;
+    }
+
+    /* Difficulty Mode Selector */
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .diff-btn {
+      background: rgba(15, 23, 56, 0.8);
+      border: 1.5px solid rgba(56, 189, 248, 0.22);
+      border-radius: 14px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+    .diff-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+    .diff-desc {
+      font-size: 0.72rem;
+      color: #64748b;
+    }
+    .diff-btn[data-mode="easy"] .diff-title { color: #34d399; }
+    .diff-btn[data-mode="normal"] .diff-title { color: #fbbf24; }
+    .diff-btn[data-mode="hard"] .diff-title { color: #f43f5e; }
+
+    .diff-btn:hover {
+      transform: translateY(-2px);
+    }
+    .diff-btn.active[data-mode="easy"] {
+      border-color: #34d399;
+      background: rgba(16, 185, 129, 0.18);
+      box-shadow: 0 0 20px rgba(52, 211, 153, 0.35);
+    }
+    .diff-btn.active[data-mode="normal"] {
+      border-color: #fbbf24;
+      background: rgba(245, 158, 11, 0.18);
+      box-shadow: 0 0 20px rgba(251, 191, 36, 0.35);
+    }
+    .diff-btn.active[data-mode="hard"] {
+      border-color: #f43f5e;
+      background: rgba(239, 68, 68, 0.22);
+      box-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
+    }
+    .diff-btn.active .diff-desc {
+      color: #f1f5f9;
+    }
+
+    /* Team names inputs */
+    .team-inputs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .team-input-card {
+      background: rgba(10, 14, 38, 0.85);
+      border: 1.5px solid;
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .team-color-indicator {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .team-input-card input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.9rem;
+      width: 100%;
+    }
+
+    /* Start Button */
+    .start-btn {
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #7c3aed 100%);
+      color: #ffffff;
+      border: 1.5px solid rgba(56, 189, 248, 0.6);
+      border-radius: 16px;
+      padding: 16px 28px;
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      cursor: pointer;
+      box-shadow: 0 0 35px rgba(37, 99, 235, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.2);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .start-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 45px rgba(56, 189, 248, 0.7);
+    }
+    .start-btn:active {
+      transform: translateY(1px) scale(0.99);
+    }
+
+    /* ════════════════ 2. IN-GAME SCREEN ════════════════ */
+    #game-screen {
+      flex-direction: column;
+      background: #02040c;
+    }
+
+    /* Top HUD Bar */
+    .top-hud {
+      height: 68px;
+      background: rgba(8, 12, 32, 0.94);
+      border-bottom: 1.5px solid var(--border-panel);
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      backdrop-filter: blur(12px);
+      z-index: 20;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+      flex-shrink: 0;
+    }
+
+    .hud-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 220px;
+    }
+    .wave-badge {
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 10px;
+      padding: 6px 14px;
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #38bdf8;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .mode-badge {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      letter-spacing: 0.5px;
+      border: 1px solid;
+    }
+    .mode-badge.easy { background: rgba(52, 211, 153, 0.15); border-color: #34d399; color: #34d399; }
+    .mode-badge.normal { background: rgba(251, 191, 36, 0.15); border-color: #fbbf24; color: #fbbf24; }
+    .mode-badge.hard { background: rgba(244, 63, 94, 0.18); border-color: #f43f5e; color: #f43f5e; }
+
+    /* Center: Planetary Shield HP Bar */
+    .hud-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      max-width: 460px;
+    }
+    .shield-info-row {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 0.72rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 4px;
+      letter-spacing: 0.8px;
+    }
+    .shield-val {
+      color: #38bdf8;
+    }
+    .shield-bar-bg {
+      width: 100%;
+      height: 14px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      border-radius: 9999px;
+      overflow: hidden;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.2);
+    }
+    .shield-bar-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #0284c7, #38bdf8, #67e8f9);
+      border-radius: 9999px;
+      transition: width 0.2s ease, background 0.3s ease;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+    }
+    .shield-bar-fill.danger {
+      background: linear-gradient(90deg, #b91c1c, #ef4444, #f87171);
+      box-shadow: 0 0 14px rgba(239, 68, 68, 0.9);
+      animation: pulseDanger 0.8s infinite alternate;
+    }
+    @keyframes pulseDanger {
+      0% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+
+    /* Right HUD: Live Mini Leaderboard & Controls */
+    .hud-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .live-leaderboard {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 12px;
+      padding: 4px 10px;
+    }
+    .ll-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+    .ll-score {
+      font-weight: 800;
+    }
+
+    .ctrl-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #94a3b8;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .ctrl-btn:hover {
+      background: rgba(56, 189, 248, 0.2);
+      color: #ffffff;
+      border-color: #38bdf8;
+    }
+
+    /* Middle Combat Area (Canvas) */
+    .combat-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+    }
+    #combatCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: radial-gradient(circle at 50% 30%, #080c28 0%, #030614 80%);
+    }
+
+    /* Floating Alert Banner (Wave announcement / Boss alert) */
+    .alert-banner {
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.7);
+      background: rgba(10, 14, 38, 0.95);
+      border: 2px solid;
+      border-radius: 20px;
+      padding: 16px 36px;
+      text-align: center;
+      z-index: 30;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+    }
+    .alert-banner.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .alert-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+    .alert-sub {
+      font-size: 0.92rem;
+      color: #cbd5e1;
+      margin-top: 4px;
+    }
+
+    /* Bottom: Simultaneous Multi-Touch Quiz Stations (2-4 Teams) */
+    .quiz-dock {
+      height: clamp(260px, 36vh, 340px);
+      background: rgba(6, 9, 26, 0.96);
+      border-top: 2px solid var(--border-panel);
+      display: grid;
+      gap: 8px;
+      padding: 8px 10px;
+      flex-shrink: 0;
+      z-index: 20;
+      box-shadow: 0 -4px 28px rgba(0, 0, 0, 0.7);
+    }
+    .quiz-dock.teams-2 { grid-template-columns: repeat(2, 1fr); }
+    .quiz-dock.teams-3 { grid-template-columns: repeat(3, 1fr); }
+    .quiz-dock.teams-4 { grid-template-columns: repeat(4, 1fr); }
+
+    .quiz-station {
+      background: rgba(14, 19, 44, 0.75);
+      border: 1.5px solid;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .quiz-station.p1 { border-color: rgba(255, 51, 102, 0.4); }
+    .quiz-station.p2 { border-color: rgba(0, 212, 255, 0.4); }
+    .quiz-station.p3 { border-color: rgba(0, 255, 136, 0.4); }
+    .quiz-station.p4 { border-color: rgba(255, 187, 0, 0.4); }
+
+    /* Flash feedback animation */
+    .quiz-station.flash-correct {
+      animation: flashGreen 0.6s ease;
+    }
+    .quiz-station.flash-wrong {
+      animation: flashRed 0.6s ease;
+    }
+    @keyframes flashGreen {
+      0%, 100% { background: rgba(14, 19, 44, 0.75); }
+      50% { background: rgba(16, 185, 129, 0.4); }
+    }
+    @keyframes flashRed {
+      0%, 100% { background: rgba(14, 19, 44, 0.75); }
+      50% { background: rgba(239, 68, 68, 0.4); }
+    }
+
+    .station-header {
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .station-team-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .station-avatar {
+      font-size: 1rem;
+    }
+    .station-name {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+    .station-stats {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+    .station-score {
+      font-weight: 900;
+    }
+    .station-streak {
+      color: #fbbf24;
+      font-weight: 800;
+    }
+
+    /* Timer bar */
+    .station-timer-track {
+      height: 4px;
+      background: rgba(15, 23, 42, 0.8);
+      width: 100%;
+      overflow: hidden;
+    }
+    .station-timer-bar {
+      height: 100%;
+      width: 100%;
+      background: #38bdf8;
+      transition: width 0.1s linear, background-color 0.3s ease;
+    }
+
+    /* Question & Options */
+    .station-body {
+      padding: 8px 10px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .station-topic-tag {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #7dd3fc;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .station-question {
+      font-size: clamp(0.74rem, 1.15vw, 0.85rem);
+      font-weight: 700;
+      line-height: 1.35;
+      color: #f8fafc;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .station-options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+    .station-opt-btn {
+      background: rgba(20, 26, 60, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 7px 8px;
+      color: #e2e8f0;
+      font-family: var(--font-body);
+      font-size: clamp(0.68rem, 1vw, 0.78rem);
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.25;
+      transition: all 0.15s ease;
+      touch-action: manipulation;
+    }
+    .opt-letter {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 0.72rem;
+      border-radius: 4px;
+      padding: 2px 4px;
+      background: rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
+    }
+    .station-opt-btn:active {
+      transform: scale(0.97);
+    }
+    .station-opt-btn.correct {
+      background: rgba(16, 185, 129, 0.4) !important;
+      border-color: #10b981 !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+    }
+    .station-opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.4) !important;
+      border-color: #ef4444 !important;
+      color: #ffffff !important;
+    }
+
+    /* ════════════════ 3. PODIUM / RESULTS SCREEN ════════════════ */
+    #results-screen {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #111a45 0%, #030511 85%);
+      position: relative;
+      overflow-y: auto;
+      padding: 24px;
+      z-index: 10;
+    }
+
+    .results-card {
+      background: rgba(13, 18, 44, 0.92);
+      border: 1.5px solid rgba(56, 189, 248, 0.45);
+      border-radius: 28px;
+      padding: clamp(24px, 4vw, 42px);
+      width: min(960px, 95vw);
+      box-shadow: 0 0 60px rgba(14, 165, 233, 0.28);
+      backdrop-filter: blur(18px);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      text-align: center;
+    }
+
+    .results-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.8vw, 2.8rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+    .results-subtitle {
+      font-size: clamp(0.85rem, 1.3vw, 1rem);
+      color: #94a3b8;
+    }
+
+    /* Podium Layout */
+    .podium-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .podium-card {
+      background: rgba(17, 24, 58, 0.85);
+      border: 2px solid;
+      border-radius: 18px;
+      padding: 18px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      transition: transform 0.2s;
+    }
+    .podium-card:hover {
+      transform: translateY(-4px);
+    }
+    .podium-card.first {
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.18) 0%, rgba(17, 24, 58, 0.95) 100%);
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.35);
+      border-color: #fbbf24;
+    }
+    .podium-rank-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+    .podium-team-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+    .podium-score-val {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+    .podium-stats-list {
+      font-size: 0.74rem;
+      color: #94a3b8;
+      line-height: 1.6;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 8px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .play-again-btn {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      color: #ffffff;
+      border: 1.5px solid #34d399;
+      border-radius: 16px;
+      padding: 14px 28px;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
+      align-self: center;
+      transition: all 0.2s;
+    }
+    .play-again-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 0 35px rgba(52, 211, 153, 0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════ SCREEN 1: SETUP ════════════════ -->
+  <section class="screen active" id="setup-screen">
+    <canvas class="setup-starfield" id="setupCanvas"></canvas>
+
+    <div class="setup-card">
+      <div class="setup-header">
+        <div class="setup-badge">🚀 IFP MULTI-TOUCH GAMIFICATION</div>
+        <h1 class="setup-title">COSMIC DEFENDER</h1>
+        <p class="setup-sub">Space Fleet Defense &amp; Multi-Touch Quiz Informatika SMP</p>
+      </div>
+
+      <!-- Team Count Selector -->
+      <div>
+        <div class="setup-section-title">👥 Pilih Jumlah Tim (Simultan IFP)</div>
+        <div class="selector-grid">
+          <button type="button" class="select-btn" data-teams="2">2<span>Tim Simultan</span></button>
+          <button type="button" class="select-btn" data-teams="3">3<span>Tim Simultan</span></button>
+          <button type="button" class="select-btn active" data-teams="4">4<span>Tim Simultan</span></button>
+        </div>
+      </div>
+
+      <!-- Difficulty Mode Selector -->
+      <div>
+        <div class="setup-section-title">⚡ Pilih Tingkat Kesulitan</div>
+        <div class="diff-grid">
+          <button type="button" class="diff-btn" data-mode="easy">
+            <span class="diff-title">🟢 EASY</span>
+            <span class="diff-desc">Santai · Drone Sedikit · Timer 25s</span>
+          </button>
+          <button type="button" class="diff-btn active" data-mode="normal">
+            <span class="diff-title">🟡 NORMAL</span>
+            <span class="diff-desc">Standar · Armada Seimbang · Timer 20s</span>
+          </button>
+          <button type="button" class="diff-btn" data-mode="hard">
+            <span class="diff-title">🔴 HARD</span>
+            <span class="diff-desc">Horde Masif · Varian Penuh · Timer 15s</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Team Name Inputs -->
+      <div>
+        <div class="setup-section-title">🏷️ Nama Skuadron Tim</div>
+        <div class="team-inputs-grid" id="teamInputsContainer">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Start Button -->
+      <button type="button" class="start-btn" id="btnStartGame">
+        ⚔️ LUNCURKAN ARMADA PERTAHANAN
+      </button>
+    </div>
+  </section>
+
+  <!-- ════════════════ SCREEN 2: IN-GAME BATTLE ════════════════ -->
+  <section class="screen" id="game-screen">
+    <!-- Top HUD Bar -->
+    <header class="top-hud">
+      <div class="hud-left">
+        <div class="wave-badge" id="hudWaveBadge">WAVE 1 / 5</div>
+        <span class="mode-badge normal" id="hudModeBadge">NORMAL</span>
+      </div>
+
+      <!-- Planetary Shield Center Bar -->
+      <div class="hud-center">
+        <div class="shield-info-row">
+          <span>🛡️ PERISAI PLANET (SHARED HP)</span>
+          <span class="shield-val" id="hudShieldVal">1000 / 1000</span>
+        </div>
+        <div class="shield-bar-bg">
+          <div class="shield-bar-fill" id="hudShieldFill" style="width: 100%;"></div>
+        </div>
+      </div>
+
+      <!-- Live Leaderboard & Controls -->
+      <div class="hud-right">
+        <div class="live-leaderboard" id="hudLiveLeaderboard">
+          <!-- Live scores per team -->
+        </div>
+        <button type="button" class="ctrl-btn" id="btnToggleAudio" title="Toggle Suara">🔊</button>
+        <button type="button" class="ctrl-btn" id="btnToggleFullscreen" title="Layar Penuh">⛶</button>
+      </div>
+    </header>
+
+    <!-- Combat Viewport (Space Canvas) -->
+    <div class="combat-viewport">
+      <canvas id="combatCanvas"></canvas>
+
+      <!-- Central Announcement Banner -->
+      <div class="alert-banner" id="alertBanner">
+        <div class="alert-title" id="alertTitle">INCOMING WAVE 1</div>
+        <div class="alert-sub" id="alertSub">Bersiaplah, armada alien mulai mendekat!</div>
+      </div>
+    </div>
+
+    <!-- Simultaneous Multi-Touch Quiz Dock -->
+    <div class="quiz-dock teams-4" id="quizDock">
+      <!-- 2-4 Team Quiz Stations rendered dynamically -->
+    </div>
+  </section>
+
+  <!-- ════════════════ SCREEN 3: PODIUM & RESULTS ════════════════ -->
+  <section class="screen" id="results-screen">
+    <div class="results-card">
+      <div>
+        <h1 class="results-title" id="resultsTitle">🏆 GALAXY DEFENDED!</h1>
+        <p class="results-subtitle" id="resultsSubtitle">Misi berhasil dituntaskan dengan gemilang</p>
+      </div>
+
+      <div class="podium-grid" id="podiumGrid">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <button type="button" class="play-again-btn" id="btnPlayAgain">
+        🔄 MAIN LAGI
+      </button>
+    </div>
+  </section>
+
+  <!-- ════════════════ JAVASCRIPT GAME ENGINE ════════════════ -->
+  <script>
+    /* ============================================================
+       1. QUESTION BANK (95+ SOAL INFORMATIKA SMP KURIKULUM MERDEKA)
+       ============================================================ */
+    const QUESTIONS_BANK = [
+      // ── BERPIKIR KOMPUTASIONAL ──
+      { question: "Apa langkah pertama dalam penyelesaian masalah secara komputasional?", options: ["Menulis kode program", "Dekomposisi masalah", "Membuat flowchart", "Menguji program"], answer: 1, topic: "Berpikir Komputasional" },
+      { question: "Teknik memecah masalah kompleks menjadi bagian-bagian kecil yang lebih mudah dikelola disebut?", options: ["Abstraksi", "Dekomposisi", "Pengenalan Pola", "Algoritma"], answer: 1, topic: "Berpikir Komputasional" },
+      { question: "Apa yang dimaksud dengan 'abstraksi' dalam berpikir komputasional?", options: ["Fokus pada informasi penting dan mengabaikan detail yang tidak relevan", "Membuat kode program menjadi lebih rumit", "Menggabungkan semua data menjadi satu", "Menghapus seluruh file dari komputer"], answer: 0, topic: "Berpikir Komputasional" },
+      { question: "Proses mencari kesamaan atau keteraturan dalam suatu permasalahan disebut?", options: ["Dekomposisi", "Abstraksi", "Pengenalan Pola", "Debugging"], answer: 2, topic: "Berpikir Komputasional" },
+      { question: "Urutan langkah-langkah logis dan sistematis untuk menyelesaikan masalah disebut?", options: ["Algoritma", "Variabel", "Hardware", "Database"], answer: 0, topic: "Berpikir Komputasional" },
+      { question: "Mengurutkan data dari nilai terkecil ke terbesar dalam algoritma disebut?", options: ["Ascending", "Descending", "Searching", "Filtering"], answer: 0, topic: "Berpikir Komputasional" },
+      { question: "Algoritma pencarian yang memeriksa elemen satu per satu dari awal hingga akhir adalah?", options: ["Binary Search", "Linear Search", "Bubble Sort", "Quick Sort"], answer: 1, topic: "Berpikir Komputasional" },
+      { question: "Manakah di bawah ini yang MERUPAKAN 4 pilar utama Berpikir Komputasional?", options: ["Dekomposisi, Pengenalan Pola, Abstraksi, Algoritma", "Input, Output, Process, Storage", "Hardware, Software, Brainware, Network", "Word, Excel, PowerPoint, Access"], answer: 0, topic: "Berpikir Komputasional" },
+      { question: "Struktur data yang beroperasi dengan prinsip LIFO (Last In, First Out) seperti tumpukan piring adalah?", options: ["Queue (Antrean)", "Stack (Tumpukan)", "Array", "Tree"], answer: 1, topic: "Berpikir Komputasional" },
+      { question: "Struktur data antrean tiket di mana data pertama masuk akan pertama dilayani (FIFO) adalah?", options: ["Stack", "Queue", "Graph", "Binary Tree"], answer: 1, topic: "Berpikir Komputasional" },
+      { question: "Berapakah nilai desimal dari bilangan biner 1010?", options: ["8", "10", "12", "14"], answer: 1, topic: "Berpikir Komputasional" },
+      { question: "Berapakah nilai desimal dari bilangan biner 1111?", options: ["12", "14", "15", "16"], answer: 2, topic: "Berpikir Komputasional" },
+      { question: "Operasi logika yang HANYA bernilai BENAR jika kedua kondisi yang diuji sama-sama bernilai benar adalah?", options: ["Gerbang OR", "Gerbang AND", "Gerbang NOT", "Gerbang XOR"], answer: 1, topic: "Berpikir Komputasional" },
+      { question: "Operasi logika yang menghasilkan nilai BENAR jika salah satu atau kedua input bernilai benar adalah?", options: ["Gerbang OR", "Gerbang AND", "Gerbang NOT", "Gerbang NAND"], answer: 0, topic: "Berpikir Komputasional" },
+      { question: "Algoritma pengurutan yang menukar dua data bersebelahan jika urutannya belum sesuai secara berulang disebut?", options: ["Bubble Sort", "Linear Search", "Binary Search", "Hash Map"], answer: 0, topic: "Berpikir Komputasional" },
+      { question: "Syarat mutlak agar algoritma pencarian biner (Binary Search) dapat berjalan dengan sukses adalah?", options: ["Data harus berukuran sangat kecil", "Data harus sudah terurut terlebih dahulu", "Semua data harus bertipe angka genap", "Data harus disimpan di cloud"], answer: 1, topic: "Berpikir Komputasional" },
+
+      // ── APLIKASI PERKANTORAN & DOKUMEN DIGITAL ──
+      { question: "Shortcut keyboard di Microsoft Word untuk menyalin (copy) teks yang dipilih adalah?", options: ["Ctrl + V", "Ctrl + C", "Ctrl + X", "Ctrl + Z"], answer: 1, topic: "Aplikasi Perkantoran" },
+      { question: "Fungsi dari shortcut Ctrl + Z pada Microsoft Word adalah?", options: ["Mencetak dokumen", "Membatalkan perintah terakhir (Undo)", "Menyimpan dokumen", "Membuat teks tebal"], answer: 1, topic: "Aplikasi Perkantoran" },
+      { question: "Fitur di Microsoft Word untuk membuat surat masal dengan penerima berbeda dinamakan?", options: ["Mail Merge", "Table of Contents", "Track Changes", "WordArt"], answer: 0, topic: "Aplikasi Perkantoran" },
+      { question: "Untuk membuat Daftar Isi otomatis di Microsoft Word, kita menggunakan gaya penulisan (style)?", options: ["Normal & Spacing", "Heading 1, Heading 2, dst.", "Title & Subtitle", "Header & Footer"], answer: 1, topic: "Aplikasi Perkantoran" },
+      { question: "Orientasi kertas horizontal (melebar ke samping) di dokumen perkantoran disebut?", options: ["Portrait", "Landscape", "Margins", "Columns"], answer: 1, topic: "Aplikasi Perkantoran" },
+      { question: "Fitur yang digunakan untuk menyisipkan catatan di bagian bawah setiap halaman dokumen adalah?", options: ["Header", "Footer", "Watermark", "Page Break"], answer: 1, topic: "Aplikasi Perkantoran" },
+      { question: "Shortcut untuk menyimpan dokumen secara cepat adalah?", options: ["Ctrl + S", "Ctrl + P", "Ctrl + N", "Ctrl + O"], answer: 0, topic: "Aplikasi Perkantoran" },
+      { question: "Shortcut Ctrl + H pada program pengolah kata berfungsi untuk?", options: ["Mencari teks (Find)", "Mengganti teks (Find and Replace)", "Membuka dokumen baru", "Menyorot teks"], answer: 1, topic: "Aplikasi Perkantoran" },
+      { question: "Shortcut untuk mengulang kembali tindakan yang baru saja dibatalkan (Redo) adalah?", options: ["Ctrl + Z", "Ctrl + Y", "Ctrl + R", "Ctrl + U"], answer: 1, topic: "Aplikasi Perkantoran" },
+      { question: "Shortcut keyboard untuk memotong (cut) teks terpilih agar bisa dipindahkan adalah?", options: ["Ctrl + C", "Ctrl + X", "Ctrl + P", "Ctrl + D"], answer: 1, topic: "Aplikasi Perkantoran" },
+      { question: "Shortcut untuk membuat perataan teks rata tengah (Center align) adalah?", options: ["Ctrl + L", "Ctrl + R", "Ctrl + E", "Ctrl + J"], answer: 2, topic: "Aplikasi Perkantoran" },
+      { question: "Shortcut untuk membuat perataan teks rata kanan dan kiri sekaligus (Justify) adalah?", options: ["Ctrl + J", "Ctrl + K", "Ctrl + L", "Ctrl + M"], answer: 0, topic: "Aplikasi Perkantoran" },
+      { question: "Pada Microsoft Excel, rumus standar yang digunakan untuk menjumlahkan sekumpulan angka adalah?", options: ["=TOTAL()", "=SUM()", "=COUNT()", "=ADD()"], answer: 1, topic: "Aplikasi Perkantoran" },
+      { question: "Rumus di Microsoft Excel yang digunakan untuk mencari nilai rata-rata dari sekelompok data adalah?", options: ["=MEAN()", "=AVERAGE()", "=MEDIAN()", "=SUM()"], answer: 1, topic: "Aplikasi Perkantoran" },
+      { question: "Simbol yang digunakan untuk mengunci baris atau kolom (sel absolut) di Excel agar tidak bergeser adalah?", options: ["Tanda pagar (#)", "Tanda dollar ($)", "Tanda persen (%)", "Tanda bintang (*)"], answer: 1, topic: "Aplikasi Perkantoran" },
+      { question: "Efek animasi visual saat berpindah dari satu slide ke slide berikutnya di PowerPoint dinamakan?", options: ["Animation", "Transition", "Slide Design", "Presentation View"], answer: 1, topic: "Aplikasi Perkantoran" },
+
+      // ── GOOGLE SERVICES & CLOUD ──
+      { question: "Layanan penyimpanan awan (cloud storage) buatan Google yang menyediakan kapasitas gratis 15GB dinamakan?", options: ["Google Docs", "Google Drive", "Google Classroom", "Google Meet"], answer: 1, topic: "Cloud Services" },
+      { question: "Aplikasi berbasis web dari Google yang berfungsi untuk mengedit dokumen teks bersama secara real-time adalah?", options: ["Google Sheets", "Google Slides", "Google Docs", "Google Forms"], answer: 2, topic: "Cloud Services" },
+      { question: "Operator pencarian Google untuk mencari format file tertentu (misal PDF) adalah?", options: ["filetype:pdf", "search:pdf", "doc:pdf", "ext:pdf"], answer: 0, topic: "Cloud Services" },
+      { question: "Untuk mencari frasa kata yang persis sama di Google Search, kita menggunakan tanda?", options: ["Tanda kurung ( )", "Tanda petik ganda \" \"", "Tanda pagar #", "Tanda bintang *"], answer: 1, topic: "Cloud Services" },
+      { question: "Layanan Google yang digunakan untuk membuat formulir survei atau kuis online adalah?", options: ["Google Keep", "Google Forms", "Google Sites", "Google Translate"], answer: 1, topic: "Cloud Services" },
+      { question: "Izin akses file di Google Drive yang hanya memperbolehkan orang membaca tanpa bisa mengedit adalah?", options: ["Editor", "Commenter", "Viewer (Pelihat)", "Owner"], answer: 2, topic: "Cloud Services" },
+      { question: "Operator pencarian Google untuk menyaring hasil pencarian hanya dari situs web pemerintah Indonesia adalah?", options: ["domain:gov", "site:go.id", "filter:pemerintah", "url:indonesia"], answer: 1, topic: "Cloud Services" },
+      { question: "Fungsi dari tanda minus (-) di depan kata pencarian pada Google Search adalah?", options: ["Mencari rumus matematika", "Mengecualikan kata tersebut dari hasil pencarian", "Mencari kata negatif", "Mempercepat unduhan"], answer: 1, topic: "Cloud Services" },
+      { question: "Platform Google yang dirancang khusus untuk mendistribusikan materi, tugas, dan nilai di sekolah adalah?", options: ["Google Classroom", "Google Play Store", "Google Earth", "Google Maps"], answer: 0, topic: "Cloud Services" },
+
+      // ── INTERNET & JARINGAN KOMPUTER ──
+      { question: "Jaringan komputer global yang menghubungkan miliaran perangkat di seluruh dunia disebut?", options: ["LAN", "Intranet", "Internet", "Ethernet"], answer: 2, topic: "Jaringan & Internet" },
+      { question: "Aplikasi yang digunakan untuk membuka halaman web di internet (Chrome, Edge, Firefox) disebut?", options: ["Web Browser", "Search Engine", "Web Server", "Operating System"], answer: 0, topic: "Jaringan & Internet" },
+      { question: "Alamat unik berupa nomor yang mengidentifikasi setiap perangkat di jaringan internet dinamakan?", options: ["MAC Address", "IP Address", "URL", "DNS"], answer: 1, topic: "Jaringan & Internet" },
+      { question: "Simbol gembok pada alamat HTTPS di web browser menandakan bahwa halaman web tersebut?", options: ["Terkunci dan tidak bisa dibuka", "Aman karena komunikasi data dienkripsi", "Memiliki virus berbahaya", "Bebas dari kuota internet"], answer: 1, topic: "Jaringan & Internet" },
+      { question: "Kejahatan siber yang memancing korban untuk memberikan password melalui web palsu disebut?", options: ["Phishing", "Hacking", "Spamming", "Browsing"], answer: 0, topic: "Jaringan & Internet" },
+      { question: "Perangkat yang berfungsi menghubungkan jaringan lokal dengan jaringan internet adalah?", options: ["Modem / Router", "Monitor", "Printer", "Soundcard"], answer: 0, topic: "Jaringan & Internet" },
+      { question: "Jejak aktivitas digital yang kita tinggalkan saat berselancar di internet dinamakan?", options: ["Digital Footprint (Jejak Digital)", "Digital Memory", "Internet Cache", "History Cookies"], answer: 0, topic: "Jaringan & Internet" },
+      { question: "Satuan untuk mengukur kecepatan transfer data di jaringan internet adalah?", options: ["Mbps (Megabits per second)", "GHz (Gigahertz)", "RPM", "Pixel"], answer: 0, topic: "Jaringan & Internet" },
+      { question: "Kepanjangan dari singkatan LAN dalam jaringan komputer adalah?", options: ["Local Area Network", "Large Area Network", "Link Access Network", "Logical Array Node"], answer: 0, topic: "Jaringan & Internet" },
+      { question: "Topologi jaringan di mana semua komputer klien dihubungkan ke satu konsentrator pusat (Switch) adalah?", options: ["Topologi Bus", "Topologi Star", "Topologi Ring", "Topologi Mesh"], answer: 1, topic: "Jaringan & Internet" },
+      { question: "Sistem di internet yang menerjemahkan nama domain (seperti google.com) menjadi alamat IP angka adalah?", options: ["DHCP", "DNS (Domain Name System)", "FTP", "HTTP"], answer: 1, topic: "Jaringan & Internet" },
+      { question: "Jenis kabel jaringan dengan konektor RJ-45 yang paling umum dipasang di lab komputer sekolah adalah?", options: ["Kabel UTP / Twisted Pair", "Kabel Coaxial", "Kabel Fiber Optic", "Kabel Telepon"], answer: 0, topic: "Jaringan & Internet" },
+      { question: "Jenis malware berbahaya yang mengunci dan mengenkripsi seluruh file komputer lalu memeras tebusan adalah?", options: ["Adware", "Ransomware", "Spyware", "Spam"], answer: 1, topic: "Jaringan & Internet" },
+      { question: "Lapisan keamanan ganda yang mewajibkan kode verifikasi OTP lewat ponsel setelah kata sandi dinamakan?", options: ["Two-Factor Authentication (2FA)", "Single Sign-On (SSO)", "Data Backup", "Firewall Filtering"], answer: 0, topic: "Jaringan & Internet" },
+
+      // ── DAMPAK SOSIAL INFORMATIKA & ETIKA AI ──
+      { question: "Apa kepanjangan dari AI dalam dunia teknologi informasi?", options: ["Artificial Intelligence (Kecerdasan Buatan)", "Automated Internet", "Advanced Interface", "Algorithm Integration"], answer: 0, topic: "Etika AI & Keamanan" },
+      { question: "Contoh aplikasi kecerdasan buatan berbasis Generative AI pembuat teks dan percakapan adalah?", options: ["ChatGPT / Google Gemini", "Windows Media Player", "Microsoft Paint", "Calculator"], answer: 0, topic: "Etika AI & Keamanan" },
+      { question: "Tindakan menyalin hasil tulisan buatan AI dan mengklaimnya sebagai karya murni milik sendiri dinamakan?", options: ["Plagiarisme", "Abstraksi", "Inovasi", "Kolaborasi"], answer: 0, topic: "Etika AI & Keamanan" },
+      { question: "Mengapa kita TIDAK boleh langsung mempercayai 100% jawaban AI tanpa memeriksa ulang?", options: ["AI kadang mengalami 'halusinasi' atau memberikan info rekayasa yang keliru", "AI sengaja menipu manusia", "AI hanya aktif saat malam", "AI tidak punya listrik"], answer: 0, topic: "Etika AI & Keamanan" },
+      { question: "Teknologi rekayasa kecerdasan buatan untuk membuat video atau foto manipulasi tiruan wajah orang disebut?", options: ["Deepfake", "Deep Learning", "Firewall", "Biometrik"], answer: 0, topic: "Etika AI & Keamanan" },
+      { question: "Manakah cara yang etis bagi siswa dalam memanfaatkan AI untuk tugas sekolah?", options: ["Sebagai asisten untuk curah pendapat (brainstorming) dan pemahaman konsep", "Menyuruh AI membuat seluruh tugas tanpa dibaca", "Memasukkan data pribadi teman ke AI", "Membuat cerita bohong di media sosial"], answer: 0, topic: "Etika AI & Keamanan" },
+      { question: "Bahaya memasukkan informasi pribadi sensitif ke dalam model AI publik adalah?", options: ["Data dapat tersimpan dan digunakan dalam pelatihan model AI secara luas", "Komputer langsung terbakar", "Akun akan langsung terblokir", "Nilai rapor berkurang otomatis"], answer: 0, topic: "Etika AI & Keamanan" },
+      { question: "Instruksi terarah yang diberikan pengguna kepada model AI agar menghasilkan jawaban yang tepat disebut?", options: ["Prompt", "Compiler", "Token", "Script"], answer: 0, topic: "Etika AI & Keamanan" },
+      { question: "Tindakan intimidasi, pelecehan, atau penghinaan terhadap orang lain melalui media digital dinamakan?", options: ["Cyberbullying", "Cybercrime", "Phishing", "Spamming"], answer: 0, topic: "Etika AI & Keamanan" },
+      { question: "Undang-Undang di Indonesia yang secara khusus mengatur tentang perlindungan rahasia data pribadi warga adalah?", options: ["UU Sisdiknas", "UU Pelindungan Data Pribadi (UU PDP)", "UU Ketenagakerjaan", "UU Hak Cipta"], answer: 1, topic: "Etika AI & Keamanan" },
+
+      // ── PEMROGRAMAN VISUAL & SCRATCH ──
+      { question: "Objek interaktif yang dapat diberi perintah kode gerak dan suara pada aplikasi Scratch dinamakan?", options: ["Sprite", "Stage", "Costume", "Backdrop"], answer: 0, topic: "Pemrograman Visual" },
+      { question: "Blok kontrol pada Scratch yang digunakan untuk mengulang sekumpulan perintah sebanyak angka tertentu adalah?", options: ["Blok Forever", "Blok Repeat (Ulangi)", "Blok Wait", "Blok If-Then"], answer: 1, topic: "Pemrograman Visual" },
+      { question: "Struktur kendali logika program yang mengambil keputusan berdasarkan syarat tertentu dinamakan?", options: ["Percabangan (If - Else)", "Perulangan (Looping)", "Variabel", "Operator"], answer: 0, topic: "Pemrograman Visual" },
+      { question: "Tempat penampungan di komputer untuk menyimpan nilai data yang bisa berubah selama program berjalan adalah?", options: ["Variabel", "Konstanta", "Operator", "Sprite"], answer: 0, topic: "Pemrograman Visual" },
+      { question: "Blok Events di Scratch yang menjadi pemicu utama saat bendera hijau diklik adalah?", options: ["When Green Flag Clicked", "Stop All", "Say Hello", "Change X by 10"], answer: 0, topic: "Pemrograman Visual" },
+      { question: "Aktivitas melacak, mencari, dan memperbaiki kesalahan bug pada kode program dinamakan?", options: ["Compiling", "Debugging", "Running", "Coding"], answer: 1, topic: "Pemrograman Visual" },
+      { question: "Tipe data dalam pemrograman komputer yang hanya memiliki nilai True atau False adalah?", options: ["Integer", "String", "Boolean", "Float"], answer: 2, topic: "Pemrograman Visual" },
+      { question: "Blok perulangan di Scratch yang menjalankan instruksi secara terus-menerus tanpa henti adalah?", options: ["Repeat 10", "Forever", "Repeat Until", "Wait 1 secs"], answer: 1, topic: "Pemrograman Visual" },
+
+      // ── SISTEM KOMPUTER & TEKNOLOGI IFP ──
+      { question: "Komponen utama komputer yang bertindak sebagai otak pengolah semua instruksi perhitungan dinamakan?", options: ["CPU (Central Processing Unit)", "Harddisk", "RAM", "Power Supply"], answer: 0, topic: "Sistem Komputer" },
+      { question: "Memori komputer yang bersifat volatile (data hilang ketika listrik padam) adalah?", options: ["ROM", "RAM", "Flashdisk", "SSD"], answer: 1, topic: "Sistem Komputer" },
+      { question: "Keunggulan utama layar IFP (Interactive Flat Panel) dibanding proyektor konvensional di kelas adalah?", options: ["Layar sentuh resolusi 4K dengan kecerahan tinggi tanpa terhalang bayangan tubuh", "Tidak memakai listrik", "Lebih murah dari spidol", "Hanya bisa putar kartun"], answer: 0, topic: "Teknologi IFP" },
+      { question: "Fitur layar IFP yang memungkinkan banyak siswa menyentuh layar secara serentak untuk menjawab kuis bersama adalah?", options: ["Multi-Touch (Multi-Sentuhan)", "Single Touch", "Screen Saver", "Bluetooth Tethering"], answer: 0, topic: "Teknologi IFP" },
+      { question: "Fitur nirkabel pada IFP untuk menampilkan layar laptop guru ke layar besar tanpa kabel HDMI adalah?", options: ["Screen Mirroring / Wireless Casting", "USB Tethering", "Hard Reset", "Audio Jack"], answer: 0, topic: "Teknologi IFP" },
+      { question: "Metode pembelajaran yang menerapkan mekanika game (skor, level, tantangan kompetisi) ke dalam materi sekolah disebut?", options: ["Gamifikasi (Gamification)", "Simulasi Militer", "E-Commerce", "Virtualisasi"], answer: 0, topic: "Teknologi IFP" }
+    ];
+
+    /* ============================================================
+       2. PROCEDURAL SOUND SYNTHESIZER (WEB AUDIO API)
+       ============================================================ */
+    class CosmicAudio {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      _init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playLaser(colorIdx = 0) {
+        if (!this.enabled) return;
+        this._init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        // Vary pitch slightly by team
+        const baseFreq = 700 + (colorIdx * 150);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(baseFreq, now);
+        osc.frequency.exponentialRampToValueAtTime(120, now + 0.18);
+
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.18);
+      }
+
+      playTorpedo() {
+        if (!this.enabled) return;
+        this._init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(250, now);
+        osc.frequency.exponentialRampToValueAtTime(800, now + 0.1);
+        osc.frequency.exponentialRampToValueAtTime(80, now + 0.3);
+
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      }
+
+      playExplosion(isBoss = false) {
+        if (!this.enabled) return;
+        this._init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const duration = isBoss ? 0.8 : 0.4;
+
+        // Noise buffer simulation
+        const bufferSize = this.ctx.sampleRate * duration;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(isBoss ? 400 : 800, now);
+        filter.frequency.exponentialRampToValueAtTime(40, now + duration);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(isBoss ? 0.5 : 0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        noise.start(now);
+      }
+
+      playCorrect() {
+        if (!this.enabled) return;
+        this._init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C, E, G, C
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.12, now + idx * 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.2);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now + idx * 0.05);
+          osc.stop(now + idx * 0.05 + 0.2);
+        });
+      }
+
+      playWrong() {
+        if (!this.enabled) return;
+        this._init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.setValueAtTime(100, now + 0.1);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.25);
+      }
+
+      playSuperpower() {
+        if (!this.enabled) return;
+        this._init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(300, now);
+        osc.frequency.exponentialRampToValueAtTime(1200, now + 0.25);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      }
+
+      playShieldAlarm() {
+        if (!this.enabled) return;
+        this._init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.setValueAtTime(350, now + 0.15);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      }
+
+      playVictory() {
+        if (!this.enabled) return;
+        this._init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const melody = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+        melody.forEach((freq, i) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.25, now + i * 0.12);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.4);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now + i * 0.12);
+          osc.stop(now + i * 0.12 + 0.4);
+        });
+      }
+
+      playDefeat() {
+        if (!this.enabled) return;
+        this._init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const notes = [300, 260, 220, 180, 120];
+        notes.forEach((freq, i) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.2, now + i * 0.15);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.15 + 0.35);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now + i * 0.15);
+          osc.stop(now + i * 0.15 + 0.35);
+        });
+      }
+    }
+
+    /* ============================================================
+       3. SPACE COMBAT CANVAS RENDERER & SIMULATOR
+       ============================================================ */
+    class SpaceCombatEngine {
+      constructor(canvas, game) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.game = game;
+
+        this.width = 0;
+        this.height = 0;
+
+        // Visual Entities
+        this.stars = [];
+        this.enemies = [];
+        this.projectiles = [];
+        this.particles = [];
+        this.damageTexts = [];
+        this.empActive = false;
+        this.empEndTime = 0;
+        this.screenShake = 0;
+
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        this._initStarfield();
+      }
+
+      resize() {
+        const rect = this.canvas.parentElement.getBoundingClientRect();
+        this.width = rect.width;
+        this.height = rect.height;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+      }
+
+      _initStarfield() {
+        this.stars = [];
+        const count = 120;
+        for (let i = 0; i < count; i++) {
+          this.stars.push({
+            x: Math.random() * (this.width || 1200),
+            y: Math.random() * (this.height || 600),
+            size: Math.random() * 2 + 0.5,
+            speed: Math.random() * 0.8 + 0.2,
+            opacity: Math.random() * 0.7 + 0.3,
+            twinkleSpeed: Math.random() * 0.05 + 0.01
+          });
+        }
+      }
+
+      spawnEnemy(type, wave) {
+        // Types: 'drone', 'asteroid', 'cruiser', 'boss'
+        const margin = 60;
+        const x = margin + Math.random() * (this.width - margin * 2);
+        const y = -50;
+
+        let hp = 70;
+        let speed = 1.0;
+        let radius = 22;
+        let color = '#38bdf8';
+
+        if (type === 'asteroid') {
+          hp = 50 + Math.floor(Math.random() * 40);
+          speed = 0.85 + Math.random() * 0.4;
+          radius = 24;
+          color = '#94a3b8';
+        } else if (type === 'drone') {
+          hp = 80 + Math.floor(Math.random() * 60) + (wave * 15);
+          speed = 1.25 + (wave * 0.12);
+          radius = 20;
+          color = '#f43f5e';
+        } else if (type === 'cruiser') {
+          hp = 180 + Math.floor(Math.random() * 80) + (wave * 25);
+          speed = 0.75 + (wave * 0.06);
+          radius = 32;
+          color = '#a855f7';
+        } else if (type === 'boss') {
+          hp = 500 + (wave * 100);
+          speed = 0.45;
+          radius = 52;
+          color = '#fbbf24';
+        }
+
+        this.enemies.push({
+          type,
+          x,
+          y,
+          hp,
+          maxHp: hp,
+          speed,
+          radius,
+          color,
+          angle: 0,
+          rotSpeed: (Math.random() - 0.5) * 0.04,
+          isBoss: type === 'boss'
+        });
+      }
+
+      // Fire a weapon from a team's starfighter
+      fireSalvo(teamIdx, superpower) {
+        const teamColors = ['#ff3366', '#00d4ff', '#00ff88', '#ffbb00'];
+        const numTeams = this.game.teamCount;
+        const slotWidth = this.width / numTeams;
+        const shipX = slotWidth * teamIdx + (slotWidth / 2);
+        const shipY = this.height - 32;
+
+        // Target foremost enemy (closest to planetary shield / highest y)
+        let target = null;
+        let maxY = -999;
+        for (const en of this.enemies) {
+          if (en.y > maxY) {
+            maxY = en.y;
+            target = en;
+          }
+        }
+
+        const color = teamColors[teamIdx % teamColors.length];
+
+        // Superpower handling
+        if (superpower === 'emp') {
+          this.empActive = true;
+          this.empEndTime = Date.now() + 3000;
+          this.game.audio.playSuperpower();
+          this.addDamageText(this.width / 2, this.height / 2, '⚡ EMP STUN FIELD! (3s)', '#38bdf8', 1.5);
+          this.createShockwave(this.width / 2, this.height / 2, '#38bdf8');
+          // Damage all enemies slightly
+          this.enemies.forEach(en => {
+            this.applyDamageToEnemy(en, 35, teamIdx, color);
+          });
+          return;
+        }
+
+        if (superpower === 'nova') {
+          this.game.audio.playSuperpower();
+          this.addDamageText(this.width / 2, this.height / 2, '💥 NOVA STAR BURST!', '#fbbf24', 1.8);
+          this.screenShake = 16;
+          this.createShockwave(this.width / 2, this.height / 2, '#fbbf24');
+          this.enemies.forEach(en => {
+            this.applyDamageToEnemy(en, 100, teamIdx, color);
+          });
+          return;
+        }
+
+        // Standard targeted salvo
+        let damage = 50;
+        let projCount = 1;
+        let isCrit = false;
+
+        if (superpower === 'double') {
+          damage = 100;
+          projCount = 2;
+        } else if (superpower === 'triple') {
+          damage = 150;
+          projCount = 3;
+        } else if (superpower === 'crit') {
+          damage = 200;
+          isCrit = true;
+          this.screenShake = 10;
+        }
+
+        for (let i = 0; i < projCount; i++) {
+          const offset = (i - (projCount - 1) / 2) * 14;
+          this.projectiles.push({
+            x: shipX + offset,
+            y: shipY,
+            target,
+            color,
+            damage: Math.round(damage / projCount),
+            speed: 16,
+            isCrit,
+            teamIdx
+          });
+        }
+
+        this.game.audio.playLaser(teamIdx);
+      }
+
+      applyDamageToEnemy(en, damage, teamIdx, color) {
+        en.hp -= damage;
+        this.addDamageText(en.x, en.y, `-${damage}`, color, damage >= 100 ? 1.4 : 1.0);
+        this.createSparks(en.x, en.y, color, 8);
+        this.game.recordDamage(teamIdx, damage);
+
+        if (en.hp <= 0) {
+          this.destroyEnemy(en, teamIdx);
+        }
+      }
+
+      destroyEnemy(en, teamIdx) {
+        const idx = this.enemies.indexOf(en);
+        if (idx !== -1) {
+          this.enemies.splice(idx, 1);
+        }
+        this.game.recordKill(teamIdx, en.isBoss);
+        this.game.audio.playExplosion(en.isBoss);
+        this.createExplosion(en.x, en.y, en.color, en.isBoss ? 55 : 25);
+        if (en.isBoss) {
+          this.screenShake = 20;
+          this.addDamageText(en.x, en.y - 30, '☠ BOSS DEFEATED!', '#fbbf24', 1.6);
+        }
+      }
+
+      createExplosion(x, y, color, count = 25) {
+        for (let i = 0; i < count; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 6 + 1.5;
+          this.particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            radius: Math.random() * 3.5 + 1.5,
+            color,
+            alpha: 1,
+            decay: Math.random() * 0.03 + 0.015
+          });
+        }
+      }
+
+      createSparks(x, y, color, count = 8) {
+        for (let i = 0; i < count; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 4 + 1;
+          this.particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            radius: Math.random() * 2 + 1,
+            color,
+            alpha: 1,
+            decay: 0.05
+          });
+        }
+      }
+
+      createShockwave(x, y, color) {
+        this.particles.push({
+          x, y,
+          isShockwave: true,
+          radius: 10,
+          maxRadius: Math.max(this.width, this.height) * 0.75,
+          color,
+          alpha: 1,
+          decay: 0.02
+        });
+      }
+
+      addDamageText(x, y, text, color, scale = 1.0) {
+        this.damageTexts.push({
+          x, y,
+          text,
+          color,
+          scale,
+          alpha: 1,
+          vy: -1.6
+        });
+      }
+
+      update(dt) {
+        if (this.screenShake > 0) {
+          this.screenShake *= 0.9;
+          if (this.screenShake < 0.2) this.screenShake = 0;
+        }
+
+        // EMP status
+        if (this.empActive && Date.now() > this.empEndTime) {
+          this.empActive = false;
+        }
+
+        // Stars parallax scroll
+        this.stars.forEach(s => {
+          s.y += s.speed;
+          if (s.y > this.height) {
+            s.y = 0;
+            s.x = Math.random() * this.width;
+          }
+          s.opacity += (Math.random() - 0.5) * s.twinkleSpeed;
+          s.opacity = Math.max(0.2, Math.min(0.9, s.opacity));
+        });
+
+        // Enemies movement (unless EMP frozen)
+        const shieldLineY = this.height - 40;
+        for (let i = this.enemies.length - 1; i >= 0; i--) {
+          const en = this.enemies[i];
+          if (!this.empActive) {
+            en.y += en.speed;
+            en.angle += en.rotSpeed;
+          }
+
+          // Enemy touches planetary shield barrier
+          if (en.y + en.radius >= shieldLineY) {
+            const breachDmg = en.isBoss ? 250 : Math.round(en.hp * 0.8);
+            this.game.damageShield(breachDmg);
+            this.createExplosion(en.x, shieldLineY, '#ef4444', 30);
+            this.screenShake = 12;
+            this.game.audio.playShieldAlarm();
+            this.enemies.splice(i, 1);
+          }
+        }
+
+        // Projectiles movement & collision
+        for (let i = this.projectiles.length - 1; i >= 0; i--) {
+          const p = this.projectiles[i];
+
+          if (p.target && this.enemies.includes(p.target)) {
+            const dx = p.target.x - p.x;
+            const dy = p.target.y - p.y;
+            const dist = Math.hypot(dx, dy);
+
+            if (dist < p.speed + p.target.radius) {
+              // Hit target
+              this.applyDamageToEnemy(p.target, p.damage, p.teamIdx, p.color);
+              this.projectiles.splice(i, 1);
+              continue;
+            } else {
+              p.x += (dx / dist) * p.speed;
+              p.y += (dy / dist) * p.speed;
+            }
+          } else {
+            // Target dead or gone, fly straight up
+            p.y -= p.speed;
+            if (p.y < -20) {
+              this.projectiles.splice(i, 1);
+              continue;
+            }
+
+            // Check collision with any other enemy
+            for (const en of this.enemies) {
+              const dist = Math.hypot(en.x - p.x, en.y - p.y);
+              if (dist < en.radius + 6) {
+                this.applyDamageToEnemy(en, p.damage, p.teamIdx, p.color);
+                this.projectiles.splice(i, 1);
+                break;
+              }
+            }
+          }
+        }
+
+        // Particles
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+          const pt = this.particles[i];
+          if (pt.isShockwave) {
+            pt.radius += 12;
+            pt.alpha -= pt.decay;
+          } else {
+            pt.x += pt.vx;
+            pt.y += pt.vy;
+            pt.alpha -= pt.decay;
+          }
+          if (pt.alpha <= 0) {
+            this.particles.splice(i, 1);
+          }
+        }
+
+        // Floating Damage Texts
+        for (let i = this.damageTexts.length - 1; i >= 0; i--) {
+          const dt = this.damageTexts[i];
+          dt.y += dt.vy;
+          dt.alpha -= 0.02;
+          if (dt.alpha <= 0) {
+            this.damageTexts.splice(i, 1);
+          }
+        }
+      }
+
+      draw() {
+        this.ctx.save();
+
+        // Apply screen shake
+        if (this.screenShake > 0) {
+          const shakeX = (Math.random() - 0.5) * this.screenShake;
+          const shakeY = (Math.random() - 0.5) * this.screenShake;
+          this.ctx.translate(shakeX, shakeY);
+        }
+
+        // Clear background
+        this.ctx.clearRect(0, 0, this.width, this.height);
+
+        // Draw Stars
+        this.stars.forEach(s => {
+          this.ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
+          this.ctx.fillRect(s.x, s.y, s.size, s.size);
+        });
+
+        // Planetary Shield Barrier Line at bottom
+        const shieldY = this.height - 40;
+        const shieldGradient = this.ctx.createLinearGradient(0, shieldY - 10, 0, shieldY + 10);
+        shieldGradient.addColorStop(0, 'rgba(56, 189, 248, 0)');
+        shieldGradient.addColorStop(0.5, this.game.shieldHp < 300 ? 'rgba(239, 68, 68, 0.8)' : 'rgba(56, 189, 248, 0.8)');
+        shieldGradient.addColorStop(1, 'rgba(56, 189, 248, 0)');
+
+        this.ctx.fillStyle = shieldGradient;
+        this.ctx.fillRect(0, shieldY - 10, this.width, 20);
+
+        this.ctx.strokeStyle = this.game.shieldHp < 300 ? '#ef4444' : '#38bdf8';
+        this.ctx.lineWidth = 2;
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, shieldY);
+        this.ctx.lineTo(this.width, shieldY);
+        this.ctx.stroke();
+
+        // Draw Player Starfighter Cannons docked along defense line
+        const numTeams = this.game.teamCount;
+        const slotWidth = this.width / numTeams;
+        const teamColors = ['#ff3366', '#00d4ff', '#00ff88', '#ffbb00'];
+
+        for (let i = 0; i < numTeams; i++) {
+          const cx = slotWidth * i + (slotWidth / 2);
+          const cy = shieldY + 14;
+          const color = teamColors[i % teamColors.length];
+          this._drawPlayerShip(cx, cy, color, this.game.teamNames[i]);
+        }
+
+        // Draw Shockwaves
+        this.particles.filter(p => p.isShockwave).forEach(sw => {
+          this.ctx.save();
+          this.ctx.strokeStyle = sw.color;
+          this.ctx.globalAlpha = sw.alpha;
+          this.ctx.lineWidth = 4;
+          this.ctx.beginPath();
+          this.ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
+          this.ctx.stroke();
+          this.ctx.restore();
+        });
+
+        // Draw Enemies
+        this.enemies.forEach(en => {
+          this._drawEnemy(en);
+        });
+
+        // Draw Projectiles
+        this.projectiles.forEach(p => {
+          this.ctx.save();
+          this.ctx.fillStyle = p.color;
+          this.ctx.shadowColor = p.color;
+          this.ctx.shadowBlur = 12;
+          this.ctx.beginPath();
+          this.ctx.arc(p.x, p.y, p.isCrit ? 6 : 4, 0, Math.PI * 2);
+          this.ctx.fill();
+
+          // Tail
+          this.ctx.strokeStyle = p.color;
+          this.ctx.lineWidth = p.isCrit ? 4 : 2;
+          this.ctx.beginPath();
+          this.ctx.moveTo(p.x, p.y);
+          this.ctx.lineTo(p.x, p.y + 12);
+          this.ctx.stroke();
+          this.ctx.restore();
+        });
+
+        // Draw Particles
+        this.particles.filter(p => !p.isShockwave).forEach(pt => {
+          this.ctx.save();
+          this.ctx.fillStyle = pt.color;
+          this.ctx.globalAlpha = pt.alpha;
+          this.ctx.beginPath();
+          this.ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
+          this.ctx.fill();
+          this.ctx.restore();
+        });
+
+        // Draw Floating Damage Texts
+        this.damageTexts.forEach(dt => {
+          this.ctx.save();
+          this.ctx.font = `bold ${Math.round(15 * dt.scale)}px 'Orbitron', monospace`;
+          this.ctx.fillStyle = dt.color;
+          this.ctx.shadowColor = dt.color;
+          this.ctx.shadowBlur = 10;
+          this.ctx.globalAlpha = dt.alpha;
+          this.ctx.textAlign = 'center';
+          this.ctx.fillText(dt.text, dt.x, dt.y);
+          this.ctx.restore();
+        });
+
+        // EMP Overlay if active
+        if (this.empActive) {
+          this.ctx.fillStyle = 'rgba(56, 189, 248, 0.08)';
+          this.ctx.fillRect(0, 0, this.width, this.height);
+        }
+
+        this.ctx.restore();
+      }
+
+      _drawPlayerShip(cx, cy, color, name) {
+        this.ctx.save();
+        this.ctx.translate(cx, cy);
+
+        // Thruster glow
+        this.ctx.fillStyle = 'rgba(56, 189, 248, 0.6)';
+        this.ctx.shadowColor = color;
+        this.ctx.shadowBlur = 15;
+        this.ctx.beginPath();
+        this.ctx.arc(0, 10, 8, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // Ship hull
+        this.ctx.fillStyle = '#0f172a';
+        this.ctx.strokeStyle = color;
+        this.ctx.lineWidth = 2.5;
+
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, -22); // Nose
+        this.ctx.lineTo(16, 12); // Right wing
+        this.ctx.lineTo(6, 8);   // Right inner
+        this.ctx.lineTo(-6, 8);  // Left inner
+        this.ctx.lineTo(-16, 12);// Left wing
+        this.ctx.closePath();
+        this.ctx.fill();
+        this.ctx.stroke();
+
+        // Cockpit window
+        this.ctx.fillStyle = color;
+        this.ctx.beginPath();
+        this.ctx.ellipse(0, -6, 4, 8, 0, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // Cannon Barrels
+        this.ctx.strokeStyle = '#ffffff';
+        this.ctx.lineWidth = 1.5;
+        this.ctx.strokeRect(-12, -8, 2, 10);
+        this.ctx.strokeRect(10, -8, 2, 10);
+
+        // Team Label
+        this.ctx.font = "bold 10px 'Orbitron', sans-serif";
+        this.ctx.fillStyle = color;
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(name || 'STARFIGHTER', 0, 24);
+
+        this.ctx.restore();
+      }
+
+      _drawEnemy(en) {
+        this.ctx.save();
+        this.ctx.translate(en.x, en.y);
+
+        // EMP Stun indicator
+        if (this.empActive) {
+          this.ctx.strokeStyle = '#38bdf8';
+          this.ctx.lineWidth = 2;
+          this.ctx.beginPath();
+          this.ctx.arc(0, 0, en.radius + 6, 0, Math.PI * 2);
+          this.ctx.stroke();
+        }
+
+        // Draw by Type
+        if (en.type === 'asteroid') {
+          this.ctx.rotate(en.angle);
+          this.ctx.fillStyle = '#334155';
+          this.ctx.strokeStyle = '#64748b';
+          this.ctx.lineWidth = 2;
+          this.ctx.beginPath();
+          const sides = 7;
+          for (let i = 0; i < sides; i++) {
+            const a = (i / sides) * Math.PI * 2;
+            const r = en.radius * (0.8 + (i % 2) * 0.35);
+            const px = Math.cos(a) * r;
+            const py = Math.sin(a) * r;
+            if (i === 0) this.ctx.moveTo(px, py);
+            else this.ctx.lineTo(px, py);
+          }
+          this.ctx.closePath();
+          this.ctx.fill();
+          this.ctx.stroke();
+        } else if (en.type === 'drone') {
+          // Fast Scout Drone (V-shape)
+          this.ctx.fillStyle = '#1e1b4b';
+          this.ctx.strokeStyle = en.color;
+          this.ctx.lineWidth = 2;
+          this.ctx.beginPath();
+          this.ctx.moveTo(0, en.radius);
+          this.ctx.lineTo(en.radius * 0.9, -en.radius * 0.8);
+          this.ctx.lineTo(0, -en.radius * 0.4);
+          this.ctx.lineTo(-en.radius * 0.9, -en.radius * 0.8);
+          this.ctx.closePath();
+          this.ctx.fill();
+          this.ctx.stroke();
+
+          // Red glowing core
+          this.ctx.fillStyle = '#f43f5e';
+          this.ctx.beginPath();
+          this.ctx.arc(0, 0, 5, 0, Math.PI * 2);
+          this.ctx.fill();
+        } else if (en.type === 'cruiser') {
+          // Armored Cruiser with energy wings
+          this.ctx.fillStyle = '#170f2f';
+          this.ctx.strokeStyle = en.color;
+          this.ctx.lineWidth = 2.5;
+
+          // Main body
+          this.ctx.beginPath();
+          this.ctx.moveTo(0, en.radius * 1.1);
+          this.ctx.lineTo(en.radius * 0.8, -en.radius * 0.6);
+          this.ctx.lineTo(en.radius * 1.4, -en.radius * 0.2);
+          this.ctx.lineTo(en.radius * 0.6, -en.radius);
+          this.ctx.lineTo(-en.radius * 0.6, -en.radius);
+          this.ctx.lineTo(-en.radius * 1.4, -en.radius * 0.2);
+          this.ctx.lineTo(-en.radius * 0.8, -en.radius * 0.6);
+          this.ctx.closePath();
+          this.ctx.fill();
+          this.ctx.stroke();
+
+          // Purple core
+          this.ctx.fillStyle = '#c084fc';
+          this.ctx.beginPath();
+          this.ctx.arc(0, 0, 7, 0, Math.PI * 2);
+          this.ctx.fill();
+        } else if (en.type === 'boss') {
+          // Massive Alien Mothership Boss
+          this.ctx.shadowColor = '#fbbf24';
+          this.ctx.shadowBlur = 20;
+
+          this.ctx.fillStyle = '#1e102d';
+          this.ctx.strokeStyle = '#fbbf24';
+          this.ctx.lineWidth = 3.5;
+
+          this.ctx.beginPath();
+          this.ctx.arc(0, 0, en.radius, 0, Math.PI * 2);
+          this.ctx.fill();
+          this.ctx.stroke();
+
+          // Rotating tentacles / spikes
+          const spikes = 8;
+          for (let i = 0; i < spikes; i++) {
+            const a = en.angle + (i / spikes) * Math.PI * 2;
+            const sx = Math.cos(a) * (en.radius + 14);
+            const sy = Math.sin(a) * (en.radius + 14);
+            this.ctx.fillStyle = '#f59e0b';
+            this.ctx.beginPath();
+            this.ctx.arc(sx, sy, 5, 0, Math.PI * 2);
+            this.ctx.fill();
+          }
+
+          // Golden Crown Ring
+          this.ctx.strokeStyle = '#fef08a';
+          this.ctx.lineWidth = 2;
+          this.ctx.beginPath();
+          this.ctx.arc(0, 0, en.radius * 0.65, 0, Math.PI * 2);
+          this.ctx.stroke();
+
+          // Core Eye
+          this.ctx.fillStyle = '#ef4444';
+          this.ctx.beginPath();
+          this.ctx.arc(0, 0, 12, 0, Math.PI * 2);
+          this.ctx.fill();
+        }
+
+        // HP Bar & Tag above enemy
+        const hpPercent = Math.max(0, en.hp / en.maxHp);
+        const barWidth = Math.max(40, en.radius * 1.8);
+        const barHeight = 5;
+        const barY = -en.radius - 16;
+
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        this.ctx.fillRect(-barWidth / 2, barY, barWidth, barHeight);
+
+        this.ctx.fillStyle = hpPercent > 0.4 ? '#34d399' : '#ef4444';
+        this.ctx.fillRect(-barWidth / 2, barY, barWidth * hpPercent, barHeight);
+
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+        this.ctx.lineWidth = 1;
+        this.ctx.strokeRect(-barWidth / 2, barY, barWidth, barHeight);
+
+        // HP Number Tag
+        this.ctx.font = "bold 10px 'JetBrains Mono', monospace";
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(`${en.hp} HP`, 0, barY - 4);
+
+        this.ctx.restore();
+      }
+    }
+
+    /* ============================================================
+       4. QUIZ STATION MANAGER (SIMULTANEOUS 2-4 TEAMS)
+       ============================================================ */
+    class CosmicQuizStation {
+      constructor(container, game) {
+        this.container = container;
+        this.game = game;
+        this.teamStations = [];
+      }
+
+      init(numTeams, teamNames, timerSeconds) {
+        this.container.innerHTML = '';
+        this.container.className = `quiz-dock teams-${numTeams}`;
+        this.teamStations = [];
+
+        const defaultNames = ['TIM MERAH', 'TIM BIRU', 'TIM HIJAU', 'TIM KUNING'];
+        const avatars = ['🚀', '🛸', '🛰️', '🪐'];
+        const colors = ['#ff3366', '#00d4ff', '#00ff88', '#ffbb00'];
+
+        for (let i = 0; i < numTeams; i++) {
+          const name = (teamNames && teamNames[i]) || defaultNames[i];
+          const stationEl = document.createElement('div');
+          stationEl.className = `quiz-station p${i + 1}`;
+
+          stationEl.innerHTML = `
+            <div class="station-header">
+              <div class="station-team-info">
+                <span class="station-avatar">${avatars[i]}</span>
+                <span class="station-name" style="color: ${colors[i]};">${name}</span>
+              </div>
+              <div class="station-stats">
+                <span class="station-streak" id="streak-${i}">🔥 0x</span>
+                <span class="station-score" id="score-${i}" style="color: ${colors[i]};">0 PTS</span>
+              </div>
+            </div>
+            <div class="station-timer-track">
+              <div class="station-timer-bar" id="timerBar-${i}" style="width: 100%;"></div>
+            </div>
+            <div class="station-body">
+              <div class="station-topic-tag" id="topic-${i}">BERPIKIR KOMPUTASIONAL</div>
+              <div class="station-question" id="quest-${i}">Memuat pertanyaan...</div>
+              <div class="station-options-grid" id="optGrid-${i}"></div>
+            </div>
+          `;
+
+          this.container.appendChild(stationEl);
+
+          const stationData = {
+            idx: i,
+            el: stationEl,
+            name,
+            color: colors[i],
+            currentQuestion: null,
+            timerSeconds,
+            timeLeft: timerSeconds,
+            timerInterval: null,
+            answered: 0,
+            correct: 0,
+            streak: 0,
+            locked: false
+          };
+
+          this.teamStations.push(stationData);
+          this.loadNextQuestion(stationData);
+        }
+      }
+
+      loadNextQuestion(station) {
+        if (this.game.isGameOver) return;
+        station.locked = false;
+        station.timeLeft = station.timerSeconds;
+
+        // Pick random question from question bank
+        const qIndex = Math.floor(Math.random() * QUESTIONS_BANK.length);
+        station.currentQuestion = QUESTIONS_BANK[qIndex];
+
+        // Update DOM
+        const topicEl = document.getElementById(`topic-${station.idx}`);
+        const questEl = document.getElementById(`quest-${station.idx}`);
+        const optGrid = document.getElementById(`optGrid-${station.idx}`);
+        const timerBar = document.getElementById(`timerBar-${station.idx}`);
+
+        if (topicEl) topicEl.textContent = station.currentQuestion.topic || 'INFORMATIKA SMP';
+        if (questEl) questEl.textContent = station.currentQuestion.question;
+
+        if (timerBar) {
+          timerBar.style.width = '100%';
+          timerBar.style.backgroundColor = '#38bdf8';
+        }
+
+        if (optGrid) {
+          optGrid.innerHTML = '';
+          const letters = ['A', 'B', 'C', 'D'];
+          station.currentQuestion.options.forEach((optText, optIdx) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'station-opt-btn';
+            btn.innerHTML = `<span class="opt-letter">${letters[optIdx]}</span> ${optText}`;
+
+            // Attach touch / click listener
+            const handleAnswer = (e) => {
+              e.preventDefault();
+              if (station.locked || this.game.isGameOver) return;
+              this.submitAnswer(station, optIdx, btn);
+            };
+
+            btn.addEventListener('touchstart', handleAnswer, { passive: false });
+            btn.addEventListener('click', handleAnswer);
+
+            optGrid.appendChild(btn);
+          });
+        }
+
+        // Start station timer
+        this._startTimer(station);
+      }
+
+      _startTimer(station) {
+        if (station.timerInterval) clearInterval(station.timerInterval);
+
+        station.timerInterval = setInterval(() => {
+          if (this.game.isGameOver) {
+            clearInterval(station.timerInterval);
+            return;
+          }
+
+          station.timeLeft -= 0.1;
+          const pct = Math.max(0, (station.timeLeft / station.timerSeconds) * 100);
+          const timerBar = document.getElementById(`timerBar-${station.idx}`);
+          if (timerBar) {
+            timerBar.style.width = `${pct}%`;
+            if (pct < 30) timerBar.style.backgroundColor = '#ef4444';
+            else if (pct < 60) timerBar.style.backgroundColor = '#fbbf24';
+          }
+
+          if (station.timeLeft <= 0) {
+            clearInterval(station.timerInterval);
+            this.handleTimeout(station);
+          }
+        }, 100);
+      }
+
+      submitAnswer(station, selectedIdx, btn) {
+        station.locked = true;
+        if (station.timerInterval) clearInterval(station.timerInterval);
+
+        station.answered++;
+        const isCorrect = selectedIdx === station.currentQuestion.answer;
+
+        if (isCorrect) {
+          station.correct++;
+          station.streak++;
+          btn.classList.add('correct');
+          station.el.classList.add('flash-correct');
+          setTimeout(() => station.el.classList.remove('flash-correct'), 600);
+
+          this.game.audio.playCorrect();
+
+          // Calculate superpower bonus
+          let superpower = 'normal';
+          const timeUsed = station.timerSeconds - station.timeLeft;
+
+          if (timeUsed < 3.0) {
+            superpower = 'crit'; // Super fast answer
+          } else if (station.streak >= 4) {
+            superpower = Math.random() < 0.5 ? 'nova' : 'emp';
+          } else if (station.streak >= 2) {
+            superpower = 'triple';
+          } else if (Math.random() < 0.25) {
+            superpower = 'double';
+          }
+
+          // Trigger Starfighter laser / salvo
+          this.game.combat.fireSalvo(station.idx, superpower);
+
+          // Update streak & score HUD
+          const streakEl = document.getElementById(`streak-${station.idx}`);
+          if (streakEl) streakEl.textContent = `🔥 ${station.streak}x`;
+        } else {
+          station.streak = 0;
+          btn.classList.add('wrong');
+          station.el.classList.add('flash-wrong');
+          setTimeout(() => station.el.classList.remove('flash-wrong'), 600);
+
+          this.game.audio.playWrong();
+
+          const streakEl = document.getElementById(`streak-${station.idx}`);
+          if (streakEl) streakEl.textContent = `🔥 0x`;
+        }
+
+        // Delay then load next question
+        setTimeout(() => {
+          this.loadNextQuestion(station);
+        }, 800);
+      }
+
+      handleTimeout(station) {
+        station.locked = true;
+        station.streak = 0;
+        station.answered++;
+
+        station.el.classList.add('flash-wrong');
+        setTimeout(() => station.el.classList.remove('flash-wrong'), 600);
+        this.game.audio.playWrong();
+
+        const streakEl = document.getElementById(`streak-${station.idx}`);
+        if (streakEl) streakEl.textContent = `🔥 0x`;
+
+        setTimeout(() => {
+          this.loadNextQuestion(station);
+        }, 800);
+      }
+
+      updateScoreDOM(teamIdx, score) {
+        const scoreEl = document.getElementById(`score-${teamIdx}`);
+        if (scoreEl) scoreEl.textContent = `${score} PTS`;
+      }
+
+      stopAll() {
+        this.teamStations.forEach(s => {
+          if (s.timerInterval) clearInterval(s.timerInterval);
+          s.locked = true;
+        });
+      }
+    }
+
+    /* ============================================================
+       5. MAIN GAME CONTROLLER (COSMIC DEFENDER)
+       ============================================================ */
+    class CosmicDefenderGame {
+      constructor() {
+        this.teamCount = 4;
+        this.difficulty = 'normal'; // easy, normal, hard
+        this.teamNames = ['TIM MERAH', 'TIM BIRU', 'TIM HIJAU', 'TIM KUNING'];
+
+        // Stats per team
+        this.teamScores = [0, 0, 0, 0];
+        this.teamDamage = [0, 0, 0, 0];
+        this.teamKills = [0, 0, 0, 0];
+        this.teamBossKills = [0, 0, 0, 0];
+
+        // Waves & Game State
+        this.currentWave = 1;
+        this.maxWave = 5;
+        this.shieldHp = 1000;
+        this.maxShieldHp = 1000;
+        this.isGameOver = false;
+
+        this.waveConfig = null;
+        this.spawnTimer = null;
+        this.enemiesLeftToSpawn = 0;
+
+        // Subsystems
+        this.audio = new CosmicAudio();
+        this.combat = new SpaceCombatEngine(document.getElementById('combatCanvas'), this);
+        this.quiz = new CosmicQuizStation(document.getElementById('quizDock'), this);
+
+        this.animFrameId = null;
+        this.lastTime = 0;
+
+        this._bindDOMEvents();
+        this._renderTeamInputs();
+      }
+
+      _bindDOMEvents() {
+        // Team selector buttons
+        document.querySelectorAll('.select-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.select-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            this.teamCount = parseInt(btn.getAttribute('data-teams'), 10);
+            this._renderTeamInputs();
+          });
+        });
+
+        // Difficulty selector buttons
+        document.querySelectorAll('.diff-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            this.difficulty = btn.getAttribute('data-mode');
+          });
+        });
+
+        // Start button
+        document.getElementById('btnStartGame').addEventListener('click', () => {
+          this.startGame();
+        });
+
+        // Play Again button
+        document.getElementById('btnPlayAgain').addEventListener('click', () => {
+          this.showScreen('setup-screen');
+        });
+
+        // Audio toggle
+        document.getElementById('btnToggleAudio').addEventListener('click', () => {
+          this.audio.enabled = !this.audio.enabled;
+          document.getElementById('btnToggleAudio').textContent = this.audio.enabled ? '🔊' : '🔇';
+        });
+
+        // Fullscreen toggle
+        document.getElementById('btnToggleFullscreen').addEventListener('click', () => {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          } else {
+            document.exitFullscreen().catch(() => {});
+          }
+        });
+      }
+
+      _renderTeamInputs() {
+        const container = document.getElementById('teamInputsContainer');
+        container.innerHTML = '';
+        const defaultNames = ['Crimson Vanguard', 'Cobalt Striker', 'Emerald Phoenix', 'Solar Falcon'];
+        const colors = ['#ff3366', '#00d4ff', '#00ff88', '#ffbb00'];
+
+        for (let i = 0; i < this.teamCount; i++) {
+          const card = document.createElement('div');
+          card.className = 'team-input-card';
+          card.style.borderColor = colors[i];
+
+          card.innerHTML = `
+            <span class="team-color-indicator" style="background:${colors[i]};"></span>
+            <input type="text" id="inputTeam-${i}" value="${this.teamNames[i] || defaultNames[i]}" maxlength="16" placeholder="Nama Tim ${i + 1}">
+          `;
+          container.appendChild(card);
+        }
+      }
+
+      _readTeamInputs() {
+        this.teamNames = [];
+        for (let i = 0; i < this.teamCount; i++) {
+          const input = document.getElementById(`inputTeam-${i}`);
+          this.teamNames.push(input && input.value.trim() ? input.value.trim() : `Tim ${i + 1}`);
+        }
+      }
+
+      showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const screen = document.getElementById(screenId);
+        if (screen) screen.classList.add('active');
+      }
+
+      _applyDifficultySettings() {
+        if (this.difficulty === 'easy') {
+          this.maxShieldHp = 800;
+          this.questionTimer = 25;
+          this.waveDefs = [
+            { count: 8, delay: 2400, types: ['asteroid'] },
+            { count: 12, delay: 2100, types: ['asteroid', 'drone'] },
+            { count: 16, delay: 1800, types: ['drone', 'asteroid'] },
+            { count: 20, delay: 1500, types: ['drone', 'cruiser'] },
+            { count: 26, delay: 1200, types: ['drone', 'cruiser'], bossCount: 1 }
+          ];
+        } else if (this.difficulty === 'hard') {
+          this.maxShieldHp = 1200;
+          this.questionTimer = 15;
+          this.waveDefs = [
+            { count: 14, delay: 1400, types: ['asteroid', 'drone'] },
+            { count: 22, delay: 1200, types: ['drone', 'cruiser'] },
+            { count: 32, delay: 1000, types: ['drone', 'cruiser', 'asteroid'] },
+            { count: 44, delay: 800, types: ['cruiser', 'drone'] },
+            { count: 60, delay: 650, types: ['cruiser', 'drone', 'asteroid'], bossCount: 2 }
+          ];
+        } else {
+          // Normal
+          this.maxShieldHp = 1000;
+          this.questionTimer = 20;
+          this.waveDefs = [
+            { count: 10, delay: 1900, types: ['asteroid', 'drone'] },
+            { count: 16, delay: 1600, types: ['asteroid', 'drone'] },
+            { count: 24, delay: 1300, types: ['drone', 'cruiser'] },
+            { count: 34, delay: 1050, types: ['cruiser', 'drone'] },
+            { count: 46, delay: 850, types: ['cruiser', 'drone'], bossCount: 1 }
+          ];
+        }
+
+        this.shieldHp = this.maxShieldHp;
+      }
+
+      startGame() {
+        this._readTeamInputs();
+        this._applyDifficultySettings();
+
+        // Reset stats
+        this.teamScores = [0, 0, 0, 0];
+        this.teamDamage = [0, 0, 0, 0];
+        this.teamKills = [0, 0, 0, 0];
+        this.teamBossKills = [0, 0, 0, 0];
+        this.currentWave = 1;
+        this.isGameOver = false;
+
+        // Reset combat entities
+        this.combat.enemies = [];
+        this.combat.projectiles = [];
+        this.combat.particles = [];
+        this.combat.damageTexts = [];
+        this.combat.empActive = false;
+
+        // Setup HUD Badges
+        const modeBadge = document.getElementById('hudModeBadge');
+        modeBadge.className = `mode-badge ${this.difficulty}`;
+        modeBadge.textContent = this.difficulty.toUpperCase();
+
+        this.updateShieldHUD();
+        this.updateLiveLeaderboard();
+
+        // Switch to Game Screen
+        this.showScreen('game-screen');
+        this.combat.resize();
+
+        // Init Quiz Stations
+        this.quiz.init(this.teamCount, this.teamNames, this.questionTimer);
+
+        // Start Game Animation Loop
+        this.lastTime = performance.now();
+        if (this.animFrameId) cancelAnimationFrame(this.animFrameId);
+        this._gameLoop = this._gameLoop.bind(this);
+        this.animFrameId = requestAnimationFrame(this._gameLoop);
+
+        // Start Wave 1
+        this.startWave(1);
+      }
+
+      startWave(waveNum) {
+        this.currentWave = waveNum;
+        document.getElementById('hudWaveBadge').textContent = `WAVE ${this.currentWave} / ${this.maxWave}`;
+
+        const wIdx = Math.min(waveNum - 1, this.waveDefs.length - 1);
+        this.waveConfig = this.waveDefs[wIdx];
+        this.enemiesLeftToSpawn = this.waveConfig.count;
+
+        // Show wave alert
+        const isBossWave = (this.waveConfig.bossCount || 0) > 0;
+        this.showAlert(
+          isBossWave ? `⚠️ BOSS WAVE ${waveNum}` : `INCOMING WAVE ${waveNum}`,
+          isBossWave ? 'ARMADA INDUK ALIEN MENYERANG DENGAN KEKUATAN PENUH!' : 'Persiapkan meriam plasma, armada musuh telah terdeteksi!',
+          isBossWave ? '#fbbf24' : '#38bdf8'
+        );
+
+        if (this.spawnTimer) clearInterval(this.spawnTimer);
+
+        // Spawn loop
+        this.spawnTimer = setInterval(() => {
+          if (this.isGameOver) {
+            clearInterval(this.spawnTimer);
+            return;
+          }
+
+          if (this.enemiesLeftToSpawn > 0) {
+            const typePool = this.waveConfig.types;
+            const chosenType = typePool[Math.floor(Math.random() * typePool.length)];
+            this.combat.spawnEnemy(chosenType, this.currentWave);
+            this.enemiesLeftToSpawn--;
+          } else {
+            // Check if boss should spawn
+            if (this.waveConfig.bossCount > 0) {
+              for (let b = 0; b < this.waveConfig.bossCount; b++) {
+                this.combat.spawnEnemy('boss', this.currentWave);
+              }
+              this.waveConfig.bossCount = 0;
+            }
+
+            // Check if wave is completed (no more enemies left on canvas)
+            if (this.combat.enemies.length === 0) {
+              clearInterval(this.spawnTimer);
+              this._handleWaveClear();
+            }
+          }
+        }, this.waveConfig.delay);
+      }
+
+      _handleWaveClear() {
+        if (this.currentWave < this.maxWave) {
+          this.showAlert(`WAVE ${this.currentWave} SELESAI!`, 'Perisai pulih sebagian, bersiap untuk wave berikutnya!', '#34d399');
+          // Shield repair reward
+          this.shieldHp = Math.min(this.maxShieldHp, this.shieldHp + 150);
+          this.updateShieldHUD();
+
+          setTimeout(() => {
+            if (!this.isGameOver) {
+              this.startWave(this.currentWave + 1);
+            }
+          }, 3200);
+        } else {
+          // Victory!
+          this.endGame(true);
+        }
+      }
+
+      showAlert(title, sub, color = '#38bdf8') {
+        const banner = document.getElementById('alertBanner');
+        const tEl = document.getElementById('alertTitle');
+        const sEl = document.getElementById('alertSub');
+
+        tEl.textContent = title;
+        tEl.style.color = color;
+        sEl.textContent = sub;
+        banner.style.borderColor = color;
+
+        banner.classList.add('show');
+        setTimeout(() => {
+          banner.classList.remove('show');
+        }, 2500);
+      }
+
+      damageShield(amount) {
+        this.shieldHp = Math.max(0, this.shieldHp - amount);
+        this.updateShieldHUD();
+
+        if (this.shieldHp <= 0 && !this.isGameOver) {
+          this.endGame(false);
+        }
+      }
+
+      updateShieldHUD() {
+        const fill = document.getElementById('hudShieldFill');
+        const val = document.getElementById('hudShieldVal');
+
+        const pct = Math.max(0, (this.shieldHp / this.maxShieldHp) * 100);
+        fill.style.width = `${pct}%`;
+        val.textContent = `${Math.ceil(this.shieldHp)} / ${this.maxShieldHp}`;
+
+        if (pct < 28) {
+          fill.classList.add('danger');
+        } else {
+          fill.classList.remove('danger');
+        }
+      }
+
+      recordDamage(teamIdx, amount) {
+        this.teamDamage[teamIdx] += amount;
+        this.teamScores[teamIdx] += amount;
+        this.quiz.updateScoreDOM(teamIdx, this.teamScores[teamIdx]);
+        this.updateLiveLeaderboard();
+      }
+
+      recordKill(teamIdx, isBoss) {
+        this.teamKills[teamIdx]++;
+        const bonus = isBoss ? 500 : 100;
+        if (isBoss) this.teamBossKills[teamIdx]++;
+        this.teamScores[teamIdx] += bonus;
+        this.quiz.updateScoreDOM(teamIdx, this.teamScores[teamIdx]);
+        this.updateLiveLeaderboard();
+      }
+
+      updateLiveLeaderboard() {
+        const container = document.getElementById('hudLiveLeaderboard');
+        if (!container) return;
+        container.innerHTML = '';
+
+        const colors = ['#ff3366', '#00d4ff', '#00ff88', '#ffbb00'];
+        const sorted = this.teamNames.slice(0, this.teamCount).map((name, i) => ({
+          name, idx: i, score: this.teamScores[i]
+        })).sort((a, b) => b.score - a.score);
+
+        sorted.forEach((t, rank) => {
+          const item = document.createElement('div');
+          item.className = 'll-item';
+          item.style.color = colors[t.idx];
+          item.innerHTML = `<span>#${rank + 1} ${t.name}:</span> <span class="ll-score">${t.score}</span>`;
+          container.appendChild(item);
+        });
+      }
+
+      _gameLoop(time) {
+        const dt = (time - this.lastTime) / 1000;
+        this.lastTime = time;
+
+        if (!this.isGameOver) {
+          this.combat.update(dt);
+          this.combat.draw();
+          this.animFrameId = requestAnimationFrame(this._gameLoop);
+        }
+      }
+
+      endGame(victory) {
+        this.isGameOver = true;
+        if (this.spawnTimer) clearInterval(this.spawnTimer);
+        this.quiz.stopAll();
+
+        if (victory) this.audio.playVictory();
+        else this.audio.playDefeat();
+
+        setTimeout(() => {
+          this._showResults(victory);
+        }, 1600);
+      }
+
+      _showResults(victory) {
+        this.showScreen('results-screen');
+
+        const titleEl = document.getElementById('resultsTitle');
+        const subEl = document.getElementById('resultsSubtitle');
+        const diffLabel = this.difficulty.toUpperCase();
+        const diffColor = this.difficulty === 'easy' ? '#34d399' : (this.difficulty === 'hard' ? '#f43f5e' : '#fbbf24');
+
+        if (victory) {
+          titleEl.textContent = '🏆 GALAXY DEFENDED!';
+          titleEl.style.color = '#38bdf8';
+          subEl.innerHTML = `🛡️ Perisai Tersisa: <strong>${Math.ceil(this.shieldHp)} HP</strong> | Mode: <strong style="color:${diffColor};">${diffLabel}</strong>`;
+        } else {
+          titleEl.textContent = '💀 DEFENSE SHIELD COLLAPSED!';
+          titleEl.style.color = '#ef4444';
+          subEl.innerHTML = `Perisai planet hancur di Wave ${this.currentWave} | Mode: <strong style="color:${diffColor};">${diffLabel}</strong>`;
+        }
+
+        // Podium calculation
+        const colors = ['#ff3366', '#00d4ff', '#00ff88', '#ffbb00'];
+        const ranks = ['🥇', '🥈', '🥉', '4️⃣'];
+        const sorted = this.teamNames.slice(0, this.teamCount).map((name, i) => {
+          const st = this.quiz.teamStations[i] || { correct: 0, answered: 0 };
+          const acc = st.answered > 0 ? Math.round((st.correct / st.answered) * 100) : 0;
+          return {
+            name, idx: i,
+            score: this.teamScores[i],
+            damage: this.teamDamage[i],
+            kills: this.teamKills[i],
+            bossKills: this.teamBossKills[i],
+            correct: st.correct,
+            answered: st.answered,
+            accuracy: acc
+          };
+        }).sort((a, b) => b.score - a.score);
+
+        const grid = document.getElementById('podiumGrid');
+        grid.innerHTML = '';
+
+        sorted.forEach((t, i) => {
+          const card = document.createElement('div');
+          card.className = `podium-card ${i === 0 ? 'first' : ''}`;
+          card.style.borderColor = colors[t.idx];
+
+          card.innerHTML = `
+            <div class="podium-rank-icon">${ranks[i] || (i + 1)}</div>
+            <div class="podium-team-title" style="color:${colors[t.idx]};">${t.name}</div>
+            <div class="podium-score-val" style="color:${colors[t.idx]};">${t.score} PTS</div>
+            <div class="podium-stats-list">
+              💥 Total Damage: <strong>${t.damage}</strong><br>
+              🎯 Akurasi Jawaban: <strong>${t.accuracy}%</strong> (${t.correct}/${t.answered})<br>
+              🛸 Alien Kills: <strong>${t.kills}</strong><br>
+              👑 Boss Destroyed: <strong>${t.bossKills}</strong>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+    }
+
+    // Initialize Game on DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      window.cosmicGame = new CosmicDefenderGame();
+    });
+  </script>
+</body>
+</html>

@@ -643,6 +643,59 @@
       gap: 20px;
     }
 
+    /* Game Selector Switcher Tabs */
+    .game-select-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .game-tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 18px;
+      background: var(--sky-25);
+      border: 1.5px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      text-align: left;
+      transition: all var(--trans-fast);
+      font-family: inherit;
+    }
+    .game-tab-btn:hover {
+      background: var(--sky-100);
+      border-color: var(--sky-400);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .game-tab-btn.active {
+      background: linear-gradient(135deg, #ffffff 0%, var(--sky-50) 100%);
+      border-color: var(--sky-600);
+      box-shadow: 0 4px 18px rgba(2, 132, 199, 0.2);
+    }
+    .game-tab-btn .gt-icon {
+      font-size: 1.85rem;
+      line-height: 1;
+    }
+    .game-tab-btn .gt-title {
+      display: block;
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--sky-950);
+    }
+    .game-tab-btn .gt-sub {
+      display: block;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+    @media (max-width: 640px) {
+      .game-select-bar {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .game-meta-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -1578,32 +1631,50 @@
       <div class="game-card">
         <div class="section-header-row">
           <div class="shr-left">
-            <h2>🧟 Contoh Game Edukasi: Zombie Defense Quiz IFP</h2>
-            <p>Game single-file HTML hasil eksekusi Master Prompt AI untuk layar IFP sentuh simultan 2-4 tim.</p>
+            <h2 id="gameHeaderTitle">🧟 Contoh Game 1: Zombie Defense Quiz IFP</h2>
+            <p id="gameHeaderDesc">Game single-file HTML hasil eksekusi Master Prompt AI untuk layar IFP sentuh simultan 2-4 tim.</p>
           </div>
           <div class="shr-actions">
-            <a href="game_single_file.html" download class="action-btn btn-outline">
+            <a href="game_single_file.html" download id="gameDownloadBtn" class="action-btn btn-outline">
               📥 Unduh File Game (.html)
             </a>
-            <a href="game_single_file.html" target="_blank" class="action-btn btn-primary">
+            <a href="game_single_file.html" target="_blank" id="gameOpenTabBtn" class="action-btn btn-primary">
               🚀 Buka Game Tab Baru
             </a>
           </div>
+        </div>
+
+        <!-- Game Selector Switcher Tabs -->
+        <div class="game-select-bar">
+          <button type="button" class="game-tab-btn active" id="tabGame1" onclick="switchGameDemo('zombie')">
+            <span class="gt-icon">🧟</span>
+            <div class="gt-info">
+              <span class="gt-title">Game 1: Zombie Defense Quiz</span>
+              <span class="gt-sub">Cooperative Tower Defense · Multi-Touch 2–4 Tim</span>
+            </div>
+          </button>
+          <button type="button" class="game-tab-btn" id="tabGame2" onclick="switchGameDemo('space')">
+            <span class="gt-icon">🚀</span>
+            <div class="gt-info">
+              <span class="gt-title">Game 2: Cosmic Defender (Space Shooter)</span>
+              <span class="gt-sub">Cooperative Fleet Defense · Multi-Touch 2–4 Tim</span>
+            </div>
+          </button>
         </div>
 
         <!-- Game Metadata Info -->
         <div class="game-meta-row">
           <div class="gm-box">
             <span class="gm-label">Mata Pelajaran & Kelas</span>
-            <span class="gm-val">Informatika · SMP Kelas 9</span>
+            <span class="gm-val" id="gameMetaSubject">Informatika · SMP Kelas 9</span>
           </div>
           <div class="gm-box">
             <span class="gm-label">Mode Permainan IFP</span>
-            <span class="gm-val">Simultan 2–4 Tim (Multi-Touch)</span>
+            <span class="gm-val" id="gameMetaMode">Simultan 2–4 Tim (Multi-Touch)</span>
           </div>
           <div class="gm-box">
-            <span class="gm-label">Efek Suara & Visual</span>
-            <span class="gm-val">Web Audio API Synthesis</span>
+            <span class="gm-label">Genre & Mekanik</span>
+            <span class="gm-val" id="gameMetaGenre">Tower Defense Bersama</span>
           </div>
           <div class="gm-box">
             <span class="gm-label">Portabilitas</span>
@@ -1617,11 +1688,11 @@
             <button class="game-btn-float" onclick="reloadGameIframe()">
               🔄 Restart Game
             </button>
-            <a href="game_single_file.html" target="_blank" class="game-btn-float">
+            <a href="game_single_file.html" target="_blank" id="gameFullscreenBtn" class="game-btn-float">
               ⛶ Fullscreen
             </a>
           </div>
-          <iframe id="gameIframe" src="game_single_file.html" loading="lazy" title="Game Edukasi Zombie Defense IFP"></iframe>
+          <iframe id="gameIframe" src="game_single_file.html" loading="lazy" title="Game Edukasi IFP"></iframe>
         </div>
       </div>
     </section>
@@ -1898,6 +1969,51 @@
       if (ifr) {
         ifr.src = ifr.src;
         showToast('🔄 Game dimulai ulang');
+      }
+    }
+
+    // ════════════ GAME DEMO SWITCHER ════════════
+    function switchGameDemo(gameKey) {
+      const ifr = document.getElementById('gameIframe');
+      const titleEl = document.getElementById('gameHeaderTitle');
+      const descEl = document.getElementById('gameHeaderDesc');
+      const dlBtn = document.getElementById('gameDownloadBtn');
+      const openBtn = document.getElementById('gameOpenTabBtn');
+      const fsBtn = document.getElementById('gameFullscreenBtn');
+      const genreEl = document.getElementById('gameMetaGenre');
+      const modeEl = document.getElementById('gameMetaMode');
+
+      const tab1 = document.getElementById('tabGame1');
+      const tab2 = document.getElementById('tabGame2');
+
+      if (gameKey === 'space') {
+        if (tab1) tab1.classList.remove('active');
+        if (tab2) tab2.classList.add('active');
+
+        if (titleEl) titleEl.textContent = '🚀 Contoh Game 2: Cosmic Defender (Space Shooter Quiz IFP)';
+        if (descEl) descEl.textContent = 'Pertahankan perisai planet dari armada alien dengan kuis simultan 2-4 tim di layar sentuh IFP.';
+        if (dlBtn) dlBtn.href = 'space_shooter_single_file.html';
+        if (openBtn) openBtn.href = 'space_shooter_single_file.html';
+        if (fsBtn) fsBtn.href = 'space_shooter_single_file.html';
+        if (genreEl) genreEl.textContent = 'Space Shooter Fleet Defense';
+        if (modeEl) modeEl.textContent = 'Simultan 2–4 Tim (Multi-Touch)';
+        if (ifr) ifr.src = 'space_shooter_single_file.html';
+
+        showToast('🚀 Beralih ke Game 2: Cosmic Defender');
+      } else {
+        if (tab1) tab1.classList.add('active');
+        if (tab2) tab2.classList.remove('active');
+
+        if (titleEl) titleEl.textContent = '🧟 Contoh Game 1: Zombie Defense Quiz IFP';
+        if (descEl) descEl.textContent = 'Game single-file HTML hasil eksekusi Master Prompt AI untuk layar IFP sentuh simultan 2-4 tim.';
+        if (dlBtn) dlBtn.href = 'game_single_file.html';
+        if (openBtn) openBtn.href = 'game_single_file.html';
+        if (fsBtn) fsBtn.href = 'game_single_file.html';
+        if (genreEl) genreEl.textContent = 'Tower Defense Bersama';
+        if (modeEl) modeEl.textContent = 'Simultan 2–4 Tim (Multi-Touch)';
+        if (ifr) ifr.src = 'game_single_file.html';
+
+        showToast('🧟 Beralih ke Game 1: Zombie Defense Quiz');
       }
     }
 
