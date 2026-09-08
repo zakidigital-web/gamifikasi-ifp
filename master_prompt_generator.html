@@ -196,6 +196,74 @@
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
     .toast.ok{background:rgba(16,185,129,.95);box-shadow:0 8px 32px rgba(16,185,129,.4)}
 
+    /* ── THEME PICKER ── */
+    .theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:12px}
+    .theme-card{position:relative;background:var(--card);border:2px solid var(--bdr);border-radius:var(--r14);padding:14px 16px;cursor:pointer;transition:all var(--tn);backdrop-filter:blur(8px);display:flex;flex-direction:column;gap:8px}
+    .theme-card:hover{border-color:rgba(99,102,241,.5);transform:translateY(-2px);box-shadow:var(--sh)}
+    .theme-card.sel{border-color:var(--p);background:rgba(99,102,241,.09);box-shadow:0 0 0 3px rgba(99,102,241,.25),var(--sh)}
+    .theme-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .theme-title{font-size:.86rem;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:6px}
+    .theme-badge{font-size:.64rem;font-weight:700;padding:2px 8px;border-radius:var(--r100);background:var(--glass);border:1px solid var(--bdr);color:var(--t2)}
+    .theme-desc{font-size:.72rem;color:var(--t3);line-height:1.45}
+    .swatch-row{display:flex;align-items:center;gap:5px;margin-top:2px}
+    .swatch-dot{width:13px;height:13px;border-radius:50%;border:1px solid rgba(255,255,255,.2);flex-shrink:0}
+    .theme-card .ck{top:10px;right:10px}
+
+    /* ── QUESTION BANK / MANUAL INPUT ── */
+    .qmode-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+    .qmode-btn{flex:1;min-width:170px;padding:12px 14px;background:var(--card);border:2px solid var(--bdr);border-radius:var(--r14);color:var(--t2);font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all var(--tn);display:flex;align-items:center;justify-content:center;gap:8px;text-align:left}
+    .qmode-btn:hover{border-color:rgba(99,102,241,.5);color:var(--t1);transform:translateY(-1px)}
+    .qmode-btn.sel{border-color:var(--p);background:rgba(99,102,241,.12);color:#fff;box-shadow:0 0 0 2px rgba(99,102,241,.25)}
+    .qsub-nav{display:flex;gap:8px;margin-bottom:14px;border-bottom:1px solid var(--bdr);padding-bottom:10px}
+    .qsub-tab{padding:6px 14px;border-radius:var(--r8);background:transparent;border:1px solid transparent;color:var(--t3);font-size:.78rem;font-weight:600;cursor:pointer;transition:all var(--tf)}
+    .qsub-tab:hover{color:var(--t2);background:var(--glass)}
+    .qsub-tab.sel{background:rgba(99,102,241,.15);border-color:rgba(99,102,241,.3);color:var(--p)}
+    .qguide-box{background:rgba(99,102,241,.06);border:1px dashed rgba(99,102,241,.25);border-radius:var(--r14);padding:12px 16px;margin-bottom:14px;font-size:.75rem;color:var(--t2);line-height:1.6}
+    .qguide-box code{background:rgba(0,0,0,.35);padding:2px 6px;border-radius:4px;color:#a5b4fc;font-family:'JetBrains Mono',monospace;font-size:.72rem}
+    .qact-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+    .btn-action{padding:8px 16px;border-radius:var(--r100);border:1.5px solid var(--bdr);background:var(--glass);color:var(--t1);font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all var(--tf);display:inline-flex;align-items:center;gap:6px}
+    .btn-action:hover{border-color:var(--p);background:rgba(99,102,241,.1);color:var(--p)}
+    .btn-action.btn-p{background:linear-gradient(135deg,var(--p),var(--p2));border:none;color:#fff;box-shadow:0 4px 12px rgba(99,102,241,.3)}
+    .btn-action.btn-p:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(99,102,241,.4)}
+    .btn-action.btn-danger{color:#f87171;border-color:rgba(239,68,68,.3)}
+    .btn-action.btn-danger:hover{background:rgba(239,68,68,.1);border-color:#ef4444}
+    
+    /* Form input per-soal */
+    .form-group{margin-bottom:12px}
+    .form-group label{display:block;font-size:.72rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+    .form-input{width:100%;padding:10px 14px;background:var(--glass);border:1.5px solid var(--bdr);border-radius:var(--r8);color:var(--t1);font-family:'Outfit',sans-serif;font-size:.85rem;transition:border-color var(--tf)}
+    .form-input:focus{outline:none;border-color:var(--p)}
+    .opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:640px){.opt-grid{grid-template-columns:1fr}}
+    .opt-item{position:relative}
+    .opt-lbl{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-weight:800;font-size:.78rem;color:var(--t3)}
+    .opt-input{padding-left:32px}
+    .key-sel-row{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+    .key-lbl{font-size:.75rem;font-weight:700;color:var(--t2)}
+    .key-pill{padding:5px 14px;border-radius:var(--r100);border:1.5px solid var(--bdr);background:var(--glass);color:var(--t2);font-size:.78rem;font-weight:700;cursor:pointer;transition:all var(--tf)}
+    .key-pill:hover{border-color:var(--ok);color:var(--ok)}
+    .key-pill.sel{background:var(--ok);border-color:var(--ok);color:#fff;box-shadow:0 3px 10px rgba(16,185,129,.35)}
+
+    /* Saved Questions List */
+    .qbank-box{margin-top:20px;background:rgba(0,0,0,.2);border:1px solid var(--bdr);border-radius:var(--r14);padding:16px}
+    .qbank-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+    .qbank-title{font-size:.85rem;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:7px}
+    .qbank-badge{padding:3px 10px;border-radius:var(--r100);background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:var(--ok);font-size:.72rem;font-weight:800}
+    .qlist{display:flex;flex-direction:column;gap:10px;max-height:360px;overflow-y:auto;padding-right:4px}
+    .qcard{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r14);padding:12px 14px;display:flex;flex-direction:column;gap:8px;transition:all var(--tf)}
+    .qcard:hover{border-color:rgba(99,102,241,.3)}
+    .qcard-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .qcard-num{font-size:.72rem;font-weight:800;color:var(--p);background:rgba(99,102,241,.12);padding:2px 7px;border-radius:5px;flex-shrink:0}
+    .qcard-text{font-size:.82rem;font-weight:600;color:var(--t1);line-height:1.45;flex:1}
+    .qcard-del{background:transparent;border:none;color:var(--t3);cursor:pointer;font-size:.9rem;padding:2px 6px;border-radius:4px;transition:all var(--tf)}
+    .qcard-del:hover{color:#ef4444;background:rgba(239,68,68,.1)}
+    .qcard-opts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    @media(max-width:600px){.qcard-opts{grid-template-columns:1fr}}
+    .qopt-box{font-size:.72rem;padding:5px 8px;border-radius:6px;background:var(--glass);border:1px solid var(--bdr);color:var(--t2);display:flex;align-items:center;gap:6px}
+    .qopt-box.is-key{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.4);color:var(--ok);font-weight:700}
+    .qopt-badge{font-weight:800;color:var(--t3);font-size:.68rem}
+    .qopt-box.is-key .qopt-badge{color:var(--ok)}
+
     /* ── DIVIDER ── */
     hr{border:none;height:1px;background:var(--bdr);margin:38px 0}
 
@@ -238,9 +306,9 @@
     <div class="sc"></div>
     <div class="stp" data-step="3"><span class="snum">3</span> Genre Game</div>
     <div class="sc"></div>
-    <div class="stp" data-step="4"><span class="snum">4</span> Konfigurasi</div>
+    <div class="stp" data-step="4"><span class="snum">4</span> Konfigurasi &amp; Tema</div>
     <div class="sc"></div>
-    <div class="stp" data-step="5"><span class="snum">5</span> Topik KD</div>
+    <div class="stp" data-step="5"><span class="snum">5</span> Bank Soal &amp; Topik</div>
   </nav>
 
   <!-- STEP 1: MATA PELAJARAN -->
@@ -397,42 +465,39 @@
     </div>
   </div>
 
-  <!-- STEP 4: KONFIGURASI -->
+  <!-- STEP 4: KONFIGURASI & TEMA -->
   <div class="sec">
-    <div class="sec-lbl"><span class="sbadge">4</span><h2>Konfigurasi Game</h2></div>
+    <div class="sec-lbl"><span class="sbadge">4</span><h2>Konfigurasi Permainan &amp; Tema Visual</h2></div>
+    
+    <!-- Parameter Gameplay -->
     <div class="cfg-grid">
       <div class="cfg">
-        <label>👥 Jumlah Tim</label>
+        <label>👥 Jumlah Tim (Simultan)</label>
         <div class="segs" id="tim-g">
           <button class="seg" data-v="2" onclick="selSeg(this,'tim-g')">2 Tim</button>
           <button class="seg sel" data-v="3" onclick="selSeg(this,'tim-g')">3 Tim</button>
           <button class="seg" data-v="4" onclick="selSeg(this,'tim-g')">4 Tim</button>
         </div>
+        <div class="note">Bermain simultan bersamaan di layar IFP</div>
       </div>
       <div class="cfg">
-        <label>🎨 Tema Visual</label>
-        <div class="segs" id="tema-g">
-          <button class="seg sel" data-v="Dark Neon" onclick="selSeg(this,'tema-g')">🌑 Dark</button>
-          <button class="seg" data-v="Cerah & Colorful" onclick="selSeg(this,'tema-g')">☀️ Cerah</button>
-          <button class="seg" data-v="Natural & Earthy" onclick="selSeg(this,'tema-g')">🌿 Alam</button>
-        </div>
-      </div>
-      <div class="cfg">
-        <label>⏱️ Timer Soal</label>
+        <label>⏱️ Timer per Soal</label>
         <div class="segs" id="tmr-g">
           <button class="seg" data-v="15 detik" onclick="selSeg(this,'tmr-g')">15s</button>
           <button class="seg sel" data-v="20 detik" onclick="selSeg(this,'tmr-g')">20s</button>
           <button class="seg" data-v="30 detik" onclick="selSeg(this,'tmr-g')">30s</button>
           <button class="seg" data-v="60 detik" onclick="selSeg(this,'tmr-g')">60s</button>
         </div>
+        <div class="note">Progress bar countdown per tim</div>
       </div>
       <div class="cfg">
-        <label>🌐 Bahasa UI</label>
+        <label>🌐 Bahasa UI &amp; Soal</label>
         <select class="styled-sel" id="lang-sel">
           <option value="Bahasa Indonesia">🇮🇩 Bahasa Indonesia</option>
           <option value="English">🇺🇸 English</option>
           <option value="Bilingual Indonesia-Inggris">🌐 Bilingual</option>
         </select>
+        <div class="note">Bahasa antarmuka tombol &amp; soal</div>
       </div>
       <div class="cfg">
         <label>📊 Tingkat Kognitif</label>
@@ -441,26 +506,148 @@
           <button class="seg sel" data-v="C1-C3 (Campuran Sedang)" onclick="selSeg(this,'diff-g')">C1-C3</button>
           <button class="seg" data-v="C4-C6 HOTS (Analisis-Evaluasi-Kreasi)" onclick="selSeg(this,'diff-g')">HOTS</button>
         </div>
+        <div class="note">Taksonomi Bloom materi</div>
       </div>
-      <div class="cfg">
-        <label>🔊 Efek Suara</label>
+      <div class="cfg" style="grid-column:span 2">
+        <label>🔊 Efek Suara (Web Audio API)</label>
         <div class="segs" id="aud-g">
-          <button class="seg sel" data-v="Ya — Web Audio API (oscillator synthesis, no file eksternal)" onclick="selSeg(this,'aud-g')">🔊 Ya</button>
-          <button class="seg" data-v="Tidak" onclick="selSeg(this,'aud-g')">🔇 Tidak</button>
+          <button class="seg sel" data-v="Ya — Web Audio API (oscillator synthesis, no file eksternal)" onclick="selSeg(this,'aud-g')">🔊 Suara Aktif (Synthesized SFX)</button>
+          <button class="seg" data-v="Tidak" onclick="selSeg(this,'aud-g')">🔇 Tanpa Suara</button>
         </div>
-        <div class="note">Synthesized audio — tanpa file .mp3/.wav</div>
+        <div class="note">Procedural Audio Context internal — tanpa butuh file mp3 eksternal, bebas error 404</div>
+      </div>
+    </div>
+
+    <!-- Pilihan Tema Visual Game IFP -->
+    <div style="margin-top:22px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px">
+        <label style="font-size:.78rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--t2)">
+          🎨 Tema Visual Game IFP <span style="font-size:.72rem;color:var(--t3);font-weight:400">— pilih estetika &amp; palet warna layar</span>
+        </label>
+        <span id="theme-sel-label" style="font-size:.76rem;font-weight:700;color:var(--p)">🌑 Dark Neon / Cyberpunk</span>
+      </div>
+      <div class="theme-grid" id="theme-grid">
+        <!-- populated dynamically via renderThemeCards() -->
       </div>
     </div>
   </div>
 
-  <!-- STEP 5: TOPIK -->
+  <!-- STEP 5: BANK SOAL & TOPIK MATERI -->
   <div class="sec">
-    <div class="sec-lbl"><span class="sbadge">5</span><h2>Topik / KD Spesifik <span class="hint">— opsional, sangat dianjurkan</span></h2></div>
+    <div class="sec-lbl">
+      <span class="sbadge">5</span>
+      <h2>Bank Soal &amp; Topik KD Spesifik</h2>
+    </div>
+
     <div class="topic-box">
-      <label>📝 Topik & Kompetensi Dasar yang ingin dicakup dalam soal</label>
-      <p class="hint-p">Semakin spesifik topik → soal AI semakin akurat dan relevan. Klik chip saran di bawah untuk menambahkan, atau ketik manual. Kosongkan untuk topik umum sesuai kurikulum. Contoh: <strong>Berpikir Komputasional, Algoritma, Microsoft Word, Etika AI</strong></p>
-      <textarea class="textarea" id="topic-in" placeholder="Contoh: Berpikir Komputasional (Dekomposisi, Abstraksi, Pengenalan Pola, Algoritma), Microsoft Word (Mail Merge, Header/Footer, Track Changes), Internet & Keamanan Digital (Phishing, HTTPS, Jejak Digital), Kecerdasan Buatan & Etika AI (Deepfake, Bias AI, Plagiarisme)"></textarea>
-      <div class="chips" id="chips"></div>
+      <!-- Mode Selection Tabs -->
+      <div class="qmode-tabs">
+        <div class="qmode-btn sel" data-m="auto" onclick="setQMode('auto')">
+          <span style="font-size:1.3rem">🤖</span>
+          <div>
+            <div style="font-weight:700">Otomatis via AI</div>
+            <div style="font-size:.68rem;opacity:.7">AI membuat soal dari Topik/KD</div>
+          </div>
+        </div>
+        <div class="qmode-btn" data-m="manual" onclick="setQMode('manual')">
+          <span style="font-size:1.3rem">✍️</span>
+          <div>
+            <div style="font-weight:700">Input Manual Guru</div>
+            <div style="font-size:.68rem;opacity:.7">100% Soal &amp; Kunci buatan Anda</div>
+          </div>
+        </div>
+        <div class="qmode-btn" data-m="hybrid" onclick="setQMode('hybrid')">
+          <span style="font-size:1.3rem">🔄</span>
+          <div>
+            <div style="font-weight:700">Kombinasi (Manual + AI)</div>
+            <div style="font-size:.68rem;opacity:.7">Soal guru + AI melengkapi kuota</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MANUAL QUESTION SECTION (Visible in Manual & Hybrid) -->
+      <div id="manual-q-section" style="display:none">
+        <div class="qsub-nav">
+          <button type="button" class="qsub-tab sel" data-sub="paste" onclick="switchQSub('paste')">📋 Paste Cepat (Format Teks Bebas)</button>
+          <button type="button" class="qsub-tab" data-sub="form" onclick="switchQSub('form')">✏️ Formulir Input Per-Soal</button>
+        </div>
+
+        <!-- SUBTAB 1: PASTE CEPAT -->
+        <div id="qsub-paste">
+          <div class="qguide-box">
+            💡 <strong>Format Teks yang Didukung Otomatis:</strong><br>
+            Ketik atau paste soal dari Word/PDF dengan nomor soal, opsi A-D, dan kunci jawaban.<br>
+            Format contoh: <code>1. Soal... A. Opsi A B. Opsi B C. Opsi C D. Opsi D Kunci: B</code> (atau tandai bintang di jawaban benar: <code>B. Opsi B*</code>).
+          </div>
+          <textarea class="textarea" id="paste-soal-in" style="min-height:130px;font-family:'JetBrains Mono',monospace;font-size:.82rem" placeholder="Paste soal pilihan ganda di sini...&#10;&#10;Contoh format:&#10;1. Apa fungsi utama RAM pada komputer?&#10;A. Menyimpan data sementara saat aplikasi aktif&#10;B. Menyimpan file sistem secara permanen&#10;C. Memproses komputasi grafik 3D&#10;D. Mengatur pendingin prosesor&#10;Kunci: A&#10;&#10;2. Manakah protokol web yang menggunakan enkripsi aman?&#10;A. HTTP&#10;B. HTTPS&#10;C. FTP&#10;D. Telnet&#10;Kunci: B"></textarea>
+          <div class="qact-row">
+            <button type="button" class="btn-action btn-p" onclick="processPastedQuestions()">⚡ Proses &amp; Masukkan ke Bank Soal</button>
+            <button type="button" class="btn-action" onclick="loadSampleQuestions('informatika')">💡 Contoh Soal Informatika</button>
+            <button type="button" class="btn-action" onclick="loadSampleQuestions('matematika')">📐 Contoh Soal Matematika</button>
+            <button type="button" class="btn-action" onclick="document.getElementById('paste-soal-in').value=''">🧹 Bersihkan</button>
+          </div>
+        </div>
+
+        <!-- SUBTAB 2: FORMULIR INPUT -->
+        <div id="qsub-form" style="display:none">
+          <div class="form-group">
+            <label>Teks Pertanyaan</label>
+            <textarea class="form-input" id="fq-text" rows="2" placeholder="Tuliskan butir soal pertanyaan..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Pilihan Jawaban (A, B, C, D)</label>
+            <div class="opt-grid">
+              <div class="opt-item"><span class="opt-lbl">A</span><input type="text" class="form-input opt-input" id="fq-opt-0" placeholder="Pilihan jawaban A"></div>
+              <div class="opt-item"><span class="opt-lbl">B</span><input type="text" class="form-input opt-input" id="fq-opt-1" placeholder="Pilihan jawaban B"></div>
+              <div class="opt-item"><span class="opt-lbl">C</span><input type="text" class="form-input opt-input" id="fq-opt-2" placeholder="Pilihan jawaban C"></div>
+              <div class="opt-item"><span class="opt-lbl">D</span><input type="text" class="form-input opt-input" id="fq-opt-3" placeholder="Pilihan jawaban D"></div>
+            </div>
+          </div>
+          <div class="key-sel-row">
+            <span class="key-lbl">Kunci Jawaban Benar:</span>
+            <button type="button" class="key-pill sel" data-k="0" onclick="selFormKey(0)">A</button>
+            <button type="button" class="key-pill" data-k="1" onclick="selFormKey(1)">B</button>
+            <button type="button" class="key-pill" data-k="2" onclick="selFormKey(2)">C</button>
+            <button type="button" class="key-pill" data-k="3" onclick="selFormKey(3)">D</button>
+            <div style="flex:1;min-width:140px;margin-left:8px">
+              <input type="text" class="form-input" id="fq-topic" style="padding:6px 12px;font-size:.78rem" placeholder="Topik/KD (opsional)">
+            </div>
+          </div>
+          <div class="qact-row" style="margin-top:12px">
+            <button type="button" class="btn-action btn-p" onclick="addQuestionFromForm()">➕ Tambahkan ke Bank Soal</button>
+          </div>
+        </div>
+
+        <!-- BANK SOAL TERSIMPAN -->
+        <div class="qbank-box">
+          <div class="qbank-head">
+            <div class="qbank-title">
+              <span>📚 Daftar Soal Manual Tersimpan</span>
+              <span class="qbank-badge" id="qbank-counter">0 Soal Siap Digunakan</span>
+            </div>
+            <div class="qact-row" style="margin-top:0">
+              <button type="button" class="btn-action btn-danger" onclick="clearAllQuestions()" id="btn-clear-all" style="display:none">🗑️ Hapus Semua Soal</button>
+            </div>
+          </div>
+          <div class="qlist" id="qlist-container">
+            <div style="font-size:.8rem;color:var(--t3);text-align:center;padding:22px 0" id="qlist-empty">
+              Belum ada soal manual. Gunakan <em>Paste Cepat</em> atau <em>Formulir</em> di atas untuk menambahkan soal Anda sendiri.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOPIC / KD SECTION (Visible in Auto AI & Hybrid) -->
+      <div id="topic-kd-section" style="margin-top:16px">
+        <label style="display:block;font-size:.72rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--t3);margin-bottom:8px">
+          📝 Topik &amp; Kompetensi Dasar Kurikulum
+        </label>
+        <p class="hint-p" id="topic-hint-text">
+          Semakin spesifik topik → soal AI semakin akurat dan relevan. Klik chip saran di bawah untuk menambahkan, atau ketik manual. Kosongkan untuk topik umum sesuai kurikulum.
+        </p>
+        <textarea class="textarea" id="topic-in" placeholder="Contoh: Berpikir Komputasional (Dekomposisi, Abstraksi, Pengenalan Pola, Algoritma), Microsoft Word (Mail Merge, Header/Footer, Track Changes), Internet &amp; Keamanan Digital (Phishing, HTTPS, Jejak Digital), Kecerdasan Buatan &amp; Etika AI (Deepfake, Bias AI, Plagiarisme)"></textarea>
+        <div class="chips" id="chips"></div>
+      </div>
     </div>
   </div>
 
@@ -507,10 +694,14 @@
 // ============================================================
 const S = {
   mapel:[], kelas:null, plat:null,
-  tim:'3', tema:'Dark Neon', timer:'20 detik',
+  tim:'3', tema:'dark_neon', timer:'20 detik',
   lang:'Bahasa Indonesia', diff:'C1-C3 (Campuran Sedang)',
   audio:'Ya — Web Audio API (oscillator synthesis, no file eksternal)',
-  topik:''
+  topik:'',
+  qMode:'auto', // 'auto' | 'manual' | 'hybrid'
+  qSub:'paste', // 'paste' | 'form'
+  manualQuestions:[],
+  formKey:0
 };
 
 // ============================================================
@@ -1048,6 +1239,564 @@ class Pawn {
 };
 
 // ============================================================
+// THEMES DICTIONARY — 7 Tema Visual IFP Terkurasi
+// ============================================================
+const THEMES = {
+  dark_neon: {
+    id: 'dark_neon',
+    name: 'Dark Neon / Cyberpunk',
+    badge: '🌑 Dark Neon',
+    emoji: '🌑',
+    desc: 'Latar gelap (#0a0b1a) dengan glowing neon laser & HUD futuristik. Optimal untuk ruang multimedia kelas redup.',
+    swatches: ['#07080f', '#131628', '#00d4ff', '#ff3366', '#39ff14', '#ffd700'],
+    cssVars: `  --bg-main: #07080f;
+  --bg-panel: #0f1224;
+  --bg-card: rgba(19, 23, 48, 0.88);
+  --border-card: rgba(0, 212, 255, 0.28);
+  --text-primary: #f1f3ff;
+  --text-secondary: #9ea5cc;
+  --text-accent: #00d4ff;
+  --team-1: #ff3366; /* Merah Neon */
+  --team-2: #00d4ff; /* Biru Cyan Neon */
+  --team-3: #39ff14; /* Hijau Laser */
+  --team-4: #ffd700; /* Kuning Emas */
+  --shadow-glow: 0 0 24px rgba(0, 212, 255, 0.28);`,
+    promptGuide: `TEMA VISUAL: DARK NEON / CYBERPUNK (Futuristik & Laser Glow)
+- Background: Gelap pekat kebiruan (#07080f sampai #0f1224).
+- Elemen UI & Kartu: Dark glassmorphism transparan (rgba(19, 23, 48, 0.88)) dengan border tipis bercahaya (rgba(0, 212, 255, 0.3)).
+- Teks: Terang kontras (#f1f3ff) dengan heading bercahaya halus.
+- Warna Tim: Merah Neon (#ff3366), Biru Cyan (#00d4ff), Hijau Laser (#39ff14), Kuning Emas (#ffd700).
+- Suasana: Hi-tech arcade, efek partikel laser terang kontras tinggi di layar besar IFP.`
+  },
+  clean_bright: {
+    id: 'clean_bright',
+    name: 'Clean Bright / Modern Edu (Light Mode)',
+    badge: '☀️ Cerah',
+    emoji: '☀️',
+    desc: 'Latar terang bersih (#f8fafc), teks tajam & aksen pastel ceria. Nyaman & bebas silau di ruang kelas siang hari.',
+    swatches: ['#f8fafc', '#ffffff', '#0284c7', '#e11d48', '#10b981', '#d97706'],
+    cssVars: `  --bg-main: #f8fafc;
+  --bg-panel: #ffffff;
+  --bg-card: #ffffff;
+  --border-card: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-accent: #0284c7;
+  --team-1: #e11d48; /* Merah Rose */
+  --team-2: #0284c7; /* Biru Langit */
+  --team-3: #10b981; /* Hijau Zamrud */
+  --team-4: #d97706; /* Oranye Amber */
+  --shadow-glow: 0 10px 25px -5px rgba(0, 0, 0, 0.07);`,
+    promptGuide: `TEMA VISUAL: CLEAN BRIGHT / MODERN EDU (LIGHT MODE)
+- Background: Putih keabuan bersih (#f8fafc / #f1f5f9) — BUKAN warna gelap/hitam.
+- Elemen UI & Kartu: Card putih bersih (#ffffff) dengan border abu halus (#e2e8f0) dan soft shadow (0 4px 16px rgba(0,0,0,0.06)).
+- Teks: Sangat kontras dan mudah dibaca siswa dari jauh (Heading #0f172a, Body #334155).
+- Warna Tim: Merah Rose (#e11d48), Biru Langit (#0284c7), Hijau Zamrud (#10b981), Oranye Amber (#d97706).
+- Suasana: Segar, bersih, modern, ramah mata siswa di bawah pencahayaan lampu kelas terang.`
+  },
+  nature_forest: {
+    id: 'nature_forest',
+    name: 'Nature & Rainforest (Earthy Organic)',
+    badge: '🌿 Alam',
+    emoji: '🌿',
+    desc: 'Nuansa hijau kanopi botani (#0a1f14) & kayu hangat. Menenangkan, ideal untuk IPA, biologi, dan lingkungan.',
+    swatches: ['#0a1f14', '#112d1e', '#34d399', '#f87171', '#38bdf8', '#fbbf24'],
+    cssVars: `  --bg-main: #0a1f14;
+  --bg-panel: #112d1e;
+  --bg-card: rgba(18, 48, 33, 0.9);
+  --border-card: rgba(52, 211, 153, 0.28);
+  --text-primary: #ecfdf5;
+  --text-secondary: #a7f3d0;
+  --text-accent: #34d399;
+  --team-1: #f87171; /* Koral Bunga */
+  --team-2: #38bdf8; /* Biru Sungai */
+  --team-3: #34d399; /* Hijau Rimba */
+  --team-4: #fbbf24; /* Madu Surya */
+  --shadow-glow: 0 0 20px rgba(52, 211, 153, 0.2);`,
+    promptGuide: `TEMA VISUAL: NATURE & RAINFOREST (EARTHY ORGANIC)
+- Background: Hijau botani kanopi rimba (#0a1f14 ke #112d1e).
+- Elemen UI & Kartu: Nuansa hijau hutan pinus dengan border daun zamrud (rgba(52, 211, 153, 0.28)) dan aksen kayu hangat.
+- Teks: Putih kehijauan lembut (#ecfdf5) dan toska daun muda (#a7f3d0).
+- Warna Tim: Koral Bunga (#f87171), Biru Sungai (#38bdf8), Hijau Rimba (#34d399), Madu Surya (#fbbf24).
+- Suasana: Alami, menyejukkan, ramah lingkungan, inspiratif untuk eksplorasi sains.`
+  },
+  cosmic_galaxy: {
+    id: 'cosmic_galaxy',
+    name: 'Cosmic Galaxy / Deep Space',
+    badge: '🌌 Kosmik',
+    emoji: '🌌',
+    desc: 'Kedalaman angkasa ungu nebula (#060511) dengan partikel bintang gemerlap dan plasma antariksa.',
+    swatches: ['#060511', '#120e29', '#c084fc', '#f43f5e', '#38bdf8', '#facc15'],
+    cssVars: `  --bg-main: #060511;
+  --bg-panel: #120e29;
+  --bg-card: rgba(23, 17, 51, 0.9);
+  --border-card: rgba(192, 132, 252, 0.35);
+  --text-primary: #faf5ff;
+  --text-secondary: #d8b4fe;
+  --text-accent: #c084fc;
+  --team-1: #f43f5e; /* Merah Nebula */
+  --team-2: #38bdf8; /* Biru Pulsar */
+  --team-3: #4ade80; /* Hijau Aurora */
+  --team-4: #facc15; /* Emas Supernova */
+  --shadow-glow: 0 0 25px rgba(192, 132, 252, 0.28);`,
+    promptGuide: `TEMA VISUAL: COSMIC GALAXY / DEEP SPACE (Antariksa & Nebula)
+- Background: Ungu gelap midnight kosmik (#060511 ke #120e29).
+- Elemen UI & Kartu: Card nebula ungu dalam (rgba(23, 17, 51, 0.9)) dengan border starlight violet (rgba(192, 132, 252, 0.35)).
+- Teks: Putih bintang (#faf5ff) dan lavender terang (#d8b4fe).
+- Warna Tim: Merah Nebula (#f43f5e), Biru Pulsar (#38bdf8), Hijau Aurora (#4ade80), Emas Supernova (#facc15).
+- Suasana: Eksplorasi galaksi misterius, dinamis dan memukau bagi siswa.`
+  },
+  retro_arcade: {
+    id: 'retro_arcade',
+    name: 'Retro Arcade / 8-Bit Pixel',
+    badge: '🕹️ Arcade',
+    emoji: '🕹️',
+    desc: 'Gaya arcade 90-an dengan warna punchy 16-bit, border tegas pop-art, dan tombol chunky nostalgia.',
+    swatches: ['#100e1d', '#1b1730', '#ff0055', '#00f0ff', '#00ff66', '#ffe600'],
+    cssVars: `  --bg-main: #100e1d;
+  --bg-panel: #1b1730;
+  --bg-card: #221c3d;
+  --border-card: #ff0055;
+  --text-primary: #ffffff;
+  --text-secondary: #a5b4fc;
+  --text-accent: #00f0ff;
+  --team-1: #ff0055; /* Arcade Pink */
+  --team-2: #00f0ff; /* Laser Cyan */
+  --team-3: #00ff66; /* Pixel Mint */
+  --team-4: #ffe600; /* Coin Gold */
+  --shadow-glow: 4px 4px 0px #000000;`,
+    promptGuide: `TEMA VISUAL: RETRO ARCADE / 8-BIT PIXEL (Arcade Klasik 90-an)
+- Background: Dark arcade charcoal/indigo (#100e1d ke #1b1730).
+- Elemen UI & Kartu: Tombol dan card gaya retro dengan border tebal tegas (2.5px solid), hard pop-shadow (4px 4px 0px #000000), tanpa blur halus.
+- Font Vibe: Font retro gaming / mono (Orbitron atau monospace dengan ketegasan arcade).
+- Warna Tim: Arcade Pink (#ff0055), Laser Cyan (#00f0ff), Pixel Mint (#00ff66), Coin Gold (#ffe600).
+- Suasana: Arena game center klasik tahun 90-an yang energetik dan kompetitif.`
+  },
+  comic_pop: {
+    id: 'comic_pop',
+    name: 'Comic Pop / Cartoon Vibrant',
+    badge: '🎨 Komik',
+    emoji: '🎨',
+    desc: 'Gaya visual komik cetak pop-art dengan outline tebal 2.5px, balon dialog, dan palet warna ceria.',
+    swatches: ['#fffdf5', '#ffffff', '#ef4444', '#3b82f6', '#10b981', '#f59e0b'],
+    cssVars: `  --bg-main: #fffdf5;
+  --bg-panel: #ffffff;
+  --bg-card: #ffffff;
+  --border-card: #18181b;
+  --text-primary: #18181b;
+  --text-secondary: #52525b;
+  --text-accent: #ef4444;
+  --team-1: #ef4444; /* Pop Red */
+  --team-2: #3b82f6; /* Pop Blue */
+  --team-3: #10b981; /* Pop Green */
+  --team-4: #f59e0b; /* Pop Yellow */
+  --shadow-glow: 4px 4px 0px #18181b;`,
+    promptGuide: `TEMA VISUAL: COMIC POP / CARTOON VIBRANT (Gaya Komik Ceria)
+- Background: Putih gading komik hangat (#fffdf5).
+- Elemen UI & Kartu: Gaya Neo-Brutalism komik dengan outline hitam tebal (2.5px solid #18181b), bayangan pop art tegas (4px 4px 0px #18181b), radius membulat ceria.
+- Teks: Hitam pekat tajam (#18181b) dengan font tebal ekspresif.
+- Warna Tim: Pop Red (#ef4444), Pop Blue (#3b82f6), Pop Green (#10b981), Pop Yellow (#f59e0b).
+- Suasana: Dinamis, kartun jenaka, ramah siswa segala jenjang, sangat atraktif di IFP.`
+  },
+  oceanic_coral: {
+    id: 'oceanic_coral',
+    name: 'Oceanic Coral / Underwater',
+    badge: '🌊 Samudra',
+    emoji: '🌊',
+    desc: 'Kedalaman laut toska (#02121c) dengan warna koral hangat (#ff6b6b) dan cahaya terumbu karang fluoresen.',
+    swatches: ['#02121c', '#062030', '#48cae4', '#ff6b6b', '#2ec4b6', '#ffd166'],
+    cssVars: `  --bg-main: #02121c;
+  --bg-panel: #062030;
+  --bg-card: rgba(8, 38, 57, 0.9);
+  --border-card: rgba(72, 202, 228, 0.35);
+  --text-primary: #f0fdfa;
+  --text-secondary: #99f6e4;
+  --text-accent: #48cae4;
+  --team-1: #ff6b6b; /* Koral Merah */
+  --team-2: #48cae4; /* Biru Aqua */
+  --team-3: #2ec4b6; /* Teal Laut */
+  --team-4: #ffd166; /* Emas Karang */
+  --shadow-glow: 0 0 22px rgba(72, 202, 228, 0.25);`,
+    promptGuide: `TEMA VISUAL: OCEANIC CORAL / UNDERWATER (Bawah Laut)
+- Background: Biru laut dalam abisal (#02121c ke #062030).
+- Elemen UI & Kartu: Card akuatik semi-transparan (rgba(8, 38, 57, 0.9)) dengan border toska terumbu karang (rgba(72, 202, 228, 0.35)).
+- Teks: Putih toska lembut (#f0fdfa) dan aquamarine (#99f6e4).
+- Warna Tim: Koral Merah (#ff6b6b), Biru Aqua (#48cae4), Teal Laut (#2ec4b6), Emas Karang (#ffd166).
+- Suasana: Petualangan bawah laut yang sejuk, damai, dan memikat.`
+  }
+};
+
+// ============================================================
+// CONTOH SOAL PRE-SET UNTUK GURU
+// ============================================================
+const SAMPLE_QUESTIONS = {
+  informatika: [
+    {
+      question: "Apa fungsi utama dari RAM (Random Access Memory) pada komputer?",
+      options: ["Menyimpan data sementara yang sedang diproses oleh CPU", "Menyimpan sistem operasi secara permanen", "Memproses komputasi grafik 3D", "Menyuplai daya listrik ke motherboard"],
+      answer: 0,
+      topic: "Perangkat Keras"
+    },
+    {
+      question: "Manakah di bawah ini yang BUKAN merupakan pilar utama Berpikir Komputasional?",
+      options: ["Dekomposisi", "Abstraksi", "Menghafal rumus manual", "Pengenalan pola"],
+      answer: 2,
+      topic: "Berpikir Komputasional"
+    },
+    {
+      question: "Protokol web browser yang menggunakan enkripsi SSL/TLS untuk keamanan transmisi data adalah...",
+      options: ["HTTP", "HTTPS", "FTP", "SMTP"],
+      answer: 1,
+      topic: "Jaringan Komputer"
+    },
+    {
+      question: "Metode pencegahan terhadap upaya penipuan pencurian data login (phishing) yang paling efektif adalah...",
+      options: ["Mengklik semua link pada email berhadiah", "Memverifikasi URL domain situs dan mengaktifkan 2FA (Two-Factor Authentication)", "Menggunakan password yang sama untuk semua akun", "Mematikan antivirus komputer"],
+      answer: 1,
+      topic: "Keamanan Digital"
+    },
+    {
+      question: "Dalam algoritma pemrograman, struktur kendali yang digunakan untuk mengulang sekumpulan instruksi selama kondisi terpenuhi disebut...",
+      options: ["Percabangan (If-Else)", "Perulangan (Looping)", "Fungsi (Function)", "Deklarasi Variabel"],
+      answer: 1,
+      topic: "Algoritma & Pemrograman"
+    }
+  ],
+  matematika: [
+    {
+      question: "Hasil dari operasi hitung (-12) + 7 x (-3) adalah...",
+      options: ["-33", "-15", "9", "33"],
+      answer: 0,
+      topic: "Bilangan Bulat"
+    },
+    {
+      question: "Penyelesaian dari persamaan linear satu variabel 3x - 5 = 16 adalah...",
+      options: ["x = 5", "x = 7", "x = 9", "x = 11"],
+      answer: 1,
+      topic: "Aljabar"
+    },
+    {
+      question: "Luas sebuah segitiga dengan panjang alas 14 cm dan tinggi 9 cm adalah...",
+      options: ["126 cm²", "63 cm²", "46 cm²", "31.5 cm²"],
+      answer: 1,
+      topic: "Geometri Datar"
+    },
+    {
+      question: "Sebuah dadu bersisi 6 dilempar satu kali. Peluang munculnya mata dadu bilangan prima adalah...",
+      options: ["1/6", "1/3", "1/2", "2/3"],
+      answer: 2,
+      topic: "Peluang"
+    },
+    {
+      question: "Median dari data: 6, 8, 5, 7, 9, 8, 7 adalah...",
+      options: ["6", "7", "7.5", "8"],
+      answer: 1,
+      topic: "Statistika"
+    }
+  ]
+};
+
+// ============================================================
+// THEME RENDERING & SELECTION
+// ============================================================
+function renderThemeCards() {
+  const container = document.getElementById('theme-grid');
+  if (!container) return;
+  container.innerHTML = Object.values(THEMES).map(th => {
+    const isSel = th.id === S.tema;
+    const swatchDots = th.swatches.map(c => `<span class="swatch-dot" style="background:${c}"></span>`).join('');
+    return `
+      <div class="theme-card ${isSel ? 'sel' : ''}" data-tid="${th.id}" onclick="selTheme('${th.id}')">
+        <span class="ck">✓</span>
+        <div class="theme-head">
+          <span class="theme-title">${th.emoji} ${th.name}</span>
+          <span class="theme-badge">${th.badge}</span>
+        </div>
+        <div class="theme-desc">${th.desc}</div>
+        <div class="swatch-row">${swatchDots}</div>
+      </div>
+    `;
+  }).join('');
+
+  const curTheme = THEMES[S.tema] || THEMES.dark_neon;
+  const lbl = document.getElementById('theme-sel-label');
+  if (lbl) lbl.textContent = `${curTheme.emoji} ${curTheme.name}`;
+}
+
+function selTheme(themeId) {
+  if (!THEMES[themeId]) return;
+  S.tema = themeId;
+  document.querySelectorAll('#theme-grid .theme-card').forEach(c => {
+    c.classList.toggle('sel', c.dataset.tid === themeId);
+  });
+  const th = THEMES[themeId];
+  const lbl = document.getElementById('theme-sel-label');
+  if (lbl) lbl.textContent = `${th.emoji} ${th.name}`;
+}
+
+// ============================================================
+// QUESTION BANK MANAGEMENT (MANUAL / AI / HYBRID)
+// ============================================================
+function setQMode(mode) {
+  S.qMode = mode;
+  document.querySelectorAll('.qmode-btn').forEach(btn => {
+    btn.classList.toggle('sel', btn.dataset.m === mode);
+  });
+
+  const manSec = document.getElementById('manual-q-section');
+  const topSec = document.getElementById('topic-kd-section');
+  const hintEl = document.getElementById('topic-hint-text');
+
+  if (mode === 'auto') {
+    if (manSec) manSec.style.display = 'none';
+    if (topSec) topSec.style.display = 'block';
+    if (hintEl) hintEl.textContent = 'Semakin spesifik topik → soal AI semakin akurat dan relevan. Klik chip saran di bawah untuk menambahkan, atau ketik manual.';
+  } else if (mode === 'manual') {
+    if (manSec) manSec.style.display = 'block';
+    if (topSec) topSec.style.display = 'none';
+  } else if (mode === 'hybrid') {
+    if (manSec) manSec.style.display = 'block';
+    if (topSec) topSec.style.display = 'block';
+    if (hintEl) hintEl.textContent = 'AI akan menggunakan seluruh soal manual Anda, lalu membuatkan soal tambahan sesuai topik/KD ini untuk melengkapi target kuota (35–50 soal).';
+  }
+  updateNav();
+}
+
+function switchQSub(sub) {
+  S.qSub = sub;
+  document.querySelectorAll('.qsub-tab').forEach(t => {
+    t.classList.toggle('sel', t.dataset.sub === sub);
+  });
+  const pasteEl = document.getElementById('qsub-paste');
+  const formEl = document.getElementById('qsub-form');
+  if (pasteEl) pasteEl.style.display = sub === 'paste' ? 'block' : 'none';
+  if (formEl) formEl.style.display = sub === 'form' ? 'block' : 'none';
+}
+
+function selFormKey(idx) {
+  S.formKey = idx;
+  document.querySelectorAll('.key-pill').forEach(p => {
+    p.classList.toggle('sel', parseInt(p.dataset.k) === idx);
+  });
+}
+
+function parseQuestionsFromText(rawText) {
+  if (!rawText || !rawText.trim()) return [];
+  const text = rawText.trim();
+
+  // 1. Cek JSON format
+  if (text.startsWith('[') && text.endsWith(']')) {
+    try {
+      const parsed = JSON.parse(text);
+      if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].question) {
+        return parsed.map(p => ({
+          question: String(p.question || '').trim(),
+          options: Array.isArray(p.options) ? p.options.map(o => String(o).trim()) : ['A','B','C','D'],
+          answer: typeof p.answer === 'number' ? Math.max(0, Math.min(3, p.answer)) : 0,
+          topic: String(p.topic || 'Umum').trim()
+        })).filter(q => q.question && q.options.length >= 2);
+      }
+    } catch(e) {}
+  }
+
+  // 2. Line by line smart parser
+  const lines = text.split(/\r?\n/);
+  const results = [];
+  let curQ = null;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // Deteksi nomor soal awal (1. atau 1) atau Soal 1: dsb)
+    const qMatch = line.match(/^(?:(?:\d+[\.\)]|Soal\s*\d+[\.:]|Pertanyaan\s*\d+[\.:]|Q\d+[\.:])\s*)(.+)$/i);
+    if (qMatch) {
+      if (curQ && curQ.question && curQ.options.length >= 2) {
+        results.push(finalizeQuestion(curQ));
+      }
+      curQ = { question: qMatch[1].trim(), options: [], answer: 0, topic: 'Umum' };
+      continue;
+    }
+
+    // Deteksi opsi A/B/C/D
+    const optMatch = line.match(/^([A-Da-d])[\.\)\:\-\]]\s*(.+)$/);
+    if (optMatch && curQ) {
+      const letter = optMatch[1].toUpperCase();
+      let optText = optMatch[2].trim();
+      if (optText.endsWith('*') || optText.includes('*')) {
+        optText = optText.replace(/\*/g, '').trim();
+        curQ.answer = ['A','B','C','D'].indexOf(letter);
+      }
+      curQ.options.push(optText);
+      continue;
+    }
+
+    // Deteksi Kunci Jawaban
+    const keyMatch = line.match(/^(?:Kunci(?:\s*Jawaban)?|Jawaban|Answer|Key)[\s\:\=]+([A-Da-d])/i);
+    if (keyMatch && curQ) {
+      const idx = ['A','B','C','D'].indexOf(keyMatch[1].toUpperCase());
+      if (idx !== -1) curQ.answer = idx;
+      continue;
+    }
+
+    // Deteksi Topik / Materi
+    const topMatch = line.match(/^(?:Topik|Materi|KD|Kategori)[\s\:\=]+(.+)$/i);
+    if (topMatch && curQ) {
+      curQ.topic = topMatch[1].trim();
+      continue;
+    }
+
+    // Sambungan teks soal jika opsi belum dimulai
+    if (curQ && curQ.options.length === 0) {
+      curQ.question += ' ' + line;
+    }
+  }
+
+  if (curQ && curQ.question && curQ.options.length >= 2) {
+    results.push(finalizeQuestion(curQ));
+  }
+
+  return results;
+}
+
+function finalizeQuestion(q) {
+  while (q.options.length < 4) {
+    q.options.push(`Pilihan ${['A','B','C','D'][q.options.length]}`);
+  }
+  if (q.options.length > 4) q.options = q.options.slice(0, 4);
+  if (q.answer < 0 || q.answer > 3) q.answer = 0;
+  return q;
+}
+
+function processPastedQuestions() {
+  const ta = document.getElementById('paste-soal-in');
+  if (!ta || !ta.value.trim()) {
+    showToast('⚠️ Paste atau ketikkan teks soal terlebih dahulu!');
+    return;
+  }
+  const parsed = parseQuestionsFromText(ta.value);
+  if (!parsed.length) {
+    showToast('⚠️ Format soal tidak terdeteksi. Gunakan format contoh: 1. Soal... A. B. C. D. Kunci: A');
+    return;
+  }
+  S.manualQuestions = [...S.manualQuestions, ...parsed];
+  renderQuestionBank();
+  showToast(`✅ Berhasil menambahkan ${parsed.length} butir soal ke Bank Soal!`, 'ok');
+}
+
+function loadSampleQuestions(type) {
+  const samples = SAMPLE_QUESTIONS[type] || [];
+  if (!samples.length) return;
+  S.manualQuestions = [...S.manualQuestions, ...JSON.parse(JSON.stringify(samples))];
+  renderQuestionBank();
+  showToast(`✅ 5 Contoh soal ${type} berhasil dimuat!`, 'ok');
+}
+
+function addQuestionFromForm() {
+  const qText = document.getElementById('fq-text').value.trim();
+  const opt0 = document.getElementById('fq-opt-0').value.trim();
+  const opt1 = document.getElementById('fq-opt-1').value.trim();
+  const opt2 = document.getElementById('fq-opt-2').value.trim();
+  const opt3 = document.getElementById('fq-opt-3').value.trim();
+  const topic = document.getElementById('fq-topic').value.trim() || 'Materi Inti';
+
+  if (!qText) { showToast('⚠️ Tuliskan pertanyaan soal!'); return; }
+  if (!opt0 || !opt1) { showToast('⚠️ Minimal isi pilihan jawaban A dan B!'); return; }
+
+  const options = [opt0, opt1, opt2 || 'Pilihan C', opt3 || 'Pilihan D'];
+  const newQ = {
+    question: qText,
+    options: options,
+    answer: S.formKey,
+    topic: topic
+  };
+
+  S.manualQuestions.push(newQ);
+  document.getElementById('fq-text').value = '';
+  document.getElementById('fq-opt-0').value = '';
+  document.getElementById('fq-opt-1').value = '';
+  document.getElementById('fq-opt-2').value = '';
+  document.getElementById('fq-opt-3').value = '';
+  document.getElementById('fq-topic').value = '';
+  selFormKey(0);
+
+  renderQuestionBank();
+  showToast('✅ Soal berhasil ditambahkan ke Bank Soal!', 'ok');
+}
+
+function deleteQuestion(idx) {
+  S.manualQuestions.splice(idx, 1);
+  renderQuestionBank();
+  showToast('Soal telah dihapus.');
+}
+
+function clearAllQuestions() {
+  if (S.manualQuestions.length === 0) return;
+  if (confirm('Hapus seluruh daftar soal manual yang ada di bank soal?')) {
+    S.manualQuestions = [];
+    renderQuestionBank();
+    showToast('Semua soal manual telah dibersihkan.');
+  }
+}
+
+function renderQuestionBank() {
+  const counter = document.getElementById('qbank-counter');
+  const container = document.getElementById('qlist-container');
+  const emptyMsg = document.getElementById('qlist-empty');
+  const clearBtn = document.getElementById('btn-clear-all');
+
+  const count = S.manualQuestions.length;
+  if (counter) counter.textContent = `${count} Soal Siap Digunakan`;
+  if (clearBtn) clearBtn.style.display = count > 0 ? 'inline-flex' : 'none';
+
+  if (!container) return;
+
+  if (count === 0) {
+    container.innerHTML = `
+      <div style="font-size:.8rem;color:var(--t3);text-align:center;padding:22px 0" id="qlist-empty">
+        Belum ada soal manual. Gunakan <em>Paste Cepat</em> atau <em>Formulir</em> di atas untuk menambahkan soal Anda sendiri.
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = S.manualQuestions.map((q, idx) => {
+    const letters = ['A', 'B', 'C', 'D'];
+    const optsHtml = q.options.map((opt, oIdx) => {
+      const isCorrect = oIdx === q.answer;
+      return `
+        <div class="qopt-box ${isCorrect ? 'is-key' : ''}">
+          <span class="qopt-badge">${letters[oIdx]}${isCorrect ? ' ✓' : '.'}</span>
+          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHtml(opt)}</span>
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div class="qcard">
+        <div class="qcard-top">
+          <span class="qcard-num">#${idx + 1}</span>
+          <div class="qcard-text">
+            ${escapeHtml(q.question)}
+            ${q.topic ? `<span style="font-size:.65rem;color:var(--t3);margin-left:6px">· ${escapeHtml(q.topic)}</span>` : ''}
+          </div>
+          <button type="button" class="qcard-del" title="Hapus Soal" onclick="deleteQuestion(${idx})">🗑️</button>
+        </div>
+        <div class="qcard-opts">${optsHtml}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ============================================================
 // TOGGLE / SELECT HANDLERS
 // ============================================================
 function toggleMapel(c) {
@@ -1074,7 +1823,6 @@ function selSeg(b, gid) {
   b.classList.add('sel');
   const v = b.dataset.v;
   if(gid==='tim-g') S.tim=v;
-  if(gid==='tema-g') S.tema=v;
   if(gid==='tmr-g') S.timer=v;
   if(gid==='diff-g') S.diff=v;
   if(gid==='aud-g') S.audio=v;
@@ -1117,13 +1865,14 @@ function showPreview(platKey) {
 // ============================================================
 function updateChips() {
   const cont = document.getElementById('chips');
+  if(!cont) return;
   cont.innerHTML = '';
   const all = new Set();
   S.mapel.forEach(m => { if(TOPICS[m]) TOPICS[m].forEach(t => all.add(t)); });
   if(!all.size) return;
   const lbl = document.createElement('span');
   lbl.style.cssText='font-size:.7rem;color:var(--t3);align-self:center;margin-right:2px';
-  lbl.textContent='💡 Saran:';
+  lbl.textContent='💡 Saran Topik:';
   cont.appendChild(lbl);
   [...all].slice(0,14).forEach(chip => {
     const el = document.createElement('span');
@@ -1140,11 +1889,22 @@ function updateChips() {
 // STEP NAV
 // ============================================================
 function updateNav() {
-  const done = [S.mapel.length>0, !!S.kelas, !!S.plat, true, true];
-  document.querySelectorAll('.stp').forEach((el,i) => {
-    el.classList.remove('active','done');
-    if(done[i]) el.classList.add('done');
-    else if(i===done.indexOf(false)) el.classList.add('active');
+  const hasTopicOrQuestions = S.qMode === 'manual'
+    ? S.manualQuestions.length > 0
+    : (document.getElementById('topic-in').value.trim().length > 3 || S.manualQuestions.length > 0);
+  
+  const done = [
+    S.mapel.length > 0,
+    !!S.kelas,
+    !!S.plat,
+    true, // Konfigurasi & Tema memiliki default aktif
+    hasTopicOrQuestions
+  ];
+
+  document.querySelectorAll('.stp').forEach((el, i) => {
+    el.classList.remove('active', 'done');
+    if (done[i]) el.classList.add('done');
+    else if (i === done.indexOf(false)) el.classList.add('active');
   });
 }
 
@@ -1152,11 +1912,14 @@ function updateNav() {
 // QUALITY CHECKER
 // ============================================================
 function qualityScore() {
+  const hasTopic = document.getElementById('topic-in').value.trim().length > 10;
+  const hasManualQ = S.manualQuestions.length > 0;
   const items = [
     {ok: S.mapel.length>0, lbl:'Mata Pelajaran'},
     {ok: !!S.kelas, lbl:'Kelas'},
     {ok: !!S.plat, lbl:'Platform Game'},
-    {ok: document.getElementById('topic-in').value.trim().length>10, lbl:'Topik Spesifik'},
+    {ok: !!THEMES[S.tema], lbl:'Tema Visual'},
+    {ok: (S.qMode==='manual' ? hasManualQ : (hasTopic || hasManualQ)), lbl: S.qMode==='manual' ? 'Soal Manual Guru' : 'Topik / Soal'},
     {ok: parseInt(S.tim)>=2, lbl:'Jumlah Tim'},
   ];
   const bar = document.getElementById('q-bar');
@@ -1169,12 +1932,47 @@ function qualityScore() {
 }
 
 // ============================================================
-// PROMPT BUILDER — Ultra-Presisi
+// PROMPT BUILDER — Ultra-Presisi & Themed
 // ============================================================
 function buildPrompt(pd, mapelStr, topikStr) {
   const nSoal = S.plat==='escape_room' ? '40-50' : '35-50';
   const isCanvas = ['zombie_td','space_shooter','runner_quiz','archery_quiz'].includes(S.plat);
   const isDOMBased = ['word_scramble','memory_match','trivia_board','whack_mole'].includes(S.plat);
+  const th = THEMES[S.tema] || THEMES.dark_neon;
+
+  // Manual questions code block
+  let questionsCodeBlock = '';
+  if (S.manualQuestions.length > 0) {
+    const qListFormatted = S.manualQuestions.map((q, idx) => {
+      const keyLetter = ['A','B','C','D'][q.answer] || 'A';
+      return `  {
+    id: ${idx + 1},
+    question: ${JSON.stringify(q.question)},
+    options: ${JSON.stringify(q.options)},
+    answer: ${q.answer}, // Kunci: ${keyLetter} -> "${q.options[q.answer] || ''}"
+    topic: ${JSON.stringify(q.topic || 'Materi Inti')}
+  }`;
+    }).join(',\n');
+
+    questionsCodeBlock = `const QUESTIONS = [
+  // ====================================================================
+  // BANK SOAL MANUAL DARI GURU (WAJIB DIGUNAKAN) — ${S.manualQuestions.length} BUTIR SOAL
+  // ====================================================================
+${qListFormatted}
+  ${S.qMode === 'hybrid' ? `// ... AI WAJIB MENAMBAHKAN SOAL SUPLEMEN HINGGA TOTAL MINIMAL ${nSoal} BUTIR SOAL` : ''}
+];`;
+  } else {
+    questionsCodeBlock = `const QUESTIONS = [
+  {
+    question: "Teks soal yang jelas dan spesifik sesuai materi?",
+    options: ["Jawaban BENAR", "Distraktor masuk akal 1", "Distraktor masuk akal 2", "Distraktor masuk akal 3"],
+    answer: 0,        // index 0-3 posisi jawaban benar
+    topic: "Nama Topik / KD",
+    difficulty: 2     // 1=mudah 2=sedang 3=sulit
+  },
+  // ...min ${nSoal} soal berkualitas tinggi
+];`;
+  }
 
   return `Tugas kamu: buat SATU FILE HTML TUNGGAL — game edukasi interaktif untuk
 layar IFP (Interactive Flat Panel) kelas, landscape 1920×1080.
@@ -1192,9 +1990,11 @@ Topik / KD     : ${topikStr}
 Jumlah Tim     : ${S.tim} tim bermain SIMULTAN bersamaan (bukan bergantian)
 Timer Soal     : ${S.timer} per soal dengan progress bar animasi
 Bahasa UI      : ${S.lang}
-Tema Visual    : ${S.tema}
+Tema Visual    : ${th.name} (${th.badge})
 Tingkat Kognitif: ${S.diff}
 Audio          : ${S.audio}
+Mode Bank Soal : ${S.qMode === 'manual' ? 'Input Manual Penuh Guru' : S.qMode === 'hybrid' ? 'Kombinasi (Manual Guru + Suplemen AI)' : 'Otomatis Generate AI'}
+Total Soal Guru: ${S.manualQuestions.length} butir telah disediakan
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [B] KONSEP & MEKANISME UTAMA
@@ -1205,14 +2005,21 @@ Hasil akhir yang diharapkan:
 ${pd.expects.map((e,i)=>`  ${i+1}. [${e.t}] ${e.d}`).join('\n')}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[C] LAYOUT LAYAR IFP (1920x1080 Landscape)
+[C] LAYOUT LAYAR IFP (1920x1080 Landscape) & PALET TEMA VISUAL
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${pd.diagram}
 
-Warna Tim  : Merah #ff4466 · Biru #4488ff · Hijau #44dd66 · Kuning #ffcc22
-Font       : Google Fonts — Orbitron (judul/skor) + Inter atau Outfit (teks UI)
-CSS Root   : Gunakan CSS Custom Properties (--var) untuk semua warna, radius, shadow
-Touch      : Semua interaktif harus berfungsi di touch screen IFP (touchstart + touchend)
+ATURAN GAYA & PALET TEMA (${th.name.toUpperCase()}):
+${th.promptGuide}
+
+CSS Custom Properties Wajib (:root):
+:root {
+${th.cssVars}
+}
+
+Font       : Google Fonts — Orbitron (skor/judul arcade) + Inter atau Outfit (teks soal & UI)
+Touch IFP  : Semua elemen interaktif harus mendukung sentuhan jari layar sentuh IFP (touchstart + touchend)
+Ukuran UI  : Tombol opsi jawaban minimal tinggi 56px agar nyaman disentuh jari siswa
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [D] TEKNOLOGI & SCAFFOLD KODE WAJIB
@@ -1233,20 +2040,16 @@ ${isDOMBased ? `Untuk game berbasis DOM:
   - CSS Custom Properties untuk theming cepat` : ''}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[E] SISTEM SOAL — ${nSoal} SOAL PILIHAN GANDA
+[E] SISTEM SOAL — PILIHAN GANDA (${S.manualQuestions.length > 0 ? `${S.manualQuestions.length} SOAL MANUAL GURU` : `${nSoal} SOAL AI`})
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Format data soal (JavaScript):
-const QUESTIONS = [
-  {
-    question: "Teks soal yang jelas dan spesifik?",
-    options: ["Jawaban BENAR", "Distraktor masuk akal", "Distraktor masuk akal", "Distraktor masuk akal"],
-    answer: 0,        // index 0-3 posisi jawaban benar
-    topic: "Nama Topik",
-    difficulty: 2     // 1=mudah 2=sedang 3=sulit
-  },
-  // ...min ${nSoal} soal
-];
+Struktur data soal JavaScript yang wajib dimasukkan ke dalam kode:
+${questionsCodeBlock}
 
+${S.manualQuestions.length > 0 ? `ATURAN WAJIB PENGGUNAAN SOAL MANUAL GURU:
+1. AI WAJIB menyertakan seluruh ${S.manualQuestions.length} butir soal manual di atas ke dalam array QUESTIONS secara PERSIS (VERBATIM).
+   DILARANG mengubah esensi teks soal, pilihan jawaban A/B/C/D, atau indeks kunci jawabannya!
+${S.qMode === 'hybrid' ? `2. MODE KOMBINASI: Tambahkan ${Math.max(0, 35 - S.manualQuestions.length)} butir soal suplemen baru yang relevan dengan topik: "${topikStr}" sehingga total game memiliki minimal ${nSoal} soal.` : '2. Gunakan seluruh soal manual ini sebagai konten kuis game.'}
+3. Saat kuis berjalan di gameplay, opsi A/B/C/D dan urutan kemunculan soal diacak secara dinamis (shuffle) dengan menjaga mapping kunci jawaban yang benar.` : `ATURAN SOAL AI:
 Topik soal wajib dari: ${topikStr}
 Distribusi kognitif: ${S.diff}
 Bahasa soal: ${S.lang}
@@ -1257,6 +2060,8 @@ Kualitas soal:
   Opsi A/B/C/D diacak setiap sesi (shuffleArray)
   Soal diacak urutannya setiap sesi baru
 
+CATATAN GURU: Guru dapat mengganti array const QUESTIONS di dalam file HTML ini kapan saja dengan soal buatan sendiri tanpa merusak mekanisme game!`}
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [F] TIGA SCREEN WAJIB
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1265,7 +2070,7 @@ Kualitas soal:
    - Pilih jumlah tim 2/3/4 dengan tombol visual besar
    - Input nama tim (default: Tim Merah/Biru/Hijau/Kuning, max 15 karakter)
    - Cara bermain singkat (collapsible "?" tooltip atau modal)
-   - Tombol MULAI besar dengan gradient + hover effect
+   - Tombol MULAI besar dengan gradient + hover effect sesuai tema ${th.name}
 
 2. GAME SCREEN
    - Implementasi penuh sesuai diagram layout [C] dan mekanisme [B]
@@ -1301,7 +2106,7 @@ Struktur File:
 2. TIDAK ADA CDN library (jQuery, Bootstrap, dll.) — kecuali Google Fonts link
 3. Vanilla JavaScript ES6+ — class, arrow function, template literal, destructuring
 4. Urutan kode: const QUESTIONS -> class definitions -> event bindings -> DOMContentLoaded init
-5. CSS: gunakan :root { --var } untuk semua nilai yang dipakai berulang
+5. CSS: terapkan tema visual "${th.name}" menggunakan CSS Custom Properties (:root) di atas
 6. Animasi: CSS keyframes untuk UI, requestAnimationFrame untuk game loop
 7. NO placeholder — kode harus COMPLETE dan LANGSUNG BISA DIJALANKAN
 
@@ -1328,17 +2133,18 @@ Anti-Broken JavaScript — WAJIB:
 [I] CHECKLIST WAJIB SEBELUM OUTPUT KODE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Verifikasi mental sebelum output:
-  [OK] Minimal ${nSoal} soal dengan topik bervariasi dari: ${topikStr}
-  [OK] Semua ${S.tim} tim bisa bermain simultan bersamaan
+  [OK] ${S.manualQuestions.length > 0 ? `${S.manualQuestions.length} butir soal manual guru dimasukkan persis` : `Minimal ${nSoal} soal dengan topik bervariasi dari: ${topikStr}`}
+  [OK] Semua ${S.tim} tim bisa bermain simultan bersamaan di 1 layar IFP
+  [OK] Tema visual "${th.name}" konsisten dari background, kartu, warna tim, hingga feedback
   [OK] 3 screen: setup -> game -> results — semua berfungsi dan bisa transisi bolak-balik
-  [OK] CSS responsive minimum 1024px lebar
+  [OK] CSS responsive minimum 1024px lebar (optimal 1920x1080)
   [OK] Touch events (touchstart/touchend) di semua elemen interaktif
   [OK] Tidak ada console.error saat dijalankan di Chrome
   [OK] Hitung { dan } CSS — jumlahnya harus sama persis
   [OK] Hitung { dan } JS — semua function/class/if/for harus tertutup
   [OK] Tidak ada variabel yang dipakai sebelum dideklarasikan
   [OK] Tidak ada getElementById yang id-nya tidak ada di HTML
-  [OK] Nama file game kreatif sesuai tema ${pd.name}
+  [OK] Nama file game kreatif sesuai genre ${pd.name}
 
 Output: kode HTML LENGKAP dari DOCTYPE html sampai /html.
 Jika output terpotong, lanjutkan TEPAT dari karakter terakhir — jangan ulangi dari awal.`;
@@ -1352,15 +2158,25 @@ function generate() {
   if(!S.kelas) { showToast('⚠️ Pilih kelas/jenjang terlebih dahulu!'); return; }
   if(!S.plat) { showToast('⚠️ Pilih genre/platform game!'); return; }
 
+  if(S.qMode === 'manual' && S.manualQuestions.length === 0) {
+    showToast('⚠️ Anda memilih Mode Manual. Masukkan minimal 1 butir soal manual atau muat contoh soal!');
+    return;
+  }
+
   S.topik = document.getElementById('topic-in').value.trim();
   const pd = PLATS[S.plat];
+  const th = THEMES[S.tema] || THEMES.dark_neon;
   const mapelStr = S.mapel.join(' + ');
-  const topikStr = S.topik || `materi ${mapelStr} ${S.kelas} sesuai Kurikulum Merdeka`;
+  const topikStr = S.topik || (S.manualQuestions.length > 0 ? `Soal Manual Guru (${S.manualQuestions.length} Soal)` : `materi ${mapelStr} ${S.kelas} sesuai Kurikulum Merdeka`);
 
   const prompt = buildPrompt(pd, mapelStr, topikStr);
   document.getElementById('pout').textContent = prompt;
 
   qualityScore();
+
+  const qLabel = S.manualQuestions.length > 0
+    ? `${S.manualQuestions.length} Soal Manual (${S.qMode === 'hybrid' ? 'Kombinasi' : 'Manual'})`
+    : 'AI Otomatis';
 
   document.getElementById('sum-strip').innerHTML = [
     {i:'📚',l:'Mapel',v:mapelStr},
@@ -1368,7 +2184,8 @@ function generate() {
     {i:pd.emoji,l:'Genre',v:pd.name},
     {i:'👥',l:'Tim',v:S.tim+' Tim'},
     {i:'⏱️',l:'Timer',v:S.timer},
-    {i:'🎨',l:'Tema',v:S.tema},
+    {i:th.emoji,l:'Tema',v:th.name},
+    {i:'📝',l:'Bank Soal',v:qLabel},
   ].map(x=>`<div class="spill">${x.i} <span class="sl">${x.l}:</span> <span class="sv">${x.v}</span></div>`).join('');
 
   const out = document.getElementById('out-sec');
@@ -1411,11 +2228,19 @@ function showToast(msg, type='err') {
 // INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', ()=>{
+  renderThemeCards();
+  renderQuestionBank();
+
   // Default: Informatika + SMP Kelas 9
   const inf = document.querySelector('.card[data-v="Informatika"]');
   if(inf) toggleMapel(inf);
   const k9 = document.querySelector('.pill[data-v="SMP Kelas 9"]');
   if(k9) selKelas(k9);
+
+  // Default: zombie_td platform
+  const defPlat = document.querySelector('#plat-grid .card[data-v="zombie_td"]');
+  if(defPlat) selPlat(defPlat);
+
   updateNav();
 });
 </script>

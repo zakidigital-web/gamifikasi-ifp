@@ -11,7 +11,9 @@ Website portal pembelajaran terpadu untuk Pelatihan Guru Informatika SMP dengan 
    - Mode kuis simultan 2-4 tim, Web Audio API synthesis tanpa aset eksternal, dan touchscreen friendly.
 3. **Master Prompt Engine & Bank Prompt**:
    - Generator prompt interaktif (*Master Prompt Generator v3*).
-   - 3 tingkatan prompt siap salin: **Mudah**, **Sedang**, dan **Advance (Master)** dari dokumen panduan resmi.
+   - **Fitur Baru**: Input Soal & Jawaban Manual (Mode Paste Cepat dari Word/PDF dan Formulir Interaktif) yang dimasukkan langsung ke prompt `const QUESTIONS = [...]`.
+   - **Fitur Baru**: 7 Tema Visual Alternatif IFP (Dark Neon, Clean Bright / Light Mode, Nature & Rainforest, Cosmic Galaxy, Retro Arcade 8-Bit, Comic Pop, Oceanic Coral) lengkap dengan token warna CSS `:root`.
+   - 3 tingkatan prompt siap salin: **Mudah**, **Sedang**, dan **Advance (Master)** dengan panduan customisasi guru.
 
 ---
 
