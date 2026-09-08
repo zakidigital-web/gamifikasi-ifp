@@ -816,7 +816,7 @@
         <div class="diff-grid">
           <button type="button" class="diff-btn" data-mode="easy">
             <span class="diff-title">🟢 EASY</span>
-            <span class="diff-desc">Santai · Drone Sedikit · Timer 25s</span>
+            <span class="diff-desc">Sangat Santai · Timer 30s · Perisai 1500 HP</span>
           </button>
           <button type="button" class="diff-btn active" data-mode="normal">
             <span class="diff-title">🟡 NORMAL</span>
@@ -1278,33 +1278,40 @@
         const x = margin + Math.random() * (this.width - margin * 2);
         const y = -50;
 
-        let hp = 70;
-        let speed = 1.0;
-        let radius = 22;
-        let color = '#38bdf8';
+        const isEasy = this.game.difficulty === 'easy';
+        const hpMultiplier = isEasy ? 0.65 : 1.0;
+        const speedMultiplier = isEasy ? 0.72 : 1.0;
 
         if (type === 'asteroid') {
-          hp = 50 + Math.floor(Math.random() * 40);
-          speed = 0.52 + Math.random() * 0.22;
-          radius = 24;
-          color = '#94a3b8';
+          const rawHp = 50 + Math.floor(Math.random() * 35);
+          const hp = Math.round(rawHp * hpMultiplier);
+          const speed = (0.46 + Math.random() * 0.18) * speedMultiplier;
+          this.enemies.push({
+            type,
+            x, y,
+            hp, maxHp: hp,
+            speed,
+            radius: 24,
+            color: '#94a3b8',
+            angle: 0,
+            rotSpeed: (Math.random() - 0.5) * 0.02,
+            isBoss: false
+          });
+          return;
         } else if (type === 'drone') {
-          hp = 80 + Math.floor(Math.random() * 60) + (wave * 15);
-          speed = 0.85 + (wave * 0.08);
-          radius = 20;
-          color = '#f43f5e';
-          const shots = 3 + Math.floor(Math.random() * 2); // 3-4 shots before kamikaze dive
-          const targetY = 70 + Math.random() * Math.min(220, this.height * 0.38);
+          const rawHp = 70 + Math.floor(Math.random() * 45) + (wave * 12);
+          const hp = Math.round(rawHp * hpMultiplier);
+          const speed = (0.8 + (wave * 0.06)) * speedMultiplier;
+          const shots = isEasy ? 2 : (3 + Math.floor(Math.random() * 2)); // 2 shots on Easy
+          const targetY = 70 + Math.random() * Math.min(200, this.height * 0.35);
 
           this.enemies.push({
             type,
-            x,
-            y,
-            hp,
-            maxHp: hp,
+            x, y,
+            hp, maxHp: hp,
             speed,
-            radius,
-            color,
+            radius: 20,
+            color: '#f43f5e',
             angle: 0,
             rotSpeed: 0,
             isBoss: false,
@@ -1314,39 +1321,65 @@
             maxShots: shots,
             targetY,
             baseX: x,
-            driftVx: (Math.random() > 0.5 ? 1 : -1) * (0.65 + Math.random() * 0.45),
+            driftVx: (Math.random() > 0.5 ? 1 : -1) * (0.6 + Math.random() * 0.4) * speedMultiplier,
             weaveAngle: Math.random() * Math.PI * 2,
-            weaveSpeed: 0.024 + Math.random() * 0.015,
-            weaveRadius: 35 + Math.random() * 45,
-            shootCooldown: 1800 + Math.random() * 900,
+            weaveSpeed: (0.022 + Math.random() * 0.012) * speedMultiplier,
+            weaveRadius: 35 + Math.random() * 40,
+            shootCooldown: (isEasy ? 2500 : 1800) + Math.random() * 900,
             lastShotTime: Date.now() + Math.random() * 800
           });
           return;
         } else if (type === 'cruiser') {
-          hp = 180 + Math.floor(Math.random() * 80) + (wave * 25);
-          speed = 0.46 + (wave * 0.04);
-          radius = 32;
-          color = '#a855f7';
-        } else if (type === 'boss') {
-          hp = 500 + (wave * 100);
-          speed = 0.28;
-          radius = 52;
-          color = '#fbbf24';
-        }
+          // Kapal Besar: Menembak dari jarak jauh, tidak menghancurkan diri di shield
+          const rawHp = 160 + Math.floor(Math.random() * 60) + (wave * 20);
+          const hp = Math.round(rawHp * hpMultiplier);
+          const speed = 0.38 * speedMultiplier;
+          const targetY = 75 + Math.random() * Math.min(130, this.height * 0.25);
 
-        this.enemies.push({
-          type,
-          x,
-          y,
-          hp,
-          maxHp: hp,
-          speed,
-          radius,
-          color,
-          angle: 0,
-          rotSpeed: (Math.random() - 0.5) * 0.025,
-          isBoss: type === 'boss'
-        });
+          this.enemies.push({
+            type,
+            x, y,
+            hp, maxHp: hp,
+            speed,
+            radius: 32,
+            color: '#a855f7',
+            angle: 0,
+            rotSpeed: 0,
+            isBoss: false,
+            // Cruiser Siege Mechanics:
+            state: 'siege',
+            targetY,
+            driftVx: (Math.random() > 0.5 ? 1 : -1) * 0.32 * speedMultiplier,
+            shootCooldown: (isEasy ? 3800 : 3000) + Math.random() * 1200,
+            lastShotTime: Date.now() + 1000
+          });
+          return;
+        } else if (type === 'boss') {
+          // Boss Kapal Induk: Menembak dari jarak jauh, tidak menghancurkan diri di shield
+          const rawHp = 450 + (wave * 80);
+          const hp = Math.round(rawHp * hpMultiplier);
+          const speed = 0.24 * speedMultiplier;
+          const targetY = 90 + Math.random() * 30;
+
+          this.enemies.push({
+            type,
+            x, y,
+            hp, maxHp: hp,
+            speed,
+            radius: 52,
+            color: '#fbbf24',
+            angle: 0,
+            rotSpeed: 0.008,
+            isBoss: true,
+            // Boss Siege Mechanics:
+            state: 'siege',
+            targetY,
+            driftVx: (Math.random() > 0.5 ? 1 : -1) * 0.24 * speedMultiplier,
+            shootCooldown: (isEasy ? 3500 : 2600) + Math.random() * 1000,
+            lastShotTime: Date.now() + 1500
+          });
+          return;
+        }
       }
 
       // Fire a weapon from a team's starfighter
@@ -1580,7 +1613,8 @@
                       vy: 3.6 + Math.random() * 0.8,
                       damage: 1,
                       radius: 4.5,
-                      color: '#f43f5e'
+                      color: '#f43f5e',
+                      trailColor: '#fda4af'
                     });
 
                     this.createSparks(en.x, en.y + en.radius, '#f43f5e', 5);
@@ -1589,7 +1623,7 @@
                     // If all shots fired, trigger kamikaze dive!
                     if (en.shotsLeft <= 0) {
                       en.state = 'dive';
-                      en.speed = 2.4 + (this.game.currentWave * 0.18);
+                      en.speed = 2.0 + (this.game.currentWave * 0.15);
                       this.addDamageText(en.x, en.y - 22, '⚠️ KAMIKAZE DIVE!', '#ef4444', 1.15);
                     }
                   }
@@ -1599,14 +1633,106 @@
                 en.y += en.speed * timeScale;
                 en.angle = Math.sin(Date.now() * 0.012) * 0.12;
               }
+            } else if (en.type === 'cruiser') {
+              // Kapal Besar (Armored Cruiser):
+              // Meluncur ke ketinggian serang (targetY), MELAYANG, dan MENEMBAK jarak jauh (TIDAK bunuh diri ke shield)
+              if (en.y < en.targetY) {
+                en.y += en.speed * timeScale;
+              } else {
+                // Posisi melayang stabil di targetY dengan osilasi lembut
+                en.y = en.targetY + Math.sin(Date.now() * 0.002 + en.x * 0.05) * 6;
+
+                // Drift horizontal bolak-balik
+                en.x += en.driftVx * timeScale;
+                const minX = en.radius + 40;
+                const maxX = this.width - en.radius - 40;
+                if (en.x < minX) {
+                  en.x = minX;
+                  en.driftVx = Math.abs(en.driftVx);
+                } else if (en.x > maxX) {
+                  en.x = maxX;
+                  en.driftVx = -Math.abs(en.driftVx);
+                }
+
+                // Menembakkan Meriam Plasma Kembar Ungu ke Perisai Planet
+                const now = Date.now();
+                if (now - en.lastShotTime >= en.shootCooldown) {
+                  en.lastShotTime = now;
+                  const cruiserDmg = this.game.difficulty === 'easy' ? 2 : 3;
+
+                  // Tembakan ganda sayap kiri & kanan
+                  [-14, 14].forEach(offset => {
+                    this.enemyProjectiles.push({
+                      x: en.x + offset,
+                      y: en.y + en.radius * 0.8,
+                      vy: 2.8 + Math.random() * 0.5,
+                      damage: cruiserDmg,
+                      radius: 6,
+                      color: '#a855f7',
+                      trailColor: '#d8b4fe'
+                    });
+                  });
+
+                  this.createSparks(en.x, en.y + en.radius, '#a855f7', 8);
+                  this.game.audio.playLaser(1);
+                  this.addDamageText(en.x, en.y - 20, '⚡ MERIAM UNGU!', '#c084fc', 1.0);
+                }
+              }
+            } else if (en.type === 'boss') {
+              // Alien Mothership Boss:
+              // Melayang stabil di targetY, berotasi, dan menembakkan Artileri Emas Triple (TIDAK menabrakkan diri)
+              en.angle += en.rotSpeed * timeScale;
+              if (en.y < en.targetY) {
+                en.y += en.speed * timeScale;
+              } else {
+                // Melayang stabil dengan osilasi energi
+                en.y = en.targetY + Math.sin(Date.now() * 0.0015) * 8;
+
+                // Drift horizontal
+                en.x += en.driftVx * timeScale;
+                const minX = en.radius + 50;
+                const maxX = this.width - en.radius - 50;
+                if (en.x < minX) {
+                  en.x = minX;
+                  en.driftVx = Math.abs(en.driftVx);
+                } else if (en.x > maxX) {
+                  en.x = maxX;
+                  en.driftVx = -Math.abs(en.driftVx);
+                }
+
+                // Menembakkan Artileri Emas Triple (Kiri, Tengah, Kanan)
+                const now = Date.now();
+                if (now - en.lastShotTime >= en.shootCooldown) {
+                  en.lastShotTime = now;
+                  const bossDmg = this.game.difficulty === 'easy' ? 3 : 5;
+
+                  [-26, 0, 26].forEach((offset) => {
+                    this.enemyProjectiles.push({
+                      x: en.x + offset,
+                      y: en.y + en.radius * 0.9,
+                      vx: (offset !== 0) ? (offset > 0 ? 0.35 : -0.35) : 0,
+                      vy: 2.5 + Math.random() * 0.4,
+                      damage: bossDmg,
+                      radius: 8,
+                      color: '#fbbf24',
+                      trailColor: '#fef08a'
+                    });
+                  });
+
+                  this.createSparks(en.x, en.y + en.radius, '#fbbf24', 12);
+                  this.screenShake = 6;
+                  this.game.audio.playShieldAlarm();
+                  this.addDamageText(en.x, en.y - 32, '👑 ARTILERI BOSS!', '#fbbf24', 1.25);
+                }
+              }
             } else {
-              // Asteroids, Cruisers, Bosses
+              // Asteroids (terbang lurus menuju perisai)
               en.y += en.speed * timeScale;
               en.angle += en.rotSpeed * timeScale;
             }
           }
 
-          // Enemy touches planetary shield barrier
+          // Hanya asteroid dan drone kamikaze yang menyentuh perisai
           if (en.y + en.radius >= shieldLineY) {
             const breachDmg = en.isBoss ? 250 : Math.round(en.hp * 0.8);
             this.game.damageShield(breachDmg);
@@ -1617,15 +1743,16 @@
           }
         }
 
-        // Enemy Projectiles (Drone 1 HP plasma shots)
+        // Enemy Projectiles (Drone, Cruiser, Boss)
         for (let i = this.enemyProjectiles.length - 1; i >= 0; i--) {
           const ep = this.enemyProjectiles[i];
           ep.y += ep.vy * timeScale;
+          if (ep.vx) ep.x += ep.vx * timeScale;
 
           if (ep.y >= shieldLineY) {
             this.game.damageShield(ep.damage);
-            this.createSparks(ep.x, shieldLineY, '#f43f5e', 6);
-            this.addDamageText(ep.x, shieldLineY - 14, `-${ep.damage}`, '#f43f5e', 0.85);
+            this.createSparks(ep.x, shieldLineY, ep.color || '#f43f5e', 6);
+            this.addDamageText(ep.x, shieldLineY - 14, `-${ep.damage}`, ep.color || '#f43f5e', 0.85);
             this.enemyProjectiles.splice(i, 1);
           }
         }
@@ -1780,21 +1907,21 @@
           this.ctx.restore();
         });
 
-        // Draw Enemy Projectiles (Drone 1 HP plasma shots)
+        // Draw Enemy Projectiles (Drone, Cruiser, Boss plasma bolts)
         this.enemyProjectiles.forEach(ep => {
           this.ctx.save();
           this.ctx.fillStyle = ep.color;
           this.ctx.shadowColor = ep.color;
-          this.ctx.shadowBlur = 10;
+          this.ctx.shadowBlur = 12;
           this.ctx.beginPath();
           this.ctx.arc(ep.x, ep.y, ep.radius, 0, Math.PI * 2);
           this.ctx.fill();
 
           // Glowing plasma trail
-          this.ctx.strokeStyle = '#fda4af';
+          this.ctx.strokeStyle = ep.trailColor || ep.color || '#fda4af';
           this.ctx.lineWidth = 2.5;
           this.ctx.beginPath();
-          this.ctx.moveTo(ep.x, ep.y - 10);
+          this.ctx.moveTo(ep.x, ep.y - (ep.radius * 2.2));
           this.ctx.lineTo(ep.x, ep.y + 2);
           this.ctx.stroke();
           this.ctx.restore();
@@ -2043,6 +2170,10 @@
         if (en.type === 'drone') {
           const statusTxt = en.state === 'dive' ? '💥 KAMIKAZE!' : `🔫 ${en.shotsLeft} TEMBAKAN`;
           this.ctx.fillText(`${en.hp} HP (${statusTxt})`, 0, barY - 4);
+        } else if (en.type === 'cruiser') {
+          this.ctx.fillText(`${en.hp} HP (⚔️ MERIAM UNGU)`, 0, barY - 4);
+        } else if (en.type === 'boss') {
+          this.ctx.fillText(`${en.hp} HP (👑 BOSS ARTILERI)`, 0, barY - 4);
         } else {
           this.ctx.fillText(`${en.hp} HP`, 0, barY - 4);
         }
@@ -2396,14 +2527,14 @@
 
       _applyDifficultySettings() {
         if (this.difficulty === 'easy') {
-          this.maxShieldHp = 800;
-          this.questionTimer = 25;
+          this.maxShieldHp = 1500;
+          this.questionTimer = 30;
           this.waveDefs = [
-            { count: 8, delay: 2400, types: ['asteroid'] },
-            { count: 12, delay: 2100, types: ['asteroid', 'drone'] },
-            { count: 16, delay: 1800, types: ['drone', 'asteroid'] },
-            { count: 20, delay: 1500, types: ['drone', 'cruiser'] },
-            { count: 26, delay: 1200, types: ['drone', 'cruiser'], bossCount: 1 }
+            { count: 4, delay: 3800, types: ['asteroid'] },
+            { count: 6, delay: 3400, types: ['asteroid', 'drone'] },
+            { count: 8, delay: 3000, types: ['drone', 'asteroid'] },
+            { count: 10, delay: 2800, types: ['drone', 'cruiser'] },
+            { count: 12, delay: 2400, types: ['drone', 'cruiser'], bossCount: 1 }
           ];
         } else if (this.difficulty === 'hard') {
           this.maxShieldHp = 1200;
@@ -2420,11 +2551,11 @@
           this.maxShieldHp = 1000;
           this.questionTimer = 20;
           this.waveDefs = [
-            { count: 10, delay: 1900, types: ['asteroid', 'drone'] },
-            { count: 16, delay: 1600, types: ['asteroid', 'drone'] },
-            { count: 24, delay: 1300, types: ['drone', 'cruiser'] },
-            { count: 34, delay: 1050, types: ['cruiser', 'drone'] },
-            { count: 46, delay: 850, types: ['cruiser', 'drone'], bossCount: 1 }
+            { count: 8, delay: 2200, types: ['asteroid', 'drone'] },
+            { count: 14, delay: 1800, types: ['asteroid', 'drone'] },
+            { count: 20, delay: 1400, types: ['drone', 'cruiser'] },
+            { count: 28, delay: 1150, types: ['cruiser', 'drone'] },
+            { count: 38, delay: 950, types: ['cruiser', 'drone'], bossCount: 1 }
           ];
         }
 
@@ -2526,9 +2657,10 @@
 
       _handleWaveClear() {
         if (this.currentWave < this.maxWave) {
-          this.showAlert(`WAVE ${this.currentWave} SELESAI!`, 'Perisai pulih sebagian, bersiap untuk wave berikutnya!', '#34d399');
+          const healAmount = this.difficulty === 'easy' ? 350 : (this.difficulty === 'hard' ? 120 : 200);
+          this.showAlert(`WAVE ${this.currentWave} SELESAI!`, `Perisai pulih +${healAmount} HP, bersiap untuk wave berikutnya!`, '#34d399');
           // Shield repair reward
-          this.shieldHp = Math.min(this.maxShieldHp, this.shieldHp + 150);
+          this.shieldHp = Math.min(this.maxShieldHp, this.shieldHp + healAmount);
           this.updateShieldHUD();
 
           setTimeout(() => {
